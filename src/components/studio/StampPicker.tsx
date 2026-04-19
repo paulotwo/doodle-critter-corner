@@ -21,7 +21,7 @@ export const StampPicker = ({ stamps, selected, onSelect }: StampPickerProps) =>
             whileHover={{ scale: 1.1, rotate: -5 }}
             onClick={() => {
               playClick();
-              onSelect(active ? null : id);
+              onSelect(id);
             }}
             aria-label={s.label}
             className={`flex h-12 w-12 items-center justify-center rounded-2xl border-4 bg-white text-2xl shadow-md transition-all sm:h-14 sm:w-14 sm:text-3xl ${

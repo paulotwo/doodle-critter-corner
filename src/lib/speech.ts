@@ -61,6 +61,14 @@ const STAMP_GENDER: Record<StampId, "m" | "f"> = {
   // panda
   bamboo: "m",
   snowflake: "f",
+  // bird
+  egg: "m",
+  worm: "f",
+  nest: "m",
+  // dino
+  dino_egg: "m",
+  volcano: "m",
+  fern: "f",
   // universal
   heart: "m",
   star: "f",
