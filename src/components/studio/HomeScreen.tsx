@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Sparkles, Wand2, Share2 } from "lucide-react";
 import { playClick } from "@/lib/sounds";
-import { InstallButton } from "./InstallButton";
 
 interface HomeScreenProps {
   onStart: () => void;
@@ -37,9 +36,8 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
         <div className="absolute top-1/3 right-1/4 text-2xl animate-float-soft sm:text-3xl" style={{ animationDelay: "0.5s" }}>✨</div>
       </div>
 
-      {/* Install + Share buttons */}
+      {/* Share button */}
       <div className="absolute right-3 top-3 z-20 flex items-center gap-2 sm:right-4 sm:top-4">
-        <InstallButton />
         <button
           onClick={handleShare}
           className="kid-shadow-pop flex h-11 w-11 items-center justify-center rounded-2xl bg-white/90 text-foreground backdrop-blur transition-transform hover:scale-105 active:scale-95 sm:h-12 sm:w-12"
