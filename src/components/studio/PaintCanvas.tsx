@@ -28,7 +28,11 @@ interface StampMark {
   size: number;
 }
 
+// Cache: getComputedStyle is expensive (forces reflow). Compute once per color id.
+const colorRgbCache = new Map<string, [number, number, number]>();
 const getColorRgb = (id: string): [number, number, number] => {
+  const cached = colorRgbCache.get(id);
+  if (cached) return cached;
   const c = PAINT_COLORS.find((p) => p.id === id);
   if (!c) return [0, 0, 0];
   const varName = c.hsl.replace("var(", "").replace(")", "");
@@ -36,7 +40,9 @@ const getColorRgb = (id: string): [number, number, number] => {
   // val is like "0 90% 60%"
   const m = val.match(/([\d.]+)\s+([\d.]+)%\s+([\d.]+)%/);
   if (!m) return [0, 0, 0];
-  return hslToRgb(parseFloat(m[1]), parseFloat(m[2]) / 100, parseFloat(m[3]) / 100);
+  const rgb = hslToRgb(parseFloat(m[1]), parseFloat(m[2]) / 100, parseFloat(m[3]) / 100);
+  colorRgbCache.set(id, rgb);
+  return rgb;
 };
 
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
@@ -391,7 +397,8 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
           rotation: (Math.random() - 0.5) * 30,
           size: 56 + Math.random() * 20,
         };
-        setMarks((m) => [...m, newMark]);
+        // Cap stamps to avoid unbounded growth (each stamp = a DOM node + animation)
+        setMarks((m) => (m.length >= 60 ? [...m.slice(-59), newMark] : [...m, newMark]));
         onStampPlaced(stamp);
         playStamp();
         return;
@@ -411,16 +418,32 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
       }
     };
 
+    // rAF-throttled move: coalesces dozens of pointer events into 1 paint per frame.
+    const moveRaf = useRef<number>(0);
+    const pendingMove = useRef<{ x: number; y: number } | null>(null);
     const handlePointerMove = (e: React.PointerEvent) => {
       if (!drawing.current || !lastPoint.current) return;
       const pos = getPos(e);
-      drawLine(lastPoint.current, { x: pos.x, y: pos.y });
-      lastPoint.current = { x: pos.x, y: pos.y };
+      pendingMove.current = { x: pos.x, y: pos.y };
+      if (moveRaf.current) return;
+      moveRaf.current = requestAnimationFrame(() => {
+        moveRaf.current = 0;
+        const target = pendingMove.current;
+        pendingMove.current = null;
+        if (!target || !drawing.current || !lastPoint.current) return;
+        drawLine(lastPoint.current, target);
+        lastPoint.current = target;
+      });
     };
 
     const handlePointerUp = () => {
       drawing.current = false;
       lastPoint.current = null;
+      if (moveRaf.current) {
+        cancelAnimationFrame(moveRaf.current);
+        moveRaf.current = 0;
+      }
+      pendingMove.current = null;
     };
 
     const cursor =

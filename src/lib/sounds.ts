@@ -15,6 +15,11 @@ const getCtx = () => {
 const tone = (freq: number, dur = 0.12, type: OscillatorType = "sine", gain = 0.08) => {
   const c = getCtx();
   if (!c) return;
+  // Mobile/iOS keeps the context "suspended" until resumed under a gesture.
+  // Without this, oscillators pile up and the audio thread hangs the UI.
+  if (c.state === "suspended") {
+    c.resume().catch(() => { /* ignore */ });
+  }
   const osc = c.createOscillator();
   const g = c.createGain();
   osc.type = type;
