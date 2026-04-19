@@ -326,7 +326,7 @@ export const THEMES: ThemeDef[] = [
     scene: "safári",
     stamps: ["leaf", "tree", "sun", "heart", "star", "flower", "palm", "cloud", "grass", "water_drop", "rainbow", "music"],
     challenges: [
-      { id: "e1", text: "Pinte o corpinho de cinza", hint: "Use o baldinho no corpo (use o roxo claro)", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "purple", colorLabel: "cinza" }, icon: "🐘" },
+      { id: "e1", text: "Pinte o corpinho de azul", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "blue", colorLabel: "azul" }, icon: "🐘" },
       { id: "e2", text: "Pinte as orelhinhas de rosa", hint: "Toque nas orelhas", kind: { type: "paint_part_color", part: "ear_left", partLabel: "orelha", color: "pink", colorLabel: "rosa" }, icon: "👂" },
       { id: "e3", text: "Coloque 3 folhas", hint: "Folhas pro elefantinho", kind: { type: "stamp", stamp: "leaf", count: 3 }, icon: "🍃" },
       { id: "e4", text: "Coloque 2 árvores", hint: "Árvores no safári", kind: { type: "stamp", stamp: "tree", count: 2 }, icon: "🌳" },
