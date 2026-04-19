@@ -85,16 +85,36 @@ const escapeReg = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
  * - "Coloque 2 flores" → "Coloque duas flores"
  * - "Coloque 3 ossinhos" → "Coloque três ossinhos"
  */
+// Plurais irregulares conhecidos (por id de carimbo).
+const IRREGULAR_PLURALS: Partial<Record<StampId, string[]>> = {
+  sun: ["sóis", "sois"],
+  flower: ["flores"],
+  balloon: ["balões"],
+  heart: ["corações"],
+};
+
+// Gera variantes plurais simples para casar a palavra dentro da frase.
+const pluralVariants = (singular: string): string[] => {
+  const w = singular.toLowerCase();
+  const v = new Set<string>([w, w + "s"]);
+  if (/r$/.test(w)) v.add(w + "es"); // flor → flores
+  if (/ão$/.test(w)) {
+    v.add(w.replace(/ão$/, "ões"));
+    v.add(w.replace(/ão$/, "ãos"));
+  }
+  return [...v];
+};
+
 export const speechFriendly = (text: string): string => {
   let out = text;
   for (const stamp of ALL_STAMPS) {
     const gender = STAMP_GENDER[stamp.id] ?? "m";
     const word = stamp.label.toLowerCase();
-    // tenta encontrar "<num> <palavra-singular>" ou "<num> <palavra-plural>"
-    const variants = [word, word + "s", word.endsWith("ão") ? word.replace(/ão$/, "ões") : null].filter(
-      Boolean,
-    ) as string[];
-    for (const v of variants) {
+    const variants = new Set<string>(pluralVariants(word));
+    for (const extra of IRREGULAR_PLURALS[stamp.id] ?? []) variants.add(extra);
+    // ordena do mais longo pro mais curto pra casar plural antes do singular
+    const ordered = [...variants].sort((a, b) => b.length - a.length);
+    for (const v of ordered) {
       const re = new RegExp(`(\\b)(\\d+)(\\s+${escapeReg(v)}\\b)`, "gi");
       out = out.replace(re, (_m, pre, num, rest) => {
         const n = parseInt(num, 10);
