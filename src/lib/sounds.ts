@@ -46,11 +46,13 @@ export const playEncourage = () => {
   setTimeout(() => tone(587, 0.12, "sine", 0.06), 120);
 };
 
+import { speechFriendly } from "./speech";
+
 export const speak = (text: string) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
   try {
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(speechFriendly(text));
     u.lang = "pt-BR";
     u.rate = 0.95;
     u.pitch = 1.2;
