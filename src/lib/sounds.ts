@@ -48,8 +48,15 @@ export const playEncourage = () => {
 
 import { speechFriendly } from "./speech";
 
+// Idioma global (pode ser atualizado pelo I18nProvider).
+let currentLang = "pt-BR";
+export const setSpeechLang = (lang: string) => {
+  currentLang = lang;
+};
+
 // Fila sequencial para evitar sobreposição de falas (ex.: "Uau" + "Você conseguiu").
-const speechQueue: string[] = [];
+type QueuedSpeech = { text: string; lang: string };
+const speechQueue: QueuedSpeech[] = [];
 let speaking = false;
 
 const playNext = () => {
@@ -61,8 +68,9 @@ const playNext = () => {
   }
   speaking = true;
   try {
-    const u = new SpeechSynthesisUtterance(speechFriendly(next));
-    u.lang = "pt-BR";
+    const friendly = next.lang.startsWith("pt") ? speechFriendly(next.text) : next.text;
+    const u = new SpeechSynthesisUtterance(friendly);
+    u.lang = next.lang;
     u.rate = 0.95;
     u.pitch = 1.2;
     const done = () => {
@@ -77,7 +85,7 @@ const playNext = () => {
   }
 };
 
-export const speak = (text: string, options?: { interrupt?: boolean }) => {
+export const speak = (text: string, options?: { interrupt?: boolean; lang?: string }) => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
   try {
     if (options?.interrupt) {
@@ -85,7 +93,7 @@ export const speak = (text: string, options?: { interrupt?: boolean }) => {
       window.speechSynthesis.cancel();
       speaking = false;
     }
-    speechQueue.push(text);
+    speechQueue.push({ text, lang: options?.lang ?? currentLang });
     if (!speaking && !window.speechSynthesis.speaking) {
       playNext();
     }
