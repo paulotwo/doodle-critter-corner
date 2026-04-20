@@ -10,6 +10,7 @@ import { StampPicker } from "./StampPicker";
 import { ToolBar, Tool } from "./ToolBar";
 import { PaintCanvas, PaintCanvasHandle } from "./PaintCanvas";
 import { CelebrationModal } from "./CelebrationModal";
+import { useI18n } from "@/i18n";
 
 interface PaintStudioProps {
   themeId: ThemeId;
@@ -24,6 +25,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
   const theme = useMemo(() => getThemeById(themeId), [themeId]);
   const animal = useMemo(() => getAnimal(themeId), [themeId]);
   const canvasRef = useRef<PaintCanvasHandle>(null);
+  const { t } = useI18n();
 
   // local mode can switch to "free" once all challenges are done
   const [mode, setMode] = useState<"free" | "challenge">(initialMode);
