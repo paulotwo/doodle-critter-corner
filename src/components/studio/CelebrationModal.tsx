@@ -1,8 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { FINAL_MESSAGES } from "@/lib/studio-data";
 import { playSuccess, playClick, speak } from "@/lib/sounds";
+import { useI18n } from "@/i18n";
+
+const FINAL_BY_LOCALE: Record<string, string[]> = {
+  pt: FINAL_MESSAGES,
+  en: ["You did it! 🎉", "Bravo, artist! 🌟", "Wow, you finished it all!"],
+  es: ["¡Lo lograste! 🎉", "¡Bravo, artista! 🌟", "¡Guau, terminaste todo!"],
+  fr: ["Tu as réussi ! 🎉", "Bravo, artiste ! 🌟", "Ouah, tu as tout fini !"],
+  it: ["Ce l'hai fatta! 🎉", "Bravo, artista! 🌟", "Wow, hai finito tutto!"],
+  de: ["Du hast es geschafft! 🎉", "Bravo, Künstler! 🌟", "Wow, du bist fertig!"],
+};
 
 interface CelebrationModalProps {
   open: boolean;
@@ -11,7 +21,12 @@ interface CelebrationModalProps {
 }
 
 export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: CelebrationModalProps) => {
-  const message = FINAL_MESSAGES[Math.floor(Math.random() * FINAL_MESSAGES.length)];
+  const { t, locale } = useI18n();
+  const message = useMemo(() => {
+    const list = FINAL_BY_LOCALE[locale] ?? FINAL_BY_LOCALE.en;
+    return list[Math.floor(Math.random() * list.length)];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale, open]);
 
   useEffect(() => {
     if (!open) return;
@@ -55,7 +70,7 @@ export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: 
               🏆
             </motion.div>
             <h2 className="mb-2 text-4xl font-extrabold text-primary">{message}</h2>
-            <p className="mb-6 text-lg text-muted-foreground">Você completou todos os desafios! 🎉</p>
+            <p className="mb-6 text-lg text-muted-foreground">{t.celebrationSubtitle}</p>
 
             <div className="flex flex-col gap-3">
               <motion.button
@@ -64,7 +79,7 @@ export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: 
                 onClick={() => { playClick(); onContinueFree(); }}
                 className="kid-shadow-pop w-full rounded-2xl bg-primary py-4 text-xl font-extrabold text-primary-foreground"
               >
-                🎨 Continuar pintando
+                {t.continuePainting}
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.96 }}
@@ -72,7 +87,7 @@ export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: 
                 onClick={() => { playClick(); onPickAnotherAnimal(); }}
                 className="w-full rounded-2xl bg-secondary py-4 text-lg font-bold text-secondary-foreground shadow-md"
               >
-                ✨ Escolher outro bichinho
+                {t.pickAnotherAnimal}
               </motion.button>
             </div>
           </motion.div>
