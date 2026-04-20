@@ -48,16 +48,55 @@ export const playEncourage = () => {
 
 import { speechFriendly } from "./speech";
 
-export const speak = (text: string) => {
+// Fila sequencial para evitar sobreposição de falas (ex.: "Uau" + "Você conseguiu").
+const speechQueue: string[] = [];
+let speaking = false;
+
+const playNext = () => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  const next = speechQueue.shift();
+  if (!next) {
+    speaking = false;
+    return;
+  }
+  speaking = true;
   try {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(speechFriendly(text));
+    const u = new SpeechSynthesisUtterance(speechFriendly(next));
     u.lang = "pt-BR";
     u.rate = 0.95;
     u.pitch = 1.2;
+    const done = () => {
+      // pequeno respiro entre falas
+      setTimeout(playNext, 120);
+    };
+    u.onend = done;
+    u.onerror = done;
     window.speechSynthesis.speak(u);
+  } catch {
+    speaking = false;
+  }
+};
+
+export const speak = (text: string, options?: { interrupt?: boolean }) => {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  try {
+    if (options?.interrupt) {
+      speechQueue.length = 0;
+      window.speechSynthesis.cancel();
+      speaking = false;
+    }
+    speechQueue.push(text);
+    if (!speaking && !window.speechSynthesis.speaking) {
+      playNext();
+    }
   } catch {
     /* ignore */
   }
+};
+
+export const cancelSpeech = () => {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  speechQueue.length = 0;
+  speaking = false;
+  try { window.speechSynthesis.cancel(); } catch { /* ignore */ }
 };

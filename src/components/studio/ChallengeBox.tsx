@@ -13,7 +13,7 @@ interface ChallengeBoxProps {
 export const ChallengeBox = ({ theme, challenge, progress, hint }: ChallengeBoxProps) => {
   const handleSpeak = () => {
     playClick();
-    if (challenge) speak(`${challenge.text}. ${challenge.hint}`);
+    if (challenge) speak(`${challenge.text}. ${challenge.hint}`, { interrupt: true });
   };
 
   return (
