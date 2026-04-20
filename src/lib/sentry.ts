@@ -24,7 +24,6 @@ export function initSentry() {
     // ===== Capture everything =====
     sendDefaultPii: true,
     attachStacktrace: true,
-    autoSessionTracking: true,
     enableLogs: true,
 
     integrations: [
