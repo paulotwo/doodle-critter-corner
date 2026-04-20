@@ -3,6 +3,8 @@ import { ArrowLeft } from "lucide-react";
 import { THEMES, ThemeId } from "@/lib/studio-data";
 import { getAnimal } from "@/lib/animals";
 import { playClick } from "@/lib/sounds";
+import { useI18n } from "@/i18n";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export type StudioMode = "free" | "challenge";
 
@@ -14,15 +16,17 @@ interface ThemeSelectorProps {
 }
 
 export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelectorProps) => {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-gradient-sky px-4 py-6 sm:px-8 sm:py-10">
-      <header className="mx-auto mb-6 flex max-w-5xl items-center justify-between">
+      <header className="mx-auto mb-6 flex max-w-5xl items-center justify-between gap-2">
         <button
           onClick={() => { playClick(); onBack(); }}
           className="kid-shadow-pop flex items-center gap-2 rounded-full bg-white px-5 py-3 text-base font-bold text-foreground"
         >
-          <ArrowLeft className="h-5 w-5" /> Voltar
+          <ArrowLeft className="h-5 w-5" /> {t.back}
         </button>
+        <LanguageSelector />
       </header>
 
       <div className="mx-auto max-w-5xl text-center">
@@ -31,9 +35,9 @@ export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelec
           animate={{ y: 0, opacity: 1 }}
           className="mb-2 text-4xl font-extrabold sm:text-5xl"
         >
-          Como vamos brincar?
+          {t.howToPlay}
         </motion.h2>
-        <p className="mb-5 text-lg text-muted-foreground">Escolha o modo e o bichinho</p>
+        <p className="mb-5 text-lg text-muted-foreground">{t.pickModeAnimal}</p>
 
         {/* Mode toggle */}
         <div className="mb-8 flex justify-center">
@@ -44,7 +48,7 @@ export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelec
                 mode === "challenge" ? "bg-primary text-primary-foreground shadow" : "text-foreground"
               }`}
             >
-              🎯 Desafio
+              {t.modeChallenge}
             </button>
             <button
               onClick={() => { playClick(); onModeChange("free"); }}
@@ -52,32 +56,32 @@ export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelec
                 mode === "free" ? "bg-primary text-primary-foreground shadow" : "text-foreground"
               }`}
             >
-              🎨 Livre
+              {t.modeFree}
             </button>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
-          {THEMES.map((t, i) => {
-            const animal = getAnimal(t.id);
+          {THEMES.map((theme, i) => {
+            const animal = getAnimal(theme.id);
             return (
               <motion.button
-                key={t.id}
+                key={theme.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06, type: "spring", stiffness: 120 }}
                 whileHover={{ scale: 1.04, rotate: -1 }}
                 whileTap={{ scale: 0.96 }}
-                onClick={() => { playClick(); onPick(t.id); }}
-                className={`kid-shadow-pop relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-white bg-gradient-to-br ${t.bg} p-3 text-left`}
+                onClick={() => { playClick(); onPick(theme.id); }}
+                className={`kid-shadow-pop relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-white bg-gradient-to-br ${theme.bg} p-3 text-left`}
               >
                 <div className="flex h-full flex-col items-center justify-between">
                   <div className="self-end rounded-full bg-white/70 px-3 py-1 text-xs font-bold text-foreground/70">
-                    {mode === "challenge" ? `${t.challenges.length} desafios` : "Livre"}
+                    {mode === "challenge" ? t.challengesCount(theme.challenges.length) : t.freeBadge}
                   </div>
                   <motion.img
                     src={animal.src}
-                    alt={t.name}
+                    alt={theme.name}
                     width={256}
                     height={256}
                     loading="lazy"
@@ -86,9 +90,9 @@ export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelec
                     className="h-28 w-28 object-contain drop-shadow-md sm:h-36 sm:w-36"
                   />
                   <div className="w-full text-center">
-                    <h3 className="text-xl font-extrabold sm:text-2xl">{t.name}</h3>
+                    <h3 className="text-xl font-extrabold sm:text-2xl">{theme.name}</h3>
                     <p className="text-[10px] font-semibold uppercase tracking-wide text-foreground/50 sm:text-xs">
-                      {t.scene}
+                      {theme.scene}
                     </p>
                   </div>
                 </div>

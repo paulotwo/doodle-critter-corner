@@ -10,6 +10,7 @@ import { StampPicker } from "./StampPicker";
 import { ToolBar, Tool } from "./ToolBar";
 import { PaintCanvas, PaintCanvasHandle } from "./PaintCanvas";
 import { CelebrationModal } from "./CelebrationModal";
+import { useI18n } from "@/i18n";
 
 interface PaintStudioProps {
   themeId: ThemeId;
@@ -24,6 +25,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
   const theme = useMemo(() => getThemeById(themeId), [themeId]);
   const animal = useMemo(() => getAnimal(themeId), [themeId]);
   const canvasRef = useRef<PaintCanvasHandle>(null);
+  const { t } = useI18n();
 
   // local mode can switch to "free" once all challenges are done
   const [mode, setMode] = useState<"free" | "challenge">(initialMode);
@@ -193,7 +195,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
                 panel === "colors" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
               }`}
             >
-              <Brush className="h-4 w-4" /> Cores
+              <Brush className="h-4 w-4" /> {t.colorsTab}
             </button>
             <button
               onClick={() => setPanel("stamps")}
@@ -201,7 +203,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
                 panel === "stamps" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
               }`}
             >
-              <Stamp className="h-4 w-4" /> Carimbos
+              <Stamp className="h-4 w-4" /> {t.stampsTab}
             </button>
           </div>
           <AnimatePresence mode="wait">
@@ -220,7 +222,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
                 <StampPicker stamps={theme.stamps} selected={stamp} onSelect={handleStampSelect} />
                 {stamp && (
                   <p className="mt-2 text-center text-xs text-muted-foreground">
-                    Toque na folha para colocar o carimbo!
+                    {t.stampHint}
                   </p>
                 )}
               </motion.div>

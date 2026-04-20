@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Sparkles, Wand2, Share2 } from "lucide-react";
 import { playClick } from "@/lib/sounds";
+import { useI18n } from "@/i18n";
+import LanguageSelector from "@/components/LanguageSelector";
 
 interface HomeScreenProps {
   onStart: () => void;
@@ -10,11 +12,13 @@ const animalsRow1 = ["🐰", "🐱", "🐻", "🐶", "🐠", "🐵"];
 const animalsRow2 = ["🦁", "🐘", "🦒", "🦓", "🐯", "🐼"];
 
 export const HomeScreen = ({ onStart }: HomeScreenProps) => {
+  const { t } = useI18n();
+
   const handleShare = async () => {
     playClick();
     const shareData = {
-      title: "Estúdio de Pintura dos Bichinhos",
-      text: "Pinte bichinhos fofos com seu filho! Um app infantil de pintura com desafios.",
+      title: `${t.appTitle} ${t.appTagline}`,
+      text: t.shareText,
       url: window.location.href,
     };
     if (navigator.share) {
@@ -36,13 +40,14 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
         <div className="absolute top-1/3 right-1/4 text-2xl animate-float-soft sm:text-3xl" style={{ animationDelay: "0.5s" }}>✨</div>
       </div>
 
-      {/* Share button */}
+      {/* Top right actions */}
       <div className="absolute right-3 top-3 z-20 flex items-center gap-2 sm:right-4 sm:top-4">
+        <LanguageSelector />
         <button
           onClick={handleShare}
           className="kid-shadow-pop flex h-11 w-11 items-center justify-center rounded-2xl bg-white/90 text-foreground backdrop-blur transition-transform hover:scale-105 active:scale-95 sm:h-12 sm:w-12"
-          aria-label="Compartilhar app"
-          title="Compartilhar"
+          aria-label={t.shareApp}
+          title={t.shareApp}
         >
           <Share2 className="h-5 w-5" />
         </button>
@@ -55,7 +60,7 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
           transition={{ type: "spring", stiffness: 120, damping: 14 }}
           className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-semibold text-primary shadow-sm backdrop-blur sm:px-5 sm:py-2 sm:text-sm"
         >
-          <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Para pequenos artistas
+          <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> {t.appSubtitle}
         </motion.div>
 
         <motion.h1
@@ -64,9 +69,9 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
           transition={{ delay: 0.1 }}
           className="mt-3 text-4xl font-extrabold leading-tight text-foreground sm:mt-4 sm:text-7xl"
         >
-          Estúdio de Pintura
+          {t.appTitle}
           <span className="mt-1 block bg-gradient-to-r from-paint-pink via-paint-orange to-paint-purple bg-clip-text text-transparent sm:mt-2">
-            dos Bichinhos
+            {t.appTagline}
           </span>
         </motion.h1>
 
@@ -104,7 +109,7 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
         </motion.div>
 
         <p className="mb-6 max-w-md text-base text-muted-foreground sm:mb-10 sm:text-xl">
-          Pinte, carimbe e ajude os bichinhos com missões divertidas!
+          {t.appDescription}
         </p>
 
         <motion.button
@@ -114,7 +119,7 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
           className="kid-shadow-pop group flex w-full max-w-md items-center justify-center gap-3 rounded-[2rem] bg-primary px-6 py-5 text-xl font-extrabold text-primary-foreground transition-colors hover:bg-primary/90 sm:px-8 sm:py-6 sm:text-2xl"
         >
           <Wand2 className="h-6 w-6 transition-transform group-hover:rotate-12 sm:h-7 sm:w-7" />
-          Começar a pintar
+          {t.startButton}
         </motion.button>
       </main>
     </div>
