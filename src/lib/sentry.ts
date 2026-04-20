@@ -8,18 +8,60 @@ export function initSentry() {
   Sentry.init({
     dsn: DSN,
     environment: import.meta.env.MODE,
-    // Performance monitoring
-    tracesSampleRate: import.meta.env.PROD ? 0.1 : 1.0,
-    // Session replay (capture 10% of sessions, 100% of sessions with errors)
-    replaysSessionSampleRate: import.meta.env.PROD ? 0.1 : 0,
+    release: `doodle-critter-corner@${import.meta.env.MODE}`,
+
+    // ===== Performance monitoring (full) =====
+    tracesSampleRate: 1.0,
+    tracePropagationTargets: ["localhost", /^https:\/\//],
+
+    // ===== Session Replay (full) =====
+    replaysSessionSampleRate: 1.0,
     replaysOnErrorSampleRate: 1.0,
+
+    // ===== Profiling =====
+    profilesSampleRate: 1.0,
+
+    // ===== Capture everything =====
+    sendDefaultPii: true,
+    attachStacktrace: true,
+    enableLogs: true,
+
     integrations: [
+      // Routing + performance
       Sentry.browserTracingIntegration(),
+      Sentry.browserProfilingIntegration(),
+
+      // Replay with rich capture
       Sentry.replayIntegration({
         maskAllText: false,
+        maskAllInputs: false,
         blockAllMedia: false,
+        networkDetailAllowUrls: [window.location.origin],
+        networkCaptureBodies: true,
+      }),
+      Sentry.replayCanvasIntegration(),
+
+      // Console + extra context
+      Sentry.captureConsoleIntegration({
+        levels: ["log", "info", "warn", "error", "debug", "assert"],
+      }),
+      Sentry.extraErrorDataIntegration({ depth: 5 }),
+      Sentry.httpClientIntegration(),
+      Sentry.contextLinesIntegration(),
+      Sentry.reportingObserverIntegration(),
+      Sentry.browserApiErrorsIntegration({
+        setTimeout: true,
+        setInterval: true,
+        requestAnimationFrame: true,
+        XMLHttpRequest: true,
+        eventTarget: true,
       }),
     ],
+  });
+
+  // Capture unhandled promise rejections explicitly (extra safety net)
+  window.addEventListener("unhandledrejection", (event) => {
+    Sentry.captureException(event.reason ?? new Error("Unhandled promise rejection"));
   });
 }
 
