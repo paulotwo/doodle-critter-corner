@@ -85,6 +85,7 @@ const baseT: Record<Locale, Translations> = {
     celebrationSubtitle: "Você completou todos os desafios! 🎉",
     continuePainting: "🎨 Continuar pintando",
     pickAnotherAnimal: "✨ Escolher outro bichinho",
+    paintFreeHint: "Pinte à vontade! 🎨",
 
     pwaInstall: "Instale o app para pintar sem internet!",
     pwaIos: "Para instalar, toque em ⬆️ Compartilhar e depois em «Adicionar à Tela Inicial».",
@@ -127,6 +128,7 @@ const baseT: Record<Locale, Translations> = {
     celebrationSubtitle: "You finished all challenges! 🎉",
     continuePainting: "🎨 Keep painting",
     pickAnotherAnimal: "✨ Pick another animal",
+    paintFreeHint: "Paint freely! 🎨",
 
     pwaInstall: "Install the app to paint offline!",
     pwaIos: "To install, tap ⬆️ Share and then «Add to Home Screen».",
@@ -169,6 +171,7 @@ const baseT: Record<Locale, Translations> = {
     celebrationSubtitle: "¡Completaste todos los desafíos! 🎉",
     continuePainting: "🎨 Seguir pintando",
     pickAnotherAnimal: "✨ Elegir otro animalito",
+    paintFreeHint: "¡Pinta libremente! 🎨",
 
     pwaInstall: "¡Instala la app para pintar sin internet!",
     pwaIos: "Para instalar, toca ⬆️ Compartir y luego «Agregar a inicio».",
@@ -211,6 +214,7 @@ const baseT: Record<Locale, Translations> = {
     celebrationSubtitle: "Tu as fini tous les défis ! 🎉",
     continuePainting: "🎨 Continuer à peindre",
     pickAnotherAnimal: "✨ Choisir un autre animal",
+    paintFreeHint: "Peins librement ! 🎨",
 
     pwaInstall: "Installe l'appli pour peindre sans internet !",
     pwaIos: "Pour installer, touche ⬆️ Partager puis «Ajouter à l'écran d'accueil».",
@@ -253,6 +257,7 @@ const baseT: Record<Locale, Translations> = {
     celebrationSubtitle: "Hai finito tutte le sfide! 🎉",
     continuePainting: "🎨 Continua a dipingere",
     pickAnotherAnimal: "✨ Scegli un altro animaletto",
+    paintFreeHint: "Dipingi liberamente! 🎨",
 
     pwaInstall: "Installa l'app per dipingere senza internet!",
     pwaIos: "Per installare, tocca ⬆️ Condividi e poi «Aggiungi a Home».",
@@ -295,6 +300,7 @@ const baseT: Record<Locale, Translations> = {
     celebrationSubtitle: "Du hast alle Aufgaben geschafft! 🎉",
     continuePainting: "🎨 Weiter malen",
     pickAnotherAnimal: "✨ Anderes Tier wählen",
+    paintFreeHint: "Male frei drauf los! 🎨",
 
     pwaInstall: "Installiere die App, um offline zu malen!",
     pwaIos: "Zum Installieren tippe auf ⬆️ Teilen und dann «Zum Home-Bildschirm».",
