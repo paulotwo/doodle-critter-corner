@@ -36,6 +36,9 @@ export interface Translations {
   continuePainting: string;
   pickAnotherAnimal: string;
 
+  // Free mode
+  paintFreeHint: string;
+
   // PWA banner
   pwaInstall: string;
   pwaIos: string;
