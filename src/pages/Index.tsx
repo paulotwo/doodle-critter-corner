@@ -42,16 +42,41 @@ const Index = () => {
   const { t, locale } = useI18n();
 
   useEffect(() => {
-    document.title = `${t.appTitle} ${t.appTagline}`;
+    const title = META_TITLES[locale] ?? META_TITLES.en;
+    document.title = title;
+
     const desc = META_DESCRIPTIONS[locale] ?? META_DESCRIPTIONS.en;
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", desc);
-    else {
-      const m = document.createElement("meta");
-      m.name = "description";
-      m.content = desc;
-      document.head.appendChild(m);
+    setMeta("description", desc);
+    setMeta("keywords", META_KEYWORDS[locale] ?? META_KEYWORDS.en);
+
+    // Open Graph & Twitter (dynamic)
+    setMeta("og:title", title, "property");
+    setMeta("og:description", desc, "property");
+    setMeta("twitter:title", title, "name");
+    setMeta("twitter:description", desc, "name");
+
+    // JSON-LD structured data
+    let jsonLd = document.getElementById("json-ld-seo");
+    if (!jsonLd) {
+      jsonLd = document.createElement("script");
+      jsonLd.id = "json-ld-seo";
+      jsonLd.setAttribute("type", "application/ld+json");
+      document.head.appendChild(jsonLd);
     }
+    jsonLd.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": title,
+      "description": desc,
+      "url": "https://doodle-critter-corner.lovable.app/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student", "suggestedMinAge": 3, "suggestedMaxAge": 7 },
+      "learningResourceType": ["interactive game", "painting activity"],
+      "teaches": ["colors", "numbers", "animal names", "fine motor skills"],
+      "inLanguage": locale,
+    });
   }, [t, locale]);
 
   if (screen === "home") {
