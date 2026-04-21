@@ -4,6 +4,8 @@ export type ThemeId =
   | "gatinho"
   | "coelhinho"
   | "passarinho"
+  | "patinho"
+  | "porquinho"
   // selvagens
   | "ursinho"
   | "raposinha"
@@ -15,6 +17,8 @@ export type ThemeId =
   | "zebrinha"
   | "tigrinho"
   | "pandinha"
+  | "esquilinho"
+  | "cangurzinho"
   // aquáticos
   | "peixinho"
   | "tartaruguinha"
@@ -26,7 +30,9 @@ export type ThemeId =
   | "rexinho"
   | "tricerinho"
   | "brontinho"
-  | "pterossaurinho";
+  | "pterossaurinho"
+  | "estegossaurinho"
+  | "anquilossaurinho";
 
 export type StampId =
   // sea
@@ -300,6 +306,40 @@ export const THEMES: ThemeDef[] = [
       { id: "pa_6", text: "Pinte todo o passarinho!", hint: "Pinte cada parte do passarinho", kind: { type: "paint_all" }, icon: "🎨" },
     ],
   },
+  {
+    id: "patinho",
+    name: "Patinho",
+    emoji: "🦆",
+    bg: "from-yellow-100 via-amber-100 to-sky-100",
+    greeting: "O patinho está no laguinho!",
+    scene: "quintal",
+    stamps: ["water_drop", "wave", "bubble", "egg", "flower", "leaf", "cloud", "sun", "heart", "star", "rainbow", "music"],
+    challenges: [
+      { id: "pt_1", text: "Pinte o corpinho de amarelo", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "yellow", colorLabel: "amarelo" }, icon: "💛" },
+      { id: "pt_2", text: "Pinte o biquinho de laranja", hint: "Toque no biquinho", kind: { type: "paint_part_color", part: "beak", partLabel: "biquinho", color: "orange", colorLabel: "laranja" }, icon: "🦆" },
+      { id: "pt_3", text: "Coloque 3 gotinhas", hint: "Águinha do laguinho", kind: { type: "stamp", stamp: "water_drop", count: 3 }, icon: "💧" },
+      { id: "pt_4", text: "Coloque 2 ondinhas", hint: "Ondinhas no laguinho", kind: { type: "stamp", stamp: "wave", count: 2 }, icon: "🌊" },
+      { id: "pt_5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "pt_6", text: "Pinte todo o patinho!", hint: "Pinte cada parte do patinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "porquinho",
+    name: "Porquinho",
+    emoji: "🐷",
+    bg: "from-pink-100 via-rose-100 to-amber-100",
+    greeting: "O porquinho está na fazendinha!",
+    scene: "quintal",
+    stamps: ["flower", "leaf", "clover", "mushroom", "butterfly", "ladybug", "sun", "cloud", "heart", "star", "rainbow", "music"],
+    challenges: [
+      { id: "pq1", text: "Pinte o corpinho de rosa", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "pink", colorLabel: "rosa" }, icon: "💗" },
+      { id: "pq2", text: "Pinte o focinho de rosa", hint: "Toque no focinho", kind: { type: "paint_part_color", part: "snout", partLabel: "focinho", color: "pink", colorLabel: "rosa" }, icon: "🐷" },
+      { id: "pq3", text: "Coloque 3 flores", hint: "Flores na fazendinha", kind: { type: "stamp", stamp: "flower", count: 3 }, icon: "🌸" },
+      { id: "pq4", text: "Coloque 2 trevos", hint: "Trevinhos no quintal", kind: { type: "stamp", stamp: "clover", count: 2 }, icon: "🍀" },
+      { id: "pq5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "pq6", text: "Pinte todo o porquinho!", hint: "Pinte cada parte do porquinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
 
   // ---------- 🌳 Selvagens ----------
   {
@@ -470,6 +510,40 @@ export const THEMES: ThemeDef[] = [
       { id: "pn4", text: "Coloque 2 frutinhas", hint: "Frutinhas pro pandinha", kind: { type: "stamp", stamp: "berry", count: 2 }, icon: "🍓" },
       { id: "pn5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
       { id: "pn6", text: "Pinte todo o pandinha!", hint: "Pinte cada parte do pandinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "esquilinho",
+    name: "Esquilinho",
+    emoji: "🐿️",
+    bg: "from-amber-100 via-orange-100 to-yellow-100",
+    greeting: "O esquilinho está na floresta!",
+    scene: "floresta",
+    stamps: ["acorn", "leaf", "tree", "berry", "mushroom", "pinecone", "flower", "sun", "heart", "star", "rainbow", "cloud"],
+    challenges: [
+      { id: "es1", text: "Pinte o corpinho de marrom", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "es2", text: "Pinte o rabinho de laranja", hint: "Toque no rabo fofinho", kind: { type: "paint_part_color", part: "tail", partLabel: "rabinho", color: "orange", colorLabel: "laranja" }, icon: "🐿️" },
+      { id: "es3", text: "Coloque 3 bolotas", hint: "Bolotas pro esquilinho", kind: { type: "stamp", stamp: "acorn", count: 3 }, icon: "🌰" },
+      { id: "es4", text: "Coloque 2 folhas", hint: "Folhas da floresta", kind: { type: "stamp", stamp: "leaf", count: 2 }, icon: "🍃" },
+      { id: "es5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "es6", text: "Pinte todo o esquilinho!", hint: "Pinte cada parte do esquilinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "cangurzinho",
+    name: "Cangurzinho",
+    emoji: "🦘",
+    bg: "from-orange-100 via-amber-100 to-yellow-100",
+    greeting: "O cangurzinho pula bem alto!",
+    scene: "savana",
+    stamps: ["grass", "leaf", "tree", "rock", "flower", "sun", "cloud", "heart", "star", "rainbow", "moon", "water_drop"],
+    challenges: [
+      { id: "cg1", text: "Pinte o corpinho de marrom", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "cg2", text: "Pinte a bolsinha de rosa", hint: "Toque na bolsinha do filhote", kind: { type: "paint_part_color", part: "pouch", partLabel: "bolsinha", color: "pink", colorLabel: "rosa" }, icon: "💗" },
+      { id: "cg3", text: "Coloque 3 capins", hint: "Capim da savana", kind: { type: "stamp", stamp: "grass", count: 3 }, icon: "🌾" },
+      { id: "cg4", text: "Coloque 2 pedras", hint: "Pedras pra pular", kind: { type: "stamp", stamp: "rock", count: 2 }, icon: "🪨" },
+      { id: "cg5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "cg6", text: "Pinte todo o cangurzinho!", hint: "Pinte cada parte do cangurzinho", kind: { type: "paint_all" }, icon: "🎨" },
     ],
   },
 
@@ -645,6 +719,40 @@ export const THEMES: ThemeDef[] = [
       { id: "pt4", text: "Coloque 2 vulcões", hint: "Vulcões na pré-história", kind: { type: "stamp", stamp: "volcano", count: 2 }, icon: "🌋" },
       { id: "pt5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
       { id: "pt6", text: "Pinte todo o Pterossaurinho!", hint: "Pinte cada parte do Pterossaurinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "estegossaurinho",
+    name: "Estegossaurinho",
+    emoji: "🦖",
+    bg: "from-emerald-100 via-lime-100 to-yellow-100",
+    greeting: "O Estegossaurinho tem placas nas costas!",
+    scene: "pré-história",
+    stamps: ["dino_egg", "volcano", "fern", "leaf", "tree", "rock", "berry", "cloud", "heart", "sun", "rainbow", "star"],
+    challenges: [
+      { id: "eg1", text: "Pinte o corpinho de verde", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "green", colorLabel: "verde" }, icon: "💚" },
+      { id: "eg2", text: "Pinte as placas de laranja", hint: "Toque nas placas das costas", kind: { type: "paint_part_color", part: "plates", partLabel: "placas", color: "orange", colorLabel: "laranja" }, icon: "🦖" },
+      { id: "eg3", text: "Coloque 3 samambaias", hint: "Plantinhas pra comer", kind: { type: "stamp", stamp: "fern", count: 3 }, icon: "🌿" },
+      { id: "eg4", text: "Coloque 2 vulcões", hint: "Vulcões na pré-história", kind: { type: "stamp", stamp: "volcano", count: 2 }, icon: "🌋" },
+      { id: "eg5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "eg6", text: "Pinte todo o Estegossaurinho!", hint: "Pinte cada parte do Estegossaurinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "anquilossaurinho",
+    name: "Anquilossaurinho",
+    emoji: "🦕",
+    bg: "from-stone-100 via-amber-100 to-lime-100",
+    greeting: "O Anquilossaurinho tem armadura forte!",
+    scene: "pré-história",
+    stamps: ["dino_egg", "volcano", "fern", "leaf", "tree", "rock", "berry", "cloud", "heart", "sun", "rainbow", "star"],
+    challenges: [
+      { id: "an1", text: "Pinte o corpinho de marrom", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "an2", text: "Pinte a armadura de verde", hint: "Toque nas plaquinhas das costas", kind: { type: "paint_part_color", part: "armor", partLabel: "armadura", color: "green", colorLabel: "verde" }, icon: "🛡️" },
+      { id: "an3", text: "Coloque 3 pedras", hint: "Pedras na pré-história", kind: { type: "stamp", stamp: "rock", count: 3 }, icon: "🪨" },
+      { id: "an4", text: "Coloque 2 samambaias", hint: "Plantinhas da pré-história", kind: { type: "stamp", stamp: "fern", count: 2 }, icon: "🌿" },
+      { id: "an5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "an6", text: "Pinte todo o Anquilossaurinho!", hint: "Pinte cada parte do Anquilossaurinho", kind: { type: "paint_all" }, icon: "🎨" },
     ],
   },
 ];

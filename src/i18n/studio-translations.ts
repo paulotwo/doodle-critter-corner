@@ -7,6 +7,8 @@ const animalNames: Record<ThemeId, Record<Locale, string>> = {
   gatinho: { pt: "Gatinho", en: "Kitty", es: "Gatito", fr: "Petit chat", it: "Gattino", de: "Kätzchen" },
   coelhinho: { pt: "Coelhinho", en: "Bunny", es: "Conejito", fr: "Petit lapin", it: "Coniglietto", de: "Häschen" },
   passarinho: { pt: "Passarinho", en: "Little Bird", es: "Pajarito", fr: "Petit oiseau", it: "Uccellino", de: "Vögelchen" },
+  patinho: { pt: "Patinho", en: "Duckling", es: "Patito", fr: "Caneton", it: "Anatroccolo", de: "Entlein" },
+  porquinho: { pt: "Porquinho", en: "Piglet", es: "Cerdito", fr: "Petit cochon", it: "Maialino", de: "Schweinchen" },
   ursinho: { pt: "Ursinho", en: "Bear Cub", es: "Osito", fr: "Petit ours", it: "Orsetto", de: "Bärchen" },
   raposinha: { pt: "Raposinha", en: "Little Fox", es: "Zorrita", fr: "Petit renard", it: "Volpina", de: "Füchschen" },
   corujinha: { pt: "Corujinha", en: "Little Owl", es: "Lechuza", fr: "Petite chouette", it: "Civettina", de: "Eulchen" },
@@ -17,6 +19,8 @@ const animalNames: Record<ThemeId, Record<Locale, string>> = {
   zebrinha: { pt: "Zebrinha", en: "Little Zebra", es: "Cebrita", fr: "Petit zèbre", it: "Zebrina", de: "Zebrachen" },
   tigrinho: { pt: "Tigrinho", en: "Little Tiger", es: "Tigrecito", fr: "Petit tigre", it: "Tigrotto", de: "Tigerchen" },
   pandinha: { pt: "Pandinha", en: "Little Panda", es: "Pandita", fr: "Petit panda", it: "Pandino", de: "Pandabärchen" },
+  esquilinho: { pt: "Esquilinho", en: "Little Squirrel", es: "Ardillita", fr: "Petit écureuil", it: "Scoiattolino", de: "Eichhörnchen" },
+  cangurzinho: { pt: "Cangurzinho", en: "Little Kangaroo", es: "Canguro", fr: "Petit kangourou", it: "Cangurino", de: "Kängurchen" },
   peixinho: { pt: "Peixinho", en: "Little Fish", es: "Pececito", fr: "Petit poisson", it: "Pesciolino", de: "Fischlein" },
   tartaruguinha: { pt: "Tartaruguinha", en: "Little Turtle", es: "Tortuguita", fr: "Petite tortue", it: "Tartarughina", de: "Schildkrötchen" },
   baleinha: { pt: "Baleinha", en: "Little Whale", es: "Ballenita", fr: "Petite baleine", it: "Balenina", de: "Wälchen" },
@@ -27,6 +31,8 @@ const animalNames: Record<ThemeId, Record<Locale, string>> = {
   tricerinho: { pt: "Tricerinho (Tricerátops)", en: "Little Triceratops", es: "Tricerito", fr: "Petit Tricératops", it: "Triceratopino", de: "Triceräpschen" },
   brontinho: { pt: "Brontinho (Brontossauro)", en: "Little Brontosaurus", es: "Brontito", fr: "Petit Brontosaure", it: "Brontino", de: "Brontochen" },
   pterossaurinho: { pt: "Pterossaurinho", en: "Little Pterosaur", es: "Pterosaurito", fr: "Petit Ptérosaure", it: "Pterosaurino", de: "Pterosäurchen" },
+  estegossaurinho: { pt: "Estegossaurinho", en: "Little Stegosaurus", es: "Estegosaurito", fr: "Petit Stégosaure", it: "Stegosaurino", de: "Stegosäurchen" },
+  anquilossaurinho: { pt: "Anquilossaurinho", en: "Little Ankylosaurus", es: "Anquilosaurito", fr: "Petit Ankylosaure", it: "Anchilosaurino", de: "Ankylosäurchen" },
 };
 
 // ===== Scene Names =====
@@ -52,6 +58,8 @@ const greetingTranslations: Record<ThemeId, Record<Locale, string>> = {
   gatinho: { pt: "O gatinho quer brincar!", en: "The kitty wants to play!", es: "¡El gatito quiere jugar!", fr: "Le petit chat veut jouer !", it: "Il gattino vuole giocare!", de: "Das Kätzchen will spielen!" },
   coelhinho: { pt: "O coelhinho está no jardim!", en: "The bunny is in the garden!", es: "¡El conejito está en el jardín!", fr: "Le petit lapin est dans le jardin !", it: "Il coniglietto è nel giardino!", de: "Das Häschen ist im Garten!" },
   passarinho: { pt: "O passarinho está no jardim!", en: "The little bird is in the garden!", es: "¡El pajarito está en el jardín!", fr: "Le petit oiseau est dans le jardin !", it: "L'uccellino è nel giardino!", de: "Das Vögelchen ist im Garten!" },
+  patinho: { pt: "O patinho está no laguinho!", en: "The duckling is in the little pond!", es: "¡El patito está en el laguito!", fr: "Le caneton est dans le petit étang !", it: "L'anatroccolo è nello stagnetto!", de: "Das Entlein ist im Teich!" },
+  porquinho: { pt: "O porquinho está na fazendinha!", en: "The piglet is on the little farm!", es: "¡El cerdito está en la granjita!", fr: "Le petit cochon est à la ferme !", it: "Il maialino è nella fattoria!", de: "Das Schweinchen ist auf dem Bauernhof!" },
   ursinho: { pt: "O ursinho está na floresta!", en: "The bear cub is in the forest!", es: "¡El osito está en el bosque!", fr: "Le petit ours est dans la forêt !", it: "L'orsetto è nella foresta!", de: "Das Bärchen ist im Wald!" },
   raposinha: { pt: "A raposinha está na floresta!", en: "The little fox is in the forest!", es: "¡La zorrita está en el bosque!", fr: "Le petit renard est dans la forêt !", it: "La volpina è nella foresta!", de: "Das Füchschen ist im Wald!" },
   corujinha: { pt: "A corujinha voa de noite!", en: "The little owl flies at night!", es: "¡La lechuza vuela de noche!", fr: "La petite chouette vole la nuit !", it: "La civettina vola di notte!", de: "Das Eulchen fliegt in der Nacht!" },
@@ -62,6 +70,8 @@ const greetingTranslations: Record<ThemeId, Record<Locale, string>> = {
   zebrinha: { pt: "A zebrinha está na savana!", en: "The little zebra is in the savanna!", es: "¡La cebrita está en la sabana!", fr: "Le petit zèbre est dans la savane !", it: "La zebrina è nella savana!", de: "Das Zebrachen ist in der Savanne!" },
   tigrinho: { pt: "O tigrinho está na selva!", en: "The little tiger is in the jungle!", es: "¡El tigrecito está en la selva!", fr: "Le petit tigre est dans la jungle !", it: "Il tigrotto è nella giungla!", de: "Das Tigerchen ist im Dschungel!" },
   pandinha: { pt: "O pandinha está no bambuzal!", en: "The little panda is in the bamboo grove!", es: "¡El pandita está en el bambusal!", fr: "Le petit panda est dans la bambouseraie !", it: "Il pandino è nel bambuseto!", de: "Das Pandabärchen ist im Bambushain!" },
+  esquilinho: { pt: "O esquilinho está na floresta!", en: "The little squirrel is in the forest!", es: "¡La ardillita está en el bosque!", fr: "Le petit écureuil est dans la forêt !", it: "Lo scoiattolino è nella foresta!", de: "Das Eichhörnchen ist im Wald!" },
+  cangurzinho: { pt: "O cangurzinho pula bem alto!", en: "The little kangaroo jumps very high!", es: "¡El canguro salta muy alto!", fr: "Le petit kangourou saute très haut !", it: "Il cangurino salta altissimo!", de: "Das Kängurchen springt ganz hoch!" },
   peixinho: { pt: "Vamos pintar o peixinho no fundo do mar!", en: "Let's paint the little fish under the sea!", es: "¡Vamos a pintar el pececito en el fondo del mar!", fr: "Peignons le petit poisson au fond de la mer !", it: "Dipingiamo il pesciolino in fondo al mare!", de: "Malen wir das Fischlein am Meeresgrund!" },
   tartaruguinha: { pt: "A tartaruguinha nada no mar!", en: "The little turtle swims in the sea!", es: "¡La tortuguita nada en el mar!", fr: "La petite tortue nage dans la mer !", it: "La tartarughina nuota nel mare!", de: "Das Schildkrötchen schwimmt im Meer!" },
   baleinha: { pt: "A baleinha nada no oceano!", en: "The little whale swims in the ocean!", es: "¡La ballenita nada en el océano!", fr: "La petite baleine nage dans l'océan !", it: "La balenina nuota nell'oceano!", de: "Das Wälchen schwimmt im Ozean!" },
@@ -72,6 +82,8 @@ const greetingTranslations: Record<ThemeId, Record<Locale, string>> = {
   tricerinho: { pt: "O Tricerinho tem três chifres!", en: "Little Triceratops has three horns!", es: "¡Tricerito tiene tres cuernos!", fr: "Petit Tricératops a trois cornes !", it: "Triceratopino ha tre corna!", de: "Triceräpschen hat drei Hörner!" },
   brontinho: { pt: "O Brontinho tem o pescoço bem longo!", en: "Little Brontosaurus has a very long neck!", es: "¡Brontito tiene el cuello muy largo!", fr: "Petit Brontosaure a un très long cou !", it: "Brontino ha un collo lunghissimo!", de: "Brontochen hat einen sehr langen Hals!" },
   pterossaurinho: { pt: "O Pterossaurinho voa bem alto!", en: "Little Pterosaur flies very high!", es: "¡Pterosaurito vuela muy alto!", fr: "Petit Ptérosaure vole très haut !", it: "Pterosaurino vola altissimo!", de: "Pterosäurchen fliegt ganz hoch!" },
+  estegossaurinho: { pt: "O Estegossaurinho tem placas nas costas!", en: "Little Stegosaurus has plates on its back!", es: "¡Estegosaurito tiene placas en la espalda!", fr: "Petit Stégosaure a des plaques sur le dos !", it: "Stegosaurino ha le placche sulla schiena!", de: "Stegosäurchen hat Platten auf dem Rücken!" },
+  anquilossaurinho: { pt: "O Anquilossaurinho tem armadura forte!", en: "Little Ankylosaurus has strong armor!", es: "¡Anquilosaurito tiene armadura fuerte!", fr: "Petit Ankylosaure a une armure solide !", it: "Anchilosaurino ha un'armatura robusta!", de: "Ankylosäurchen hat eine starke Rüstung!" },
 };
 
 // ===== Part Labels (with article for template insertion) =====
@@ -93,6 +105,14 @@ const partLabelMap: Record<string, Record<Locale, string>> = {
   espinhos: { pt: "os espinhos", en: "the spikes", es: "las espinas", fr: "les piques", it: "gli aculei", de: "die Stacheln" },
   asinha: { pt: "as asinhas", en: "the wings", es: "las alitas", fr: "les ailes", it: "le alette", de: "die Flügel" },
   coroa: { pt: "a coroa", en: "the frill", es: "la corona", fr: "la collerette", it: "il collare", de: "den Nackenschild" },
+  focinho: { pt: "o focinho", en: "the snout", es: "el hocico", fr: "le museau", it: "il muso", de: "die Schnauze" },
+  bolsinha: { pt: "a bolsinha", en: "the pouch", es: "la bolsita", fr: "la poche", it: "la tasca", de: "den Beutel" },
+  placas: { pt: "as placas", en: "the plates", es: "las placas", fr: "les plaques", it: "le placche", de: "die Platten" },
+  armadura: { pt: "a armadura", en: "the armor", es: "la armadura", fr: "l'armure", it: "l'armatura", de: "die Rüstung" },
+  clavinha: { pt: "a clavinha", en: "the club", es: "la clava", fr: "la massue", it: "la clava", de: "die Keule" },
+  bracinho: { pt: "o bracinho", en: "the arm", es: "el bracito", fr: "le petit bras", it: "il braccino", de: "den Arm" },
+  perninha: { pt: "a perninha", en: "the leg", es: "la patita", fr: "la patte", it: "la zampetta", de: "das Bein" },
+  patinha: { pt: "a patinha", en: "the paw", es: "la patita", fr: "la patte", it: "la zampetta", de: "die Pfote" },
 };
 
 // ===== Color Labels =====
