@@ -3,6 +3,7 @@ import { PAINT_COLORS, StampId, getStampById } from "@/lib/studio-data";
 import { AnimalDef } from "@/lib/animals";
 import { Tool } from "./ToolBar";
 import { playStamp, playClick } from "@/lib/sounds";
+import { Sentry } from "@/lib/sentry";
 
 export interface PaintCanvasHandle {
   clear: () => void;
@@ -87,72 +88,113 @@ function floodFill(
   fillG: number,
   fillB: number
 ) {
-  const img = ctx.getImageData(0, 0, width, height);
-  const data = img.data;
-  const idx = (x: number, y: number) => (y * width + x) * 4;
+  Sentry.startSpan({ name: "floodFill", op: "canvas.fill" }, (span) => {
+    const t0 = performance.now();
+    const img = ctx.getImageData(0, 0, width, height);
+    const data = img.data;
+    const idx = (x: number, y: number) => (y * width + x) * 4;
 
-  if (startX < 0 || startY < 0 || startX >= width || startY >= height) return;
+    if (startX < 0 || startY < 0 || startX >= width || startY >= height) return;
 
-  const si = idx(startX, startY);
-  const startR = data[si];
-  const startG = data[si + 1];
-  const startB = data[si + 2];
-  const startA = data[si + 3];
+    const si = idx(startX, startY);
+    const startR = data[si];
+    const startG = data[si + 1];
+    const startB = data[si + 2];
+    const startA = data[si + 3];
 
-  // No-op if already that color
-  if (startR === fillR && startG === fillG && startB === fillB && startA === 255) return;
+    // No-op if already that color
+    if (startR === fillR && startG === fillG && startB === fillB && startA === 255) return;
 
-  const TOL = 24;
-  const matchesStart = (x: number, y: number) => {
-    const i = idx(x, y);
-    const a = data[i + 3];
-    // Both transparent → match
-    if (startA < 40 && a < 40) return true;
-    if (startA < 40 || a < 40) return false;
-    return (
-      Math.abs(data[i] - startR) <= TOL &&
-      Math.abs(data[i + 1] - startG) <= TOL &&
-      Math.abs(data[i + 2] - startB) <= TOL
-    );
-  };
+    const TOL = 24;
+    // painted[y*width+x] = 1 once setPixel has run on that pixel.
+    // matchesStart checks this first: when fill color ≈ start color (within TOL),
+    // already-painted pixels would otherwise still pass the color test, causing
+    // them to be re-queued indefinitely (infinite loop).
+    const painted = new Uint8Array(width * height);
 
-  const setPixel = (x: number, y: number) => {
-    const i = idx(x, y);
-    data[i] = fillR;
-    data[i + 1] = fillG;
-    data[i + 2] = fillB;
-    data[i + 3] = 255;
-  };
+    const matchesStart = (x: number, y: number) => {
+      if (painted[y * width + x]) return false;
+      const i = idx(x, y);
+      const a = data[i + 3];
+      // Both transparent → match
+      if (startA < 40 && a < 40) return true;
+      if (startA < 40 || a < 40) return false;
+      return (
+        Math.abs(data[i] - startR) <= TOL &&
+        Math.abs(data[i + 1] - startG) <= TOL &&
+        Math.abs(data[i + 2] - startB) <= TOL
+      );
+    };
 
-  if (!matchesStart(startX, startY)) return;
+    const setPixel = (x: number, y: number) => {
+      painted[y * width + x] = 1;
+      const i = idx(x, y);
+      data[i] = fillR;
+      data[i + 1] = fillG;
+      data[i + 2] = fillB;
+      data[i + 3] = 255;
+    };
 
-  const stack: Array<[number, number]> = [[startX, startY]];
-  while (stack.length) {
-    const [x, y] = stack.pop()!;
-    let lx = x;
-    while (lx >= 0 && matchesStart(lx, y)) lx--;
-    lx++;
-    let spanAbove = false;
-    let spanBelow = false;
-    let cx = lx;
-    while (cx < width && matchesStart(cx, y)) {
-      setPixel(cx, y);
-      if (!spanAbove && y > 0 && matchesStart(cx, y - 1)) {
-        stack.push([cx, y - 1]);
-        spanAbove = true;
-      } else if (spanAbove && y > 0 && !matchesStart(cx, y - 1)) {
-        spanAbove = false;
+    if (!matchesStart(startX, startY)) return;
+
+    // Safety cap: each pixel can only be processed once, so width*height is
+    // the theoretical maximum. Exceeding it means something went wrong.
+    const MAX_ITER = width * height;
+    let iterations = 0;
+    let pixelsFilled = 0;
+
+    const stack: Array<[number, number]> = [[startX, startY]];
+    while (stack.length) {
+      if (++iterations > MAX_ITER) {
+        Sentry.captureException(new Error("floodFill: iteration cap reached"), {
+          level: "warning",
+          extra: { startX, startY, width, height, iterations, pixelsFilled },
+        });
+        break;
       }
-      if (!spanBelow && y < height - 1 && matchesStart(cx, y + 1)) {
-        stack.push([cx, y + 1]);
-        spanBelow = true;
-      } else if (spanBelow && y < height - 1 && !matchesStart(cx, y + 1)) {
-        spanBelow = false;
+      const [x, y] = stack.pop()!;
+      let lx = x;
+      while (lx >= 0 && matchesStart(lx, y)) lx--;
+      lx++;
+      let spanAbove = false;
+      let spanBelow = false;
+      let cx = lx;
+      while (cx < width && matchesStart(cx, y)) {
+        setPixel(cx, y);
+        pixelsFilled++;
+        if (!spanAbove && y > 0 && matchesStart(cx, y - 1)) {
+          stack.push([cx, y - 1]);
+          spanAbove = true;
+        } else if (spanAbove && y > 0 && !matchesStart(cx, y - 1)) {
+          spanAbove = false;
+        }
+        if (!spanBelow && y < height - 1 && matchesStart(cx, y + 1)) {
+          stack.push([cx, y + 1]);
+          spanBelow = true;
+        } else if (spanBelow && y < height - 1 && !matchesStart(cx, y + 1)) {
+          spanBelow = false;
+        }
+        cx++;
       }
-      cx++;
     }
-  }
-  ctx.putImageData(img, 0, 0);
+    ctx.putImageData(img, 0, 0);
+
+    const ms = performance.now() - t0;
+    span.setAttribute("pixels_filled", pixelsFilled);
+    span.setAttribute("iterations", iterations);
+    span.setAttribute("canvas_w", width);
+    span.setAttribute("canvas_h", height);
+    span.setAttribute("duration_ms", ms);
+
+    if (ms > 150) {
+      Sentry.addBreadcrumb({
+        category: "canvas.performance",
+        message: `floodFill slow: ${ms.toFixed(0)}ms`,
+        level: "warning",
+        data: { ms, pixelsFilled, iterations, width, height },
+      });
+    }
+  });
 }
 
 export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
