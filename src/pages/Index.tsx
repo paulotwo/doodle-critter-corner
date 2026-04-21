@@ -6,6 +6,15 @@ import { ThemeId } from "@/lib/studio-data";
 import { requestAppFullscreen } from "@/lib/fullscreen";
 import { useI18n } from "@/i18n";
 
+function setMeta(nameOrProp: string, content: string, attr: "name" | "property" = "name") {
+  let el = document.querySelector(`meta[${attr}="${nameOrProp}"]`);
+  if (el) { el.setAttribute("content", content); return; }
+  el = document.createElement("meta");
+  el.setAttribute(attr, nameOrProp);
+  el.setAttribute("content", content);
+  document.head.appendChild(el);
+}
+
 type Screen = "home" | "themes" | "studio";
 
 const META_DESCRIPTIONS: Record<string, string> = {
