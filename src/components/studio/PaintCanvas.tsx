@@ -215,7 +215,7 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
     useEffect(() => {
       const img = new Image();
       img.crossOrigin = "anonymous";
-      img.src = animal.src;
+      img.src = animal.srcFull;
       img.onload = () => {
         outlineImg.current = img;
         drawOutline();

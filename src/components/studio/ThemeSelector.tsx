@@ -81,7 +81,7 @@ export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelec
                     {mode === "challenge" ? t.challengesCount(theme.challenges.length) : t.freeBadge}
                   </div>
                   <motion.img
-                    src={animal.src}
+                    src={animal.srcSmall}
                     alt={theme.name}
                     width={256}
                     height={256}

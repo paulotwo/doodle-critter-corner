@@ -65,16 +65,6 @@ import estegossaurinhoImg512 from "@/assets/animals-512/estegossaurinho.png";
 import anquilossaurinhoImg512 from "@/assets/animals-512/anquilossaurinho.png";
 
 /**
- * Returns true when the viewport is wide enough to warrant full-res images.
- * We check once at module load and also expose the helper for runtime use.
- */
-export const isHighRes = () =>
-  typeof window !== "undefined" && window.innerWidth >= 1920;
-
-/** Pick the right image URL for current viewport */
-const pick = (full: string, small: string) => (isHighRes() ? full : small);
-
-/**
  * Each animal is now an outline PNG (coloring-book style).
  * Painting is done via flood-fill on a canvas.
  * Each "part" describes a named region with one or more sample points
@@ -91,7 +81,7 @@ export interface AnimalPart {
 export interface AnimalDef {
   id: ThemeId;
   /** outline image (PNG with transparent background) */
-  src: string;
+  srcSmall: string;
   /** full-res image (always 1024) */
   srcFull: string;
   /** intrinsic image size (square) */
@@ -109,7 +99,7 @@ const mkAnimal = (
   parts: AnimalPart[]
 ): AnimalDef => ({
   id,
-  src: pick(full, small),
+  srcSmall: small,
   srcFull: full,
   size: 1024,
   parts,
