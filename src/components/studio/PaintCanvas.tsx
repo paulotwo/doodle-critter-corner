@@ -87,35 +87,28 @@ function floodFill(
   fillG: number,
   fillB: number
 ) {
-  if (startX < 0 || startY < 0 || startX >= width || startY >= height) return;
-
   const img = ctx.getImageData(0, 0, width, height);
   const data = img.data;
+  const idx = (x: number, y: number) => (y * width + x) * 4;
 
-  const startIdx = (startY * width + startX) * 4;
-  const startR = data[startIdx];
-  const startG = data[startIdx + 1];
-  const startB = data[startIdx + 2];
-  const startA = data[startIdx + 3];
+  if (startX < 0 || startY < 0 || startX >= width || startY >= height) return;
 
-  // No-op if already that exact color
+  const si = idx(startX, startY);
+  const startR = data[si];
+  const startG = data[si + 1];
+  const startB = data[si + 2];
+  const startA = data[si + 3];
+
+  // No-op if already that color
   if (startR === fillR && startG === fillG && startB === fillB && startA === 255) return;
 
   const TOL = 24;
-  const startTransparent = startA < 40;
-
-  // Visited mask prevents re-pushing the same row segment.
-  // The previous implementation called matches() on freshly-painted pixels,
-  // which could re-enter the same area and explode the stack on mobile.
-  const visited = new Uint8Array(width * height);
-
-  const matches = (px: number, py: number): boolean => {
-    const p = py * width + px;
-    if (visited[p]) return false;
-    const i = p * 4;
+  const matchesStart = (x: number, y: number) => {
+    const i = idx(x, y);
     const a = data[i + 3];
-    if (startTransparent) return a < 40;
-    if (a < 40) return false;
+    // Both transparent → match
+    if (startA < 40 && a < 40) return true;
+    if (startA < 40 || a < 40) return false;
     return (
       Math.abs(data[i] - startR) <= TOL &&
       Math.abs(data[i + 1] - startG) <= TOL &&
@@ -123,58 +116,39 @@ function floodFill(
     );
   };
 
-  // Safety cap — bail out if a single fill would chew more than ~half the
-  // canvas. Prevents runaway fills when the child taps outside the outline.
-  const MAX_PIXELS = Math.floor(width * height * 0.55);
-  let painted = 0;
+  const setPixel = (x: number, y: number) => {
+    const i = idx(x, y);
+    data[i] = fillR;
+    data[i + 1] = fillG;
+    data[i + 2] = fillB;
+    data[i + 3] = 255;
+  };
 
-  const stack: number[] = [startX, startY];
+  if (!matchesStart(startX, startY)) return;
+
+  const stack: Array<[number, number]> = [[startX, startY]];
   while (stack.length) {
-    const y = stack.pop()!;
-    const x = stack.pop()!;
-
-    // Walk left to start of this row's span
+    const [x, y] = stack.pop()!;
     let lx = x;
-    while (lx >= 0 && matches(lx, y)) lx--;
+    while (lx >= 0 && matchesStart(lx, y)) lx--;
     lx++;
-
     let spanAbove = false;
     let spanBelow = false;
     let cx = lx;
-
-    while (cx < width && matches(cx, y)) {
-      const p = y * width + cx;
-      const i = p * 4;
-      data[i] = fillR;
-      data[i + 1] = fillG;
-      data[i + 2] = fillB;
-      data[i + 3] = 255;
-      visited[p] = 1;
-      painted++;
-      if (painted > MAX_PIXELS) {
-        ctx.putImageData(img, 0, 0);
-        return;
+    while (cx < width && matchesStart(cx, y)) {
+      setPixel(cx, y);
+      if (!spanAbove && y > 0 && matchesStart(cx, y - 1)) {
+        stack.push([cx, y - 1]);
+        spanAbove = true;
+      } else if (spanAbove && y > 0 && !matchesStart(cx, y - 1)) {
+        spanAbove = false;
       }
-
-      if (y > 0) {
-        const a = matches(cx, y - 1);
-        if (a && !spanAbove) {
-          stack.push(cx, y - 1);
-          spanAbove = true;
-        } else if (!a) {
-          spanAbove = false;
-        }
+      if (!spanBelow && y < height - 1 && matchesStart(cx, y + 1)) {
+        stack.push([cx, y + 1]);
+        spanBelow = true;
+      } else if (spanBelow && y < height - 1 && !matchesStart(cx, y + 1)) {
+        spanBelow = false;
       }
-      if (y < height - 1) {
-        const b = matches(cx, y + 1);
-        if (b && !spanBelow) {
-          stack.push(cx, y + 1);
-          spanBelow = true;
-        } else if (!b) {
-          spanBelow = false;
-        }
-      }
-
       cx++;
     }
   }
