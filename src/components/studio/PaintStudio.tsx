@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brush, Stamp } from "lucide-react";
-import { Challenge, ENCOURAGEMENTS, StampId, ThemeId, getThemeById } from "@/lib/studio-data";
+import { Challenge, StampId, ThemeId, getThemeById } from "@/lib/studio-data";
 import { getAnimal } from "@/lib/animals";
 import { playEncourage, speak } from "@/lib/sounds";
 import { ChallengeBox } from "./ChallengeBox";
@@ -11,6 +11,7 @@ import { ToolBar, Tool } from "./ToolBar";
 import { PaintCanvas, PaintCanvasHandle } from "./PaintCanvas";
 import { CelebrationModal } from "./CelebrationModal";
 import { useI18n } from "@/i18n";
+import { localizeTheme, localizedEncouragements } from "@/i18n/studio-translations";
 
 interface PaintStudioProps {
   themeId: ThemeId;
@@ -22,10 +23,11 @@ interface PaintStudioProps {
 type PanelTab = "colors" | "stamps";
 
 export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme }: PaintStudioProps) => {
-  const theme = useMemo(() => getThemeById(themeId), [themeId]);
+  const baseTheme = useMemo(() => getThemeById(themeId), [themeId]);
+  const { t, locale } = useI18n();
+  const theme = useMemo(() => localizeTheme(baseTheme, locale), [baseTheme, locale]);
   const animal = useMemo(() => getAnimal(themeId), [themeId]);
   const canvasRef = useRef<PaintCanvasHandle>(null);
-  const { t } = useI18n();
 
   // local mode can switch to "free" once all challenges are done
   const [mode, setMode] = useState<"free" | "challenge">(initialMode);
@@ -105,7 +107,8 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
   }, [progress, challenge, challengeIdx, totalChallenges]);
 
   const showEncouragement = () => {
-    const msg = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+    const msgs = localizedEncouragements[locale];
+    const msg = msgs[Math.floor(Math.random() * msgs.length)];
     setHint(msg);
     playEncourage();
     setTimeout(() => setHint(undefined), 2200);
