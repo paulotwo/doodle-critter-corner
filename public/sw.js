@@ -1,13 +1,14 @@
-// Service worker — PWA install prompt + image caching (cache-first, 1h TTL).
+// Service worker — PWA install prompt + image caching (cache-first, 1d TTL).
 const CACHE_NAME = "bichinhos-assets-v1";
-const MAX_AGE_MS = 60 * 60 * 1000; // 1 hour
+const MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -56,6 +57,6 @@ self.addEventListener("fetch", (event) => {
         if (cached) return cached; // serve stale if offline
         throw err;
       }
-    })
+    }),
   );
 });
