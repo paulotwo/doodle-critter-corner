@@ -4,6 +4,7 @@ import { THEMES, ThemeId } from "@/lib/studio-data";
 import { getAnimal } from "@/lib/animals";
 import { playClick } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
+import { getAnimalName, getSceneName } from "@/i18n/studio-translations";
 import LanguageSelector from "@/components/LanguageSelector";
 
 export type StudioMode = "free" | "challenge";
@@ -16,7 +17,7 @@ interface ThemeSelectorProps {
 }
 
 export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelectorProps) => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   return (
     <div className="min-h-screen bg-gradient-sky px-4 py-6 sm:px-8 sm:py-10">
       <header className="mx-auto mb-6 flex max-w-5xl items-center justify-between gap-2">
@@ -90,9 +91,9 @@ export const ThemeSelector = ({ mode, onModeChange, onPick, onBack }: ThemeSelec
                     className="h-28 w-28 object-contain drop-shadow-md sm:h-36 sm:w-36"
                   />
                   <div className="w-full text-center">
-                    <h3 className="text-xl font-extrabold sm:text-2xl">{theme.name}</h3>
+                    <h3 className="text-xl font-extrabold sm:text-2xl">{getAnimalName(theme.id, locale)}</h3>
                     <p className="text-[10px] font-semibold uppercase tracking-wide text-foreground/50 sm:text-xs">
-                      {theme.scene}
+                      {getSceneName(theme.scene, locale)}
                     </p>
                   </div>
                 </div>

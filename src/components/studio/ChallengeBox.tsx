@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Volume2 } from "lucide-react";
 import { Challenge, ThemeDef } from "@/lib/studio-data";
 import { playClick, speak } from "@/lib/sounds";
+import { useI18n } from "@/i18n";
 
 interface ChallengeBoxProps {
   theme: ThemeDef;
@@ -11,6 +12,7 @@ interface ChallengeBoxProps {
 }
 
 export const ChallengeBox = ({ theme, challenge, progress, hint }: ChallengeBoxProps) => {
+  const { t } = useI18n();
   const handleSpeak = () => {
     playClick();
     if (challenge) speak(`${challenge.text}. ${challenge.hint}`, { interrupt: true });
@@ -55,7 +57,7 @@ export const ChallengeBox = ({ theme, challenge, progress, hint }: ChallengeBoxP
           ) : (
             <motion.div key="free" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <p className="text-base font-extrabold sm:text-xl">{theme.greeting}</p>
-              <p className="text-xs text-muted-foreground sm:text-sm">Pinte à vontade! 🎨</p>
+              <p className="text-xs text-muted-foreground sm:text-sm">{t.paintFreeHint}</p>
             </motion.div>
           )}
         </AnimatePresence>

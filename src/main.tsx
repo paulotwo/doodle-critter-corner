@@ -7,4 +7,7 @@ import { initSentry } from "./lib/sentry";
 initSentry();
 initPwa();
 
+// Disable browser context menu (right-click / long-press)
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
 createRoot(document.getElementById("root")!).render(<App />);
