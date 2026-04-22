@@ -1,62 +1,89 @@
-// Service worker — PWA install prompt + image caching (cache-first, 1d TTL).
-const CACHE_NAME = "bichinhos-assets-v1";
+// Service worker — full offline PWA support.
+// Caches the app shell (HTML, JS, CSS) + images for complete offline use.
+
+const CACHE_NAME = "bichinhos-v2";
 const MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-self.addEventListener("install", () => self.skipWaiting());
+// Install: pre-cache the navigation shell
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.add("/"))
+  );
+  self.skipWaiting();
+});
+
+// Activate: clean old caches, claim clients
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim()),
+      .then((keys) =>
+        Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+      )
+      .then(() => self.clients.claim())
   );
 });
 
-function isImageRequest(url) {
-  return /\.(png|jpe?g|gif|webp|svg|avif)(\?|$)/i.test(url.pathname);
+function isNavigationRequest(request) {
+  return request.mode === "navigate";
+}
+
+function isStaticAsset(url) {
+  return /\.(js|css|woff2?|ttf|otf|png|jpe?g|gif|webp|svg|avif|ico|json|mp3|ogg|wav)(\?|$)/i.test(
+    url.pathname
+  );
 }
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
-  // Only cache-first for same-origin image assets
-  if (event.request.method !== "GET" || url.origin !== self.location.origin || !isImageRequest(url)) {
-    return; // let browser handle normally
+  // Only handle same-origin GET requests
+  if (event.request.method !== "GET" || url.origin !== self.location.origin) return;
+
+  // Skip Google Analytics and other third-party scripts
+  if (url.hostname !== self.location.hostname) return;
+
+  // Navigation requests (HTML): network-first, fall back to cached shell
+  if (isNavigationRequest(event.request)) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match("/").then((r) => r || new Response("Offline", { status: 503 })))
+    );
+    return;
   }
 
-  event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cached = await cache.match(event.request);
-      if (cached) {
-        const cachedTime = cached.headers.get("sw-cached-at");
-        if (cachedTime && Date.now() - Number(cachedTime) < MAX_AGE_MS) {
+  // Static assets (JS, CSS, images, fonts, audio): cache-first with network fallback
+  if (isStaticAsset(url)) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then(async (cache) => {
+        const cached = await cache.match(event.request);
+        if (cached) {
+          // Background refresh for JS/CSS (stale-while-revalidate)
+          if (/\.(js|css)(\?|$)/i.test(url.pathname)) {
+            fetch(event.request).then((res) => {
+              if (res.ok) cache.put(event.request, res);
+            }).catch(() => {});
+          }
           return cached;
         }
-      }
-      try {
-        const networkResponse = await fetch(event.request);
-        if (networkResponse.ok) {
-          // Clone and store with timestamp header
-          const body = await networkResponse.arrayBuffer();
-          const headers = new Headers(networkResponse.headers);
-          headers.set("sw-cached-at", String(Date.now()));
-          const cachedResp = new Response(body, {
-            status: networkResponse.status,
-            statusText: networkResponse.statusText,
-            headers,
-          });
-          cache.put(event.request, cachedResp);
-          return new Response(body, {
-            status: networkResponse.status,
-            statusText: networkResponse.statusText,
-            headers: networkResponse.headers,
-          });
+        try {
+          const networkResponse = await fetch(event.request);
+          if (networkResponse.ok) {
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        } catch (err) {
+          return new Response("", { status: 503 });
         }
-        return networkResponse;
-      } catch (err) {
-        if (cached) return cached; // serve stale if offline
-        throw err;
-      }
-    }),
-  );
+      })
+    );
+    return;
+  }
 });
