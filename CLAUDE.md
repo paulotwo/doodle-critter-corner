@@ -30,7 +30,7 @@ A React + TypeScript + Vite PWA — an educational painting/coloring game for ch
 - `studio-data.ts` — the single source of truth for all game content: 29 animal themes (`ThemeDef`), 6 challenges per animal (typed `kind` field), color palette, stamp definitions. Edit here when adding animals, challenges, or colors.
 - `animals.ts` — animal outline PNGs + paintable region definitions with seed coordinates for flood-fill
 - `sounds.ts` — encouragement SFX (Web Audio API) + speech synthesis for challenge narration
-- `sentry.ts`, `pwa-install.ts`, `fullscreen.ts` — utility wrappers
+- `sentry.ts`, `fullscreen.ts` — utility wrappers
 
 **i18n** (`src/i18n/`):
 - `I18nContext.tsx` — provider with auto-detection from `navigator.language`, persisted to localStorage, exposes `useI18n()` hook

@@ -1,4 +1,4 @@
-import { createRoot } import App import { document.addEventListener("contextmenu", (e) import { createRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { initSentry } from "./lib/sentry";
