@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -8,14 +8,12 @@ interface BeforeInstallPromptEvent extends Event {
 const DISMISSED_KEY = "pwa-install-dismissed";
 
 function isIosDevice() {
-  if (typeof navigator === "undefined") return false;
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
 }
 
 function isInStandaloneMode() {
-  if (typeof window === "undefined") return false;
   return (
-    window.matchMedia?.("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: standalone)").matches ||
     (navigator as Navigator & { standalone?: boolean }).standalone === true
   );
 }
