@@ -79,20 +79,13 @@ export const initPwa = (): void => {
     notify();
   });
 
-  // Service worker: only in production, never inside iframes or Lovable preview hosts.
+  // In iframe / preview hosts: unregister any leftover SWs to avoid stale content.
   if (!("serviceWorker" in navigator)) return;
 
-  if (isInIframe || isPreviewHost || import.meta.env.DEV) {
-    // Clean up any SW left over from previous environments.
+  if (isInIframe || isPreviewHost) {
     navigator.serviceWorker.getRegistrations().then((regs) => {
       regs.forEach((r) => r.unregister());
     });
-    return;
   }
-
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {
-      /* registration failed — install prompt simply won't appear */
-    });
-  });
+  // Service worker registration is handled automatically by vite-plugin-pwa.
 };
