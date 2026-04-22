@@ -32,6 +32,8 @@ const isPreviewHost =
     window.location.hostname.includes("lovable.app") &&
       window.location.hostname.startsWith("id-preview--"));
 
+export const isPwaInstallSupportedContext = (): boolean => !(isInIframe || isPreviewHost);
+
 export const isStandalone = (): boolean => {
   if (typeof window === "undefined") return false;
   const mql = window.matchMedia?.("(display-mode: standalone)");
@@ -67,6 +69,15 @@ export const promptInstall = async (): Promise<"accepted" | "dismissed" | "unava
 export const initPwa = (): void => {
   if (typeof window === "undefined") return;
 
+  if (!isPwaInstallSupportedContext()) {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((r) => r.unregister());
+      });
+    }
+    return;
+  }
+
   // Capture the install prompt as soon as the browser fires it.
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
@@ -82,10 +93,5 @@ export const initPwa = (): void => {
   // In iframe / preview hosts: unregister any leftover SWs to avoid stale content.
   if (!("serviceWorker" in navigator)) return;
 
-  if (isInIframe || isPreviewHost) {
-    navigator.serviceWorker.getRegistrations().then((regs) => {
-      regs.forEach((r) => r.unregister());
-    });
-  }
   // Service worker registration is handled automatically by vite-plugin-pwa.
 };

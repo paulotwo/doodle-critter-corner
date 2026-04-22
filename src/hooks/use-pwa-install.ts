@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isPwaInstallSupportedContext } from "@/lib/pwa-install";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -21,6 +22,7 @@ function isInStandaloneMode() {
 }
 
 export function usePwaInstall() {
+  const supportedContext = typeof window !== "undefined" ? isPwaInstallSupportedContext() : false;
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
   const [dismissed, setDismissed] = useState(() => {
     try {
@@ -34,7 +36,7 @@ export function usePwaInstall() {
   const ios = isIosDevice();
 
   useEffect(() => {
-    if (standalone || ios) return;
+    if (!supportedContext || standalone || ios) return;
 
     const handler = (e: Event) => {
       e.preventDefault();
@@ -43,7 +45,7 @@ export function usePwaInstall() {
 
     window.addEventListener("beforeinstallprompt", handler);
     return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, [standalone, ios]);
+  }, [standalone, ios, supportedContext]);
 
   const install = async () => {
     if (!promptEvent) return;
@@ -62,8 +64,8 @@ export function usePwaInstall() {
     setPromptEvent(null);
   };
 
-  const showIosBanner = !standalone && ios && !dismissed;
-  const canInstall = !standalone && !dismissed && !!promptEvent;
+  const showIosBanner = supportedContext && !standalone && ios && !dismissed;
+  const canInstall = supportedContext && !standalone && !dismissed && !!promptEvent;
 
   return { canInstall, install, dismiss, showIosBanner };
 }
