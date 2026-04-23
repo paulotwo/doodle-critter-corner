@@ -31,6 +31,12 @@ import esquilinhoImg from "@/assets/animals/esquilinho.png";
 import cangurzinhoImg from "@/assets/animals/cangurzinho.png";
 import estegossaurinhoImg from "@/assets/animals/estegossaurinho.png";
 import anquilossaurinhoImg from "@/assets/animals/anquilossaurinho.png";
+import tubaraozinhoImg from "@/assets/animals/tubaraozinho.png";
+import caranguejinhoImg from "@/assets/animals/caranguejinho.png";
+import foquinhaImg from "@/assets/animals/foquinha.png";
+import velocirraptorzinhoImg from "@/assets/animals/velocirraptorzinho.png";
+import parassaurolofinhoImg from "@/assets/animals/parassaurolofinho.png";
+import dimetrodonzinhoImg from "@/assets/animals/dimetrodonzinho.png";
 
 // ---- 512px imports ----
 import coelhinhoImg512 from "@/assets/animals-512/coelhinho.png";
@@ -63,6 +69,12 @@ import esquilinhoImg512 from "@/assets/animals-512/esquilinho.png";
 import cangurzinhoImg512 from "@/assets/animals-512/cangurzinho.png";
 import estegossaurinhoImg512 from "@/assets/animals-512/estegossaurinho.png";
 import anquilossaurinhoImg512 from "@/assets/animals-512/anquilossaurinho.png";
+import tubaraozinhoImg512 from "@/assets/animals-512/tubaraozinho.png";
+import caranguejinhoImg512 from "@/assets/animals-512/caranguejinho.png";
+import foquinhaImg512 from "@/assets/animals-512/foquinha.png";
+import velocirraptorzinhoImg512 from "@/assets/animals-512/velocirraptorzinho.png";
+import parassaurolofinhoImg512 from "@/assets/animals-512/parassaurolofinho.png";
+import dimetrodonzinhoImg512 from "@/assets/animals-512/dimetrodonzinho.png";
 
 /**
  * Each animal is now an outline PNG (coloring-book style).
@@ -407,6 +419,66 @@ const anquilossaurinho = mkAnimal("anquilossaurinho", anquilossaurinhoImg, anqui
   { id: "club", label: "clavinha", points: [p(0.92, 0.62)] },
 ]);
 
+const tubaraozinho = mkAnimal("tubaraozinho", tubaraozinhoImg, tubaraozinhoImg512, [
+  { id: "head", label: "cabeça", points: [p(0.42, 0.40)] },
+  { id: "body", label: "corpinho", points: [p(0.55, 0.55), p(0.50, 0.50)] },
+  { id: "belly", label: "barriguinha", points: [p(0.50, 0.68)] },
+  { id: "fin_top", label: "barbatana de cima", points: [p(0.55, 0.18)] },
+  { id: "fin_side", label: "barbatana", points: [p(0.28, 0.62)] },
+  { id: "tail", label: "rabinho", points: [p(0.85, 0.55)] },
+]);
+
+const caranguejinho = mkAnimal("caranguejinho", caranguejinhoImg, caranguejinhoImg512, [
+  { id: "body", label: "corpinho", points: [p(0.50, 0.55), p(0.50, 0.45)] },
+  { id: "claw_left", label: "garra", points: [p(0.20, 0.22)] },
+  { id: "claw_right", label: "garra", points: [p(0.80, 0.22)] },
+  { id: "leg_l1", label: "perninha", points: [p(0.20, 0.62)] },
+  { id: "leg_l2", label: "perninha", points: [p(0.18, 0.72)] },
+  { id: "leg_l3", label: "perninha", points: [p(0.22, 0.82)] },
+  { id: "leg_r1", label: "perninha", points: [p(0.80, 0.62)] },
+  { id: "leg_r2", label: "perninha", points: [p(0.82, 0.72)] },
+  { id: "leg_r3", label: "perninha", points: [p(0.78, 0.82)] },
+]);
+
+const foquinha = mkAnimal("foquinha", foquinhaImg, foquinhaImg512, [
+  { id: "head", label: "cabeça", points: [p(0.45, 0.35)] },
+  { id: "body", label: "corpinho", points: [p(0.50, 0.62), p(0.55, 0.65)] },
+  { id: "belly", label: "barriguinha", points: [p(0.45, 0.72)] },
+  { id: "fin_left", label: "barbatana", points: [p(0.32, 0.82)] },
+  { id: "fin_right", label: "barbatana", points: [p(0.78, 0.82)] },
+  { id: "tail", label: "rabinho", points: [p(0.85, 0.72)] },
+]);
+
+const velocirraptorzinho = mkAnimal("velocirraptorzinho", velocirraptorzinhoImg, velocirraptorzinhoImg512, [
+  { id: "head", label: "cabeça", points: [p(0.32, 0.30)] },
+  { id: "body", label: "corpinho", points: [p(0.48, 0.55), p(0.55, 0.60)] },
+  { id: "belly", label: "barriguinha", points: [p(0.45, 0.65)] },
+  { id: "arm", label: "bracinho", points: [p(0.40, 0.55)] },
+  { id: "leg_front", label: "perninha", points: [p(0.42, 0.82)] },
+  { id: "leg_back", label: "perninha", points: [p(0.62, 0.82)] },
+  { id: "tail", label: "rabinho", points: [p(0.85, 0.62)] },
+]);
+
+const parassaurolofinho = mkAnimal("parassaurolofinho", parassaurolofinhoImg, parassaurolofinhoImg512, [
+  { id: "head", label: "cabeça", points: [p(0.22, 0.35)] },
+  { id: "crest", label: "cristinha", points: [p(0.42, 0.18)] },
+  { id: "body", label: "corpinho", points: [p(0.50, 0.55), p(0.55, 0.60)] },
+  { id: "belly", label: "barriguinha", points: [p(0.50, 0.70)] },
+  { id: "tail", label: "rabinho", points: [p(0.88, 0.55)] },
+  { id: "leg_front", label: "perninha", points: [p(0.40, 0.85)] },
+  { id: "leg_back", label: "perninha", points: [p(0.65, 0.85)] },
+]);
+
+const dimetrodonzinho = mkAnimal("dimetrodonzinho", dimetrodonzinhoImg, dimetrodonzinhoImg512, [
+  { id: "head", label: "cabeça", points: [p(0.25, 0.45)] },
+  { id: "body", label: "corpinho", points: [p(0.50, 0.62), p(0.55, 0.65)] },
+  { id: "belly", label: "barriguinha", points: [p(0.50, 0.78)] },
+  { id: "sail", label: "velinha", points: [p(0.55, 0.30), p(0.62, 0.30)] },
+  { id: "tail", label: "rabinho", points: [p(0.88, 0.55)] },
+  { id: "leg_front", label: "perninha", points: [p(0.40, 0.88)] },
+  { id: "leg_back", label: "perninha", points: [p(0.65, 0.88)] },
+]);
+
 export const ANIMALS: Record<ThemeId, AnimalDef> = {
   cachorrinho, gatinho, coelhinho, passarinho, patinho, porquinho,
   ursinho, raposinha, corujinha, macaquinho,
@@ -414,8 +486,10 @@ export const ANIMALS: Record<ThemeId, AnimalDef> = {
   esquilinho, cangurzinho,
   peixinho, tartaruguinha, baleinha, golfinho, polvinho,
   cavalinho_marinho: cavalinhoMarinho,
+  tubaraozinho, caranguejinho, foquinha,
   rexinho, tricerinho, brontinho, pterossaurinho,
   estegossaurinho, anquilossaurinho,
+  velocirraptorzinho, parassaurolofinho, dimetrodonzinho,
 };
 
 export const getAnimal = (id: ThemeId) => ANIMALS[id];
