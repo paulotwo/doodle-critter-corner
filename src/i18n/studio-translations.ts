@@ -33,6 +33,12 @@ const animalNames: Record<ThemeId, Record<Locale, string>> = {
   pterossaurinho: { pt: "Pterossaurinho", en: "Little Pterosaur", es: "Pterosaurito", fr: "Petit Ptérosaure", it: "Pterosaurino", de: "Pterosäurchen" },
   estegossaurinho: { pt: "Estegossaurinho", en: "Little Stegosaurus", es: "Estegosaurito", fr: "Petit Stégosaure", it: "Stegosaurino", de: "Stegosäurchen" },
   anquilossaurinho: { pt: "Anquilossaurinho", en: "Little Ankylosaurus", es: "Anquilosaurito", fr: "Petit Ankylosaure", it: "Anchilosaurino", de: "Ankylosäurchen" },
+  tubaraozinho: { pt: "Tubarãozinho", en: "Little Shark", es: "Tiburoncito", fr: "Petit requin", it: "Squaletto", de: "Häichen" },
+  caranguejinho: { pt: "Caranguejinho", en: "Little Crab", es: "Cangrejito", fr: "Petit crabe", it: "Granchietto", de: "Krabbchen" },
+  foquinha: { pt: "Foquinha", en: "Little Seal", es: "Foquita", fr: "Petit phoque", it: "Foschina", de: "Robbchen" },
+  velocirraptorzinho: { pt: "Velocirraptorzinho", en: "Little Velociraptor", es: "Velocirraptorcito", fr: "Petit Vélociraptor", it: "Velociraptorino", de: "Velociraptorchen" },
+  parassaurolofinho: { pt: "Parassaurolofinho", en: "Little Parasaurolophus", es: "Parasaurolofito", fr: "Petit Parasaurolophus", it: "Parasaurolofino", de: "Parasaurolophchen" },
+  dimetrodonzinho: { pt: "Dimetrodonzinho", en: "Little Dimetrodon", es: "Dimetrodonito", fr: "Petit Dimétrodon", it: "Dimetrodontino", de: "Dimetrodonchen" },
 };
 
 // ===== Scene Names =====
@@ -84,6 +90,12 @@ const greetingTranslations: Record<ThemeId, Record<Locale, string>> = {
   pterossaurinho: { pt: "O Pterossaurinho voa bem alto!", en: "Little Pterosaur flies very high!", es: "¡Pterosaurito vuela muy alto!", fr: "Petit Ptérosaure vole très haut !", it: "Pterosaurino vola altissimo!", de: "Pterosäurchen fliegt ganz hoch!" },
   estegossaurinho: { pt: "O Estegossaurinho tem placas nas costas!", en: "Little Stegosaurus has plates on its back!", es: "¡Estegosaurito tiene placas en la espalda!", fr: "Petit Stégosaure a des plaques sur le dos !", it: "Stegosaurino ha le placche sulla schiena!", de: "Stegosäurchen hat Platten auf dem Rücken!" },
   anquilossaurinho: { pt: "O Anquilossaurinho tem armadura forte!", en: "Little Ankylosaurus has strong armor!", es: "¡Anquilosaurito tiene armadura fuerte!", fr: "Petit Ankylosaure a une armure solide !", it: "Anchilosaurino ha un'armatura robusta!", de: "Ankylosäurchen hat eine starke Rüstung!" },
+  tubaraozinho: { pt: "O tubarãozinho nada rapidinho!", en: "The little shark swims fast!", es: "¡El tiburoncito nada rapidito!", fr: "Le petit requin nage très vite !", it: "Lo squaletto nuota veloce!", de: "Das Häichen schwimmt ganz schnell!" },
+  caranguejinho: { pt: "O caranguejinho anda de ladinho!", en: "The little crab walks sideways!", es: "¡El cangrejito camina de lado!", fr: "Le petit crabe marche de côté !", it: "Il granchietto cammina di lato!", de: "Das Krabbchen läuft zur Seite!" },
+  foquinha: { pt: "A foquinha bate palminha no gelo!", en: "The little seal claps on the ice!", es: "¡La foquita aplaude en el hielo!", fr: "Le petit phoque applaudit sur la glace !", it: "La foschina applaude sul ghiaccio!", de: "Das Robbchen klatscht auf dem Eis!" },
+  velocirraptorzinho: { pt: "O Velocirraptorzinho corre rapidinho!", en: "Little Velociraptor runs fast!", es: "¡Velocirraptorcito corre rapidito!", fr: "Petit Vélociraptor court très vite !", it: "Velociraptorino corre veloce!", de: "Velociraptorchen läuft ganz schnell!" },
+  parassaurolofinho: { pt: "O Parassaurolofinho tem uma cristinha grande!", en: "Little Parasaurolophus has a big crest!", es: "¡Parasaurolofito tiene una cresta grande!", fr: "Petit Parasaurolophus a une grande crête !", it: "Parasaurolofino ha una grande cresta!", de: "Parasaurolophchen hat einen großen Kamm!" },
+  dimetrodonzinho: { pt: "O Dimetrodonzinho tem uma vela nas costas!", en: "Little Dimetrodon has a sail on its back!", es: "¡Dimetrodonito tiene una vela en la espalda!", fr: "Petit Dimétrodon a une voile sur le dos !", it: "Dimetrodontino ha una vela sulla schiena!", de: "Dimetrodonchen hat ein Segel auf dem Rücken!" },
 };
 
 // ===== Part Labels (with article for template insertion) =====
@@ -113,6 +125,11 @@ const partLabelMap: Record<string, Record<Locale, string>> = {
   bracinho: { pt: "o bracinho", en: "the arm", es: "el bracito", fr: "le petit bras", it: "il braccino", de: "den Arm" },
   perninha: { pt: "a perninha", en: "the leg", es: "la patita", fr: "la patte", it: "la zampetta", de: "das Bein" },
   patinha: { pt: "a patinha", en: "the paw", es: "la patita", fr: "la patte", it: "la zampetta", de: "die Pfote" },
+  garra: { pt: "uma garra", en: "a claw", es: "una pinza", fr: "une pince", it: "una chela", de: "eine Schere" },
+  velinha: { pt: "a velinha", en: "the sail", es: "la vela", fr: "la voile", it: "la vela", de: "das Segel" },
+  cristinha: { pt: "a cristinha", en: "the crest", es: "la cresta", fr: "la crête", it: "la cresta", de: "den Kamm" },
+  "barbatana de cima": { pt: "a barbatana de cima", en: "the top fin", es: "la aleta superior", fr: "la nageoire du dessus", it: "la pinna superiore", de: "die obere Flosse" },
+  barbatana: { pt: "a barbatana", en: "the fin", es: "la aleta", fr: "la nageoire", it: "la pinna", de: "die Flosse" },
 };
 
 // ===== Color Labels =====
