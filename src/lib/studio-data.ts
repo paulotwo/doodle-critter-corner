@@ -26,13 +26,19 @@ export type ThemeId =
   | "golfinho"
   | "polvinho"
   | "cavalinho_marinho"
+  | "tubaraozinho"
+  | "caranguejinho"
+  | "foquinha"
   // dinossauros
   | "rexinho"
   | "tricerinho"
   | "brontinho"
   | "pterossaurinho"
   | "estegossaurinho"
-  | "anquilossaurinho";
+  | "anquilossaurinho"
+  | "velocirraptorzinho"
+  | "parassaurolofinho"
+  | "dimetrodonzinho";
 
 export type StampId =
   // sea
@@ -649,6 +655,57 @@ export const THEMES: ThemeDef[] = [
       { id: "cm4", text: "Coloque 2 algas", hint: "Plantinhas do mar", kind: { type: "stamp", stamp: "seaweed", count: 2 }, icon: "🌿" },
       { id: "cm5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
       { id: "cm6", text: "Pinte todo o cavalinho-marinho!", hint: "Pinte cada parte do cavalinho-marinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "tubaraozinho",
+    name: "Tubarãozinho",
+    emoji: "🦈",
+    bg: "from-sky-200 via-blue-100 to-cyan-200",
+    greeting: "O tubarãozinho nada rapidinho!",
+    scene: "oceano",
+    stamps: ["bubble", "wave", "water_drop", "fish", "starfish", "shell", "seaweed", "octopus", "heart", "sun", "rainbow", "music"],
+    challenges: [
+      { id: "tb1", text: "Pinte o corpinho de azul", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "blue", colorLabel: "azul" }, icon: "💙" },
+      { id: "tb2", text: "Pinte a barriguinha de branco", hint: "Toque na barriga", kind: { type: "paint_part_color", part: "belly", partLabel: "barriguinha", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "tb3", text: "Coloque 3 ondinhas", hint: "Ondas no mar", kind: { type: "stamp", stamp: "wave", count: 3 }, icon: "🌊" },
+      { id: "tb4", text: "Coloque 2 peixinhos", hint: "Peixinhos pra companhia", kind: { type: "stamp", stamp: "fish", count: 2 }, icon: "🐠" },
+      { id: "tb5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "tb6", text: "Pinte todo o tubarãozinho!", hint: "Pinte cada parte do tubarãozinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "caranguejinho",
+    name: "Caranguejinho",
+    emoji: "🦀",
+    bg: "from-orange-100 via-red-100 to-amber-100",
+    greeting: "O caranguejinho anda de ladinho!",
+    scene: "fundo do mar",
+    stamps: ["bubble", "seaweed", "starfish", "shell", "fish", "wave", "water_drop", "rock", "heart", "sun", "rainbow", "music"],
+    challenges: [
+      { id: "cj1", text: "Pinte o corpinho de vermelho", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "red", colorLabel: "vermelho" }, icon: "❤️" },
+      { id: "cj2", text: "Pinte uma garra de laranja", hint: "Toque numa garra grande", kind: { type: "paint_part_color", part: "claw_left", partLabel: "garra", color: "orange", colorLabel: "laranja" }, icon: "🦀" },
+      { id: "cj3", text: "Coloque 3 conchas", hint: "Conchinhas do mar", kind: { type: "stamp", stamp: "shell", count: 3 }, icon: "🐚" },
+      { id: "cj4", text: "Coloque 2 bolhas", hint: "Bolhinhas no mar", kind: { type: "stamp", stamp: "bubble", count: 2 }, icon: "🫧" },
+      { id: "cj5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "cj6", text: "Pinte todo o caranguejinho!", hint: "Pinte cada parte do caranguejinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "foquinha",
+    name: "Foquinha",
+    emoji: "🦭",
+    bg: "from-blue-100 via-cyan-100 to-sky-200",
+    greeting: "A foquinha bate palminha no gelo!",
+    scene: "oceano",
+    stamps: ["bubble", "wave", "water_drop", "fish", "starfish", "shell", "snowflake", "cloud", "heart", "sun", "rainbow", "music"],
+    challenges: [
+      { id: "fq1", text: "Pinte o corpinho de cinza", hint: "Use o baldinho no corpo (use marrom claro!)", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🦭" },
+      { id: "fq2", text: "Pinte a barriguinha de branco", hint: "Toque na barriga", kind: { type: "paint_part_color", part: "belly", partLabel: "barriguinha", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "fq3", text: "Coloque 3 peixinhos", hint: "Peixinhos pra comer", kind: { type: "stamp", stamp: "fish", count: 3 }, icon: "🐟" },
+      { id: "fq4", text: "Coloque 2 bolhas", hint: "Bolhinhas no mar", kind: { type: "stamp", stamp: "bubble", count: 2 }, icon: "🫧" },
+      { id: "fq5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "fq6", text: "Pinte toda a foquinha!", hint: "Pinte cada parte da foquinha", kind: { type: "paint_all" }, icon: "🎨" },
     ],
   },
 
