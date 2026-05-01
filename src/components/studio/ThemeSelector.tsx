@@ -88,16 +88,13 @@ export const ThemeSelector = ({ onPick, onBack }: ThemeSelectorProps) => {
                         <div className="self-end rounded-full bg-white/70 px-3 py-1 text-xs font-bold text-foreground/70">
                           {t.challengesCount(theme.challenges.length)}
                         </div>
-                        <motion.img
-                          src={animal.srcSmall}
-                          alt={theme.name}
-                          width={256}
-                          height={256}
-                          loading="lazy"
+                        <motion.div
                           animate={{ y: [0, -6, 0] }}
                           transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
-                          className="h-28 w-28 object-contain drop-shadow-md sm:h-36 sm:w-36"
-                        />
+                          className="relative h-28 w-28 sm:h-36 sm:w-36"
+                        >
+                          <ThemeThumbnail themeId={theme.id} src={animal.srcSmall} alt={theme.name} />
+                        </motion.div>
                         <div className="w-full text-center">
                           <h3 className="text-xl font-extrabold sm:text-2xl">{getAnimalName(theme.id, locale)}</h3>
                           <p className="text-[10px] font-semibold uppercase tracking-wide text-foreground/50 sm:text-xs">
