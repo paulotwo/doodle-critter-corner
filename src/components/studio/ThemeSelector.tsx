@@ -1,11 +1,46 @@
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { THEMES, ThemeId, CATEGORIES, CategoryId, THEME_CATEGORY } from "@/lib/studio-data";
 import { getAnimal } from "@/lib/animals";
 import { playClick } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
 import { getAnimalName, getSceneName } from "@/i18n/studio-translations";
 import LanguageSelector from "@/components/LanguageSelector";
+
+const AUTOSAVE_PREFIX = "paint-autosave:";
+
+/** Thumbnail that overlays the user's in-progress painting (if any) under the outline. */
+const ThemeThumbnail = ({ themeId, src, alt }: { themeId: ThemeId; src: string; alt: string }) => {
+  const [paint, setPaint] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      setPaint(localStorage.getItem(AUTOSAVE_PREFIX + themeId));
+    } catch {
+      setPaint(null);
+    }
+  }, [themeId]);
+  return (
+    <div className="relative h-full w-full">
+      {paint && (
+        <img
+          src={paint}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-contain"
+        />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        width={256}
+        height={256}
+        loading="lazy"
+        className="relative h-full w-full object-contain drop-shadow-md"
+      />
+    </div>
+  );
+};
 
 interface ThemeSelectorProps {
   onPick: (id: ThemeId) => void;
