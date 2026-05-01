@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HomeScreen } from "@/components/studio/HomeScreen";
-import { ThemeSelector, StudioMode } from "@/components/studio/ThemeSelector";
+import { ThemeSelector } from "@/components/studio/ThemeSelector";
 import { PaintStudio } from "@/components/studio/PaintStudio";
 import { ThemeId } from "@/lib/studio-data";
 import { requestAppFullscreen } from "@/lib/fullscreen";
@@ -74,7 +74,6 @@ const META_KEYWORDS: Record<string, string> = {
 
 const Index = () => {
   const [screen, setScreen] = useState<Screen>("home");
-  const [mode, setMode] = useState<StudioMode>("challenge");
   const [theme, setTheme] = useState<ThemeId | null>(null);
   const { t, locale } = useI18n();
 
@@ -172,8 +171,6 @@ const Index = () => {
   if (screen === "themes" || !theme) {
     return (
       <ThemeSelector
-        mode={mode}
-        onModeChange={setMode}
         onPick={(id) => {
           setTheme(id);
           setScreen("studio");
@@ -186,7 +183,6 @@ const Index = () => {
   return (
     <PaintStudio
       themeId={theme}
-      mode={mode}
       onBack={() => setScreen("home")}
       onChangeTheme={() => setScreen("themes")}
     />

@@ -3,13 +3,26 @@ export type ThemeId =
   | "cachorrinho"
   | "gatinho"
   | "coelhinho"
-  | "passarinho"
-  | "patinho"
+  | "hamster"
   | "porquinho"
+  | "peixinho"
+  // fazenda
+  | "vaquinha"
+  | "ovelhinha"
+  | "galinha"
+  | "cavalinho"
+  | "cabrita"
+  | "patinho"
+  // pássaros
+  | "passarinho"
+  | "corujinha"
+  | "papagainho"
+  | "pinguinzinho"
+  | "tucaninho"
+  | "flamingozinho"
   // selvagens
   | "ursinho"
   | "raposinha"
-  | "corujinha"
   | "macaquinho"
   | "leaozinho"
   | "elefantinho"
@@ -20,7 +33,6 @@ export type ThemeId =
   | "esquilinho"
   | "cangurzinho"
   // aquáticos
-  | "peixinho"
   | "tartaruguinha"
   | "baleinha"
   | "golfinho"
@@ -29,6 +41,13 @@ export type ThemeId =
   | "tubaraozinho"
   | "caranguejinho"
   | "foquinha"
+  // insetos
+  | "borboletinha"
+  | "joaninha"
+  | "abelhinha"
+  | "formiguinha"
+  | "aranhinha"
+  | "libelulinha"
   // dinossauros
   | "rexinho"
   | "tricerinho"
@@ -39,6 +58,32 @@ export type ThemeId =
   | "velocirraptorzinho"
   | "parassaurolofinho"
   | "dimetrodonzinho";
+
+export type CategoryId =
+  | "domesticos"
+  | "fazenda"
+  | "passaros"
+  | "selvagens"
+  | "aquaticos"
+  | "insetos"
+  | "dinossauros";
+
+export interface CategoryDef {
+  id: CategoryId;
+  emoji: string;
+  /** PT-BR default label */
+  label: string;
+}
+
+export const CATEGORIES: CategoryDef[] = [
+  { id: "domesticos", emoji: "🏡", label: "Animais Domésticos" },
+  { id: "fazenda", emoji: "🚜", label: "Animais da Fazenda" },
+  { id: "passaros", emoji: "🐦", label: "Pássaros" },
+  { id: "selvagens", emoji: "🌳", label: "Animais Selvagens" },
+  { id: "aquaticos", emoji: "🌊", label: "Animais Aquáticos" },
+  { id: "insetos", emoji: "🐞", label: "Insetos" },
+  { id: "dinossauros", emoji: "🦖", label: "Dinossauros" },
+];
 
 export type StampId =
   // sea
@@ -149,6 +194,69 @@ export interface ThemeDef {
   stamps: StampId[]; // contextual stamps for this animal
   challenges: Challenge[];
 }
+
+/** Category assignment (single source of truth for which animal sits in which section). */
+export const THEME_CATEGORY: Record<ThemeId, CategoryId> = {
+  // domésticos
+  cachorrinho: "domesticos",
+  gatinho: "domesticos",
+  coelhinho: "domesticos",
+  hamster: "domesticos",
+  porquinho: "domesticos",
+  peixinho: "domesticos", // peixe de aquário
+  // fazenda
+  vaquinha: "fazenda",
+  ovelhinha: "fazenda",
+  galinha: "fazenda",
+  cavalinho: "fazenda",
+  cabrita: "fazenda",
+  patinho: "fazenda",
+  // pássaros
+  passarinho: "passaros",
+  corujinha: "passaros",
+  papagainho: "passaros",
+  pinguinzinho: "passaros",
+  tucaninho: "passaros",
+  flamingozinho: "passaros",
+  // selvagens
+  ursinho: "selvagens",
+  raposinha: "selvagens",
+  macaquinho: "selvagens",
+  leaozinho: "selvagens",
+  elefantinho: "selvagens",
+  girafinha: "selvagens",
+  zebrinha: "selvagens",
+  tigrinho: "selvagens",
+  pandinha: "selvagens",
+  esquilinho: "selvagens",
+  cangurzinho: "selvagens",
+  // aquáticos
+  tartaruguinha: "aquaticos",
+  baleinha: "aquaticos",
+  golfinho: "aquaticos",
+  polvinho: "aquaticos",
+  cavalinho_marinho: "aquaticos",
+  tubaraozinho: "aquaticos",
+  caranguejinho: "aquaticos",
+  foquinha: "aquaticos",
+  // insetos
+  borboletinha: "insetos",
+  joaninha: "insetos",
+  abelhinha: "insetos",
+  formiguinha: "insetos",
+  aranhinha: "insetos",
+  libelulinha: "insetos",
+  // dinossauros
+  rexinho: "dinossauros",
+  tricerinho: "dinossauros",
+  brontinho: "dinossauros",
+  pterossaurinho: "dinossauros",
+  estegossaurinho: "dinossauros",
+  anquilossaurinho: "dinossauros",
+  velocirraptorzinho: "dinossauros",
+  parassaurolofinho: "dinossauros",
+  dimetrodonzinho: "dinossauros",
+};
 
 export const ALL_STAMPS: { id: StampId; label: string; emoji: string }[] = [
   // sea
@@ -861,6 +969,286 @@ export const THEMES: ThemeDef[] = [
       { id: "di4", text: "Coloque 2 pedras", hint: "Pedras quentes", kind: { type: "stamp", stamp: "rock", count: 2 }, icon: "🪨" },
       { id: "di5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
       { id: "di6", text: "Pinte todo o Dimetrodonzinho!", hint: "Pinte cada parte do Dimetrodonzinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+
+  // ---------- 🏡 Domésticos extras ----------
+  {
+    id: "hamster",
+    name: "Hamster",
+    emoji: "🐹",
+    bg: "from-amber-100 via-orange-100 to-yellow-100",
+    greeting: "O hamster corre na rodinha!",
+    scene: "casinha",
+    stamps: ["carrot", "berry", "leaf", "flower", "heart", "star", "sun", "house", "rainbow", "balloon", "music", "biscuit"],
+    challenges: [
+      { id: "ha1", text: "Pinte o corpinho de marrom", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "ha2", text: "Pinte a barriguinha de branco", hint: "Toque na barriga", kind: { type: "paint_part_color", part: "belly", partLabel: "barriguinha", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "ha3", text: "Coloque 3 frutinhas", hint: "Frutinhas pro hamster", kind: { type: "stamp", stamp: "berry", count: 3 }, icon: "🍓" },
+      { id: "ha4", text: "Coloque 2 cenouras", hint: "Cenouras pro hamster", kind: { type: "stamp", stamp: "carrot", count: 2 }, icon: "🥕" },
+      { id: "ha5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "ha6", text: "Pinte todo o hamster!", hint: "Pinte cada parte do hamster", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+
+  // ---------- 🚜 Fazenda ----------
+  {
+    id: "vaquinha",
+    name: "Vaquinha",
+    emoji: "🐮",
+    bg: "from-pink-100 via-rose-100 to-amber-100",
+    greeting: "A vaquinha está no pasto!",
+    scene: "fazenda",
+    stamps: ["grass", "flower", "leaf", "clover", "sun", "cloud", "heart", "star", "rainbow", "milk", "tree", "butterfly"],
+    challenges: [
+      { id: "va1", text: "Pinte o corpinho de branco", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "va2", text: "Pinte as manchinhas de preto", hint: "Toque nas manchas", kind: { type: "paint_part_color", part: "spots", partLabel: "manchinhas", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "va3", text: "Coloque 3 capins", hint: "Capim pra vaquinha", kind: { type: "stamp", stamp: "grass", count: 3 }, icon: "🌾" },
+      { id: "va4", text: "Coloque 2 flores", hint: "Flores no pasto", kind: { type: "stamp", stamp: "flower", count: 2 }, icon: "🌸" },
+      { id: "va5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "va6", text: "Pinte toda a vaquinha!", hint: "Pinte cada parte da vaquinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "ovelhinha",
+    name: "Ovelhinha",
+    emoji: "🐑",
+    bg: "from-zinc-100 via-stone-100 to-amber-100",
+    greeting: "A ovelhinha tem lã fofinha!",
+    scene: "fazenda",
+    stamps: ["grass", "flower", "leaf", "clover", "sun", "cloud", "heart", "star", "rainbow", "yarn", "tree", "butterfly"],
+    challenges: [
+      { id: "ov1", text: "Pinte a lã de branco", hint: "Use o baldinho na lãzinha", kind: { type: "paint_part_color", part: "wool", partLabel: "lãzinha", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "ov2", text: "Pinte a cabeça de preto", hint: "Toque na cabeça", kind: { type: "paint_part_color", part: "head", partLabel: "cabeça", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "ov3", text: "Coloque 3 trevos", hint: "Trevinhos no pasto", kind: { type: "stamp", stamp: "clover", count: 3 }, icon: "🍀" },
+      { id: "ov4", text: "Coloque 2 nuvens", hint: "Nuvens no céu", kind: { type: "stamp", stamp: "cloud", count: 2 }, icon: "☁️" },
+      { id: "ov5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "ov6", text: "Pinte toda a ovelhinha!", hint: "Pinte cada parte da ovelhinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "galinha",
+    name: "Galinha",
+    emoji: "🐔",
+    bg: "from-yellow-100 via-amber-100 to-orange-100",
+    greeting: "A galinha bota ovinhos!",
+    scene: "fazenda",
+    stamps: ["egg", "worm", "nest", "grass", "flower", "leaf", "sun", "cloud", "heart", "star", "rainbow", "biscuit"],
+    challenges: [
+      { id: "ga1", text: "Pinte o corpinho de branco", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "ga2", text: "Pinte a cristinha de vermelho", hint: "Toque na cristinha", kind: { type: "paint_part_color", part: "comb", partLabel: "cristinha", color: "red", colorLabel: "vermelho" }, icon: "❤️" },
+      { id: "ga3", text: "Coloque 3 ovinhos", hint: "Ovos da galinha", kind: { type: "stamp", stamp: "egg", count: 3 }, icon: "🥚" },
+      { id: "ga4", text: "Coloque 2 minhocas", hint: "Comidinha da galinha", kind: { type: "stamp", stamp: "worm", count: 2 }, icon: "🪱" },
+      { id: "ga5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "ga6", text: "Pinte toda a galinha!", hint: "Pinte cada parte da galinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "cavalinho",
+    name: "Cavalinho",
+    emoji: "🐴",
+    bg: "from-amber-100 via-orange-100 to-yellow-100",
+    greeting: "O cavalinho galopa pelo pasto!",
+    scene: "fazenda",
+    stamps: ["grass", "flower", "leaf", "clover", "sun", "cloud", "heart", "star", "rainbow", "tree", "rock", "butterfly"],
+    challenges: [
+      { id: "cv1", text: "Pinte o corpinho de marrom", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "cv2", text: "Pinte a juba de preto", hint: "Toque na juba", kind: { type: "paint_part_color", part: "mane", partLabel: "juba", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "cv3", text: "Coloque 3 capins", hint: "Capim pro cavalinho", kind: { type: "stamp", stamp: "grass", count: 3 }, icon: "🌾" },
+      { id: "cv4", text: "Coloque 2 flores", hint: "Flores no pasto", kind: { type: "stamp", stamp: "flower", count: 2 }, icon: "🌸" },
+      { id: "cv5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "cv6", text: "Pinte todo o cavalinho!", hint: "Pinte cada parte do cavalinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "cabrita",
+    name: "Cabrita",
+    emoji: "🐐",
+    bg: "from-stone-100 via-amber-100 to-yellow-100",
+    greeting: "A cabrita pula nas pedras!",
+    scene: "fazenda",
+    stamps: ["grass", "flower", "leaf", "rock", "sun", "cloud", "heart", "star", "rainbow", "tree", "berry", "mushroom"],
+    challenges: [
+      { id: "cb1", text: "Pinte o corpinho de branco", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "cb2", text: "Pinte os chifres de marrom", hint: "Toque nos chifrinhos", kind: { type: "paint_part_color", part: "horns", partLabel: "chifres", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "cb3", text: "Coloque 3 pedras", hint: "Pedras pra pular", kind: { type: "stamp", stamp: "rock", count: 3 }, icon: "🪨" },
+      { id: "cb4", text: "Coloque 2 folhas", hint: "Folhinhas pra cabrita", kind: { type: "stamp", stamp: "leaf", count: 2 }, icon: "🍃" },
+      { id: "cb5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "cb6", text: "Pinte toda a cabrita!", hint: "Pinte cada parte da cabrita", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+
+  // ---------- 🐦 Pássaros extras ----------
+  {
+    id: "papagainho",
+    name: "Papagainho",
+    emoji: "🦜",
+    bg: "from-emerald-100 via-lime-100 to-yellow-100",
+    greeting: "O papagainho fala muito!",
+    scene: "selva",
+    stamps: ["leaf", "palm", "banana", "coconut", "tree", "flower", "sun", "cloud", "heart", "star", "rainbow", "music"],
+    challenges: [
+      { id: "pp1", text: "Pinte o corpinho de verde", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "green", colorLabel: "verde" }, icon: "💚" },
+      { id: "pp2", text: "Pinte as asinhas de vermelho", hint: "Toque nas asas", kind: { type: "paint_part_color", part: "wing_left", partLabel: "asinha", color: "red", colorLabel: "vermelho" }, icon: "❤️" },
+      { id: "pp3", text: "Coloque 3 folhas", hint: "Folhas da selva", kind: { type: "stamp", stamp: "leaf", count: 3 }, icon: "🍃" },
+      { id: "pp4", text: "Coloque 2 bananas", hint: "Bananas pro papagainho", kind: { type: "stamp", stamp: "banana", count: 2 }, icon: "🍌" },
+      { id: "pp5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "pp6", text: "Pinte todo o papagainho!", hint: "Pinte cada parte do papagainho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "pinguinzinho",
+    name: "Pinguinzinho",
+    emoji: "🐧",
+    bg: "from-sky-100 via-cyan-100 to-blue-100",
+    greeting: "O pinguinzinho desliza no gelo!",
+    scene: "polo",
+    stamps: ["snowflake", "fish", "water_drop", "wave", "cloud", "sun", "heart", "star", "rainbow", "shell", "bubble", "music"],
+    challenges: [
+      { id: "pi1", text: "Pinte o corpinho de preto", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "pi2", text: "Pinte a barriguinha de branco", hint: "Toque na barriga", kind: { type: "paint_part_color", part: "belly", partLabel: "barriguinha", color: "white", colorLabel: "branco" }, icon: "🤍" },
+      { id: "pi3", text: "Coloque 3 florzinhas de gelo", hint: "Floquinhos de neve", kind: { type: "stamp", stamp: "snowflake", count: 3 }, icon: "❄️" },
+      { id: "pi4", text: "Coloque 2 peixinhos", hint: "Comidinha do pinguim", kind: { type: "stamp", stamp: "fish", count: 2 }, icon: "🐟" },
+      { id: "pi5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "pi6", text: "Pinte todo o pinguinzinho!", hint: "Pinte cada parte do pinguinzinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "tucaninho",
+    name: "Tucaninho",
+    emoji: "🦤",
+    bg: "from-emerald-100 via-yellow-100 to-orange-100",
+    greeting: "O tucaninho tem um biquinho enorme!",
+    scene: "selva",
+    stamps: ["leaf", "palm", "banana", "coconut", "tree", "flower", "sun", "cloud", "heart", "star", "rainbow", "music"],
+    challenges: [
+      { id: "tc1", text: "Pinte o corpinho de preto", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "tc2", text: "Pinte o biquinho de laranja", hint: "Toque no biquinho grande", kind: { type: "paint_part_color", part: "beak", partLabel: "biquinho", color: "orange", colorLabel: "laranja" }, icon: "🧡" },
+      { id: "tc3", text: "Coloque 3 folhas", hint: "Folhas da selva", kind: { type: "stamp", stamp: "leaf", count: 3 }, icon: "🍃" },
+      { id: "tc4", text: "Coloque 2 palmeiras", hint: "Árvores da selva", kind: { type: "stamp", stamp: "palm", count: 2 }, icon: "🌴" },
+      { id: "tc5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "tc6", text: "Pinte todo o tucaninho!", hint: "Pinte cada parte do tucaninho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "flamingozinho",
+    name: "Flamingozinho",
+    emoji: "🦩",
+    bg: "from-pink-100 via-rose-100 to-fuchsia-100",
+    greeting: "O flamingozinho fica numa perna só!",
+    scene: "lago",
+    stamps: ["water_drop", "wave", "leaf", "flower", "sun", "cloud", "heart", "star", "rainbow", "shell", "bubble", "butterfly"],
+    challenges: [
+      { id: "fl1", text: "Pinte o corpinho de rosa", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "pink", colorLabel: "rosa" }, icon: "💗" },
+      { id: "fl2", text: "Pinte as perninhas de rosa", hint: "Toque nas perninhas longas", kind: { type: "paint_part_color", part: "leg_left", partLabel: "perninha", color: "pink", colorLabel: "rosa" }, icon: "💗" },
+      { id: "fl3", text: "Coloque 3 gotinhas", hint: "Águinha do lago", kind: { type: "stamp", stamp: "water_drop", count: 3 }, icon: "💧" },
+      { id: "fl4", text: "Coloque 2 ondinhas", hint: "Ondinhas no lago", kind: { type: "stamp", stamp: "wave", count: 2 }, icon: "🌊" },
+      { id: "fl5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "fl6", text: "Pinte todo o flamingozinho!", hint: "Pinte cada parte do flamingozinho", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+
+  // ---------- 🐞 Insetos ----------
+  {
+    id: "borboletinha",
+    name: "Borboletinha",
+    emoji: "🦋",
+    bg: "from-violet-100 via-pink-100 to-cyan-100",
+    greeting: "A borboletinha voa entre as flores!",
+    scene: "jardim",
+    stamps: ["flower", "leaf", "tulip", "clover", "sun", "cloud", "heart", "star", "rainbow", "butterfly", "ladybug", "music"],
+    challenges: [
+      { id: "bo1", text: "Pinte as asinhas de roxo", hint: "Use o baldinho nas asas", kind: { type: "paint_part_color", part: "wing_left", partLabel: "asinha", color: "purple", colorLabel: "roxo" }, icon: "💜" },
+      { id: "bo2", text: "Pinte o corpinho de preto", hint: "Toque no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "bo3", text: "Coloque 3 flores", hint: "Flores no jardim", kind: { type: "stamp", stamp: "flower", count: 3 }, icon: "🌸" },
+      { id: "bo4", text: "Coloque 2 folhas", hint: "Folhinhas verdes", kind: { type: "stamp", stamp: "leaf", count: 2 }, icon: "🍃" },
+      { id: "bo5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "bo6", text: "Pinte toda a borboletinha!", hint: "Pinte cada parte da borboletinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "joaninha",
+    name: "Joaninha",
+    emoji: "🐞",
+    bg: "from-red-100 via-rose-100 to-pink-100",
+    greeting: "A joaninha tem pintinhas pretas!",
+    scene: "jardim",
+    stamps: ["flower", "leaf", "tulip", "clover", "sun", "cloud", "heart", "star", "rainbow", "butterfly", "ladybug", "mushroom"],
+    challenges: [
+      { id: "jo1", text: "Pinte o corpinho de vermelho", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "red", colorLabel: "vermelho" }, icon: "❤️" },
+      { id: "jo2", text: "Pinte a cabecinha de preto", hint: "Toque na cabeça", kind: { type: "paint_part_color", part: "head", partLabel: "cabeça", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "jo3", text: "Coloque 3 folhas", hint: "Folhinhas verdes", kind: { type: "stamp", stamp: "leaf", count: 3 }, icon: "🍃" },
+      { id: "jo4", text: "Coloque 2 flores", hint: "Flores no jardim", kind: { type: "stamp", stamp: "flower", count: 2 }, icon: "🌸" },
+      { id: "jo5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "jo6", text: "Pinte toda a joaninha!", hint: "Pinte cada parte da joaninha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "abelhinha",
+    name: "Abelhinha",
+    emoji: "🐝",
+    bg: "from-yellow-100 via-amber-100 to-orange-100",
+    greeting: "A abelhinha faz mel docinho!",
+    scene: "jardim",
+    stamps: ["flower", "honey", "leaf", "tulip", "clover", "sun", "cloud", "heart", "star", "rainbow", "butterfly", "tree"],
+    challenges: [
+      { id: "ab1", text: "Pinte o corpinho de amarelo", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "yellow", colorLabel: "amarelo" }, icon: "💛" },
+      { id: "ab2", text: "Pinte as listrinhas de preto", hint: "Toque nas listrinhas", kind: { type: "paint_part_color", part: "stripes", partLabel: "listrinhas", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "ab3", text: "Coloque 3 flores", hint: "Flores pra abelhinha", kind: { type: "stamp", stamp: "flower", count: 3 }, icon: "🌸" },
+      { id: "ab4", text: "Coloque 2 potes de mel", hint: "Mel docinho", kind: { type: "stamp", stamp: "honey", count: 2 }, icon: "🍯" },
+      { id: "ab5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "ab6", text: "Pinte toda a abelhinha!", hint: "Pinte cada parte da abelhinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "formiguinha",
+    name: "Formiguinha",
+    emoji: "🐜",
+    bg: "from-amber-100 via-stone-100 to-orange-100",
+    greeting: "A formiguinha trabalha bastante!",
+    scene: "jardim",
+    stamps: ["leaf", "flower", "berry", "biscuit", "mushroom", "sun", "cloud", "heart", "star", "rainbow", "rock", "tree"],
+    challenges: [
+      { id: "fo1", text: "Pinte o corpinho de marrom", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "brown", colorLabel: "marrom" }, icon: "🤎" },
+      { id: "fo2", text: "Pinte a cabecinha de preto", hint: "Toque na cabeça", kind: { type: "paint_part_color", part: "head", partLabel: "cabeça", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "fo3", text: "Coloque 3 folhas", hint: "Folhas pra carregar", kind: { type: "stamp", stamp: "leaf", count: 3 }, icon: "🍃" },
+      { id: "fo4", text: "Coloque 2 frutinhas", hint: "Comidinha pro formigueiro", kind: { type: "stamp", stamp: "berry", count: 2 }, icon: "🍓" },
+      { id: "fo5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "fo6", text: "Pinte toda a formiguinha!", hint: "Pinte cada parte da formiguinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "aranhinha",
+    name: "Aranhinha",
+    emoji: "🕷️",
+    bg: "from-violet-100 via-indigo-100 to-slate-100",
+    greeting: "A aranhinha faz uma teia bonita!",
+    scene: "jardim",
+    stamps: ["leaf", "flower", "moon", "star", "cloud", "heart", "rainbow", "tree", "mushroom", "berry", "music", "sun"],
+    challenges: [
+      { id: "ar1", text: "Pinte o corpinho de preto", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "black", colorLabel: "preto" }, icon: "⚫" },
+      { id: "ar2", text: "Pinte uma perninha de roxo", hint: "Toque numa perninha", kind: { type: "paint_part_color", part: "leg_l1", partLabel: "perninha", color: "purple", colorLabel: "roxo" }, icon: "💜" },
+      { id: "ar3", text: "Coloque 3 estrelas", hint: "Estrelinhas no céu", kind: { type: "stamp", stamp: "star", count: 3 }, icon: "⭐" },
+      { id: "ar4", text: "Coloque 2 luas", hint: "Luinhas no céu", kind: { type: "stamp", stamp: "moon", count: 2 }, icon: "🌙" },
+      { id: "ar5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "ar6", text: "Pinte toda a aranhinha!", hint: "Pinte cada parte da aranhinha", kind: { type: "paint_all" }, icon: "🎨" },
+    ],
+  },
+  {
+    id: "libelulinha",
+    name: "Libelulinha",
+    emoji: "🪰",
+    bg: "from-cyan-100 via-sky-100 to-emerald-100",
+    greeting: "A libelulinha voa rapidinho!",
+    scene: "jardim",
+    stamps: ["leaf", "flower", "water_drop", "wave", "sun", "cloud", "heart", "star", "rainbow", "butterfly", "tulip", "music"],
+    challenges: [
+      { id: "li1", text: "Pinte o corpinho de azul", hint: "Use o baldinho no corpo", kind: { type: "paint_part_color", part: "body", partLabel: "corpinho", color: "blue", colorLabel: "azul" }, icon: "💙" },
+      { id: "li2", text: "Pinte as asinhas de roxo", hint: "Toque nas asas finas", kind: { type: "paint_part_color", part: "wing_left", partLabel: "asinha", color: "purple", colorLabel: "roxo" }, icon: "💜" },
+      { id: "li3", text: "Coloque 3 gotinhas", hint: "Águinha pro lago", kind: { type: "stamp", stamp: "water_drop", count: 3 }, icon: "💧" },
+      { id: "li4", text: "Coloque 2 folhas", hint: "Folhinhas verdes", kind: { type: "stamp", stamp: "leaf", count: 2 }, icon: "🍃" },
+      { id: "li5", text: "Use 3 cores diferentes", hint: "Pinte com várias cores", kind: { type: "colors", count: 3 }, icon: "🌈" },
+      { id: "li6", text: "Pinte toda a libelulinha!", hint: "Pinte cada parte da libelulinha", kind: { type: "paint_all" }, icon: "🎨" },
     ],
   },
 ];

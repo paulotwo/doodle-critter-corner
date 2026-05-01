@@ -11,26 +11,33 @@ import { ToolBar, Tool } from "./ToolBar";
 import { PaintCanvas, PaintCanvasHandle } from "./PaintCanvas";
 import { CelebrationModal } from "./CelebrationModal";
 import { useI18n } from "@/i18n";
-import { localizeTheme, localizedEncouragements } from "@/i18n/studio-translations";
+import {
+  localizeTheme,
+  localizedEncouragements,
+  getAnimalName,
+} from "@/i18n/studio-translations";
+import { toast } from "@/hooks/use-toast";
 
 interface PaintStudioProps {
   themeId: ThemeId;
-  mode: "free" | "challenge";
   onBack: () => void;
   onChangeTheme: () => void;
 }
 
 type PanelTab = "colors" | "stamps";
 
-export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme }: PaintStudioProps) => {
+const AUTOSAVE_PREFIX = "paint-autosave:";
+const AUTOSAVE_DEBOUNCE_MS = 800;
+
+export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps) => {
   const baseTheme = useMemo(() => getThemeById(themeId), [themeId]);
   const { t, locale } = useI18n();
   const theme = useMemo(() => localizeTheme(baseTheme, locale), [baseTheme, locale]);
   const animal = useMemo(() => getAnimal(themeId), [themeId]);
   const canvasRef = useRef<PaintCanvasHandle>(null);
 
-  // local mode can switch to "free" once all challenges are done
-  const [mode, setMode] = useState<"free" | "challenge">(initialMode);
+  // Game now always runs in challenge mode; switches to "free" only after completion.
+  const [mode, setMode] = useState<"free" | "challenge">("challenge");
 
   const [color, setColor] = useState("red");
   const [tool, setTool] = useState<Tool>("fill");
@@ -64,8 +71,8 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
     setHint(undefined);
     setChallengeIdx(0);
     setAllDone(false);
-    setMode(initialMode);
-  }, [themeId, initialMode]);
+    setMode("challenge");
+  }, [themeId]);
 
   const progress = useMemo(() => {
     if (!challenge) return 0;
@@ -74,7 +81,6 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
     if (k.type === "colors") return Math.min(1, colorsUsed.size / k.count);
     if (k.type === "paint_count") return Math.min(1, Object.keys(partFills).length / k.count);
     if (k.type === "paint_part") {
-      // accept any part sharing the same label (e.g. both ears)
       const target = animal.parts.find((p) => p.id === k.part);
       const ids = animal.parts.filter((p) => p.label === target?.label).map((p) => p.id);
       return ids.some((id) => partFills[id]) ? 1 : 0;
@@ -106,6 +112,35 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
     return () => clearTimeout(t);
   }, [progress, challenge, challengeIdx, totalChallenges]);
 
+  // ---------------- Autosave to localStorage ----------------
+  const autosaveTimer = useRef<number | null>(null);
+  const scheduleAutosave = () => {
+    if (autosaveTimer.current) window.clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = window.setTimeout(() => {
+      const data = canvasRef.current?.snapshot();
+      if (!data) return;
+      try {
+        localStorage.setItem(AUTOSAVE_PREFIX + themeId, data);
+      } catch {
+        // quota exceeded — ignore silently, drawings are not critical
+      }
+    }, AUTOSAVE_DEBOUNCE_MS);
+  };
+  useEffect(() => {
+    return () => {
+      if (autosaveTimer.current) window.clearTimeout(autosaveTimer.current);
+    };
+  }, []);
+
+  // Restore in-progress painting on mount/animal-change
+  const initialSnapshot = useMemo(() => {
+    try {
+      return localStorage.getItem(AUTOSAVE_PREFIX + themeId) ?? undefined;
+    } catch {
+      return undefined;
+    }
+  }, [themeId]);
+
   const showEncouragement = () => {
     const msgs = localizedEncouragements[locale];
     const msg = msgs[Math.floor(Math.random() * msgs.length)];
@@ -120,6 +155,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
       const next = (stampCounts[s] ?? 0) + 1;
       if (next < challenge.kind.count) showEncouragement();
     }
+    scheduleAutosave();
   };
 
   const handleColorUsed = (c: string) => {
@@ -129,6 +165,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
       n.add(c);
       return n;
     });
+    scheduleAutosave();
   };
 
   const handlePartFilled = (partId: string, colorId: string) => {
@@ -141,6 +178,7 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
       const next = Object.keys({ ...partFills, [partId]: colorId }).length;
       if (next < animal.parts.length) showEncouragement();
     }
+    scheduleAutosave();
   };
 
   // Final modal actions
@@ -164,6 +202,54 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
     if (t !== "stamp") setStamp(null);
   };
 
+  const handleClear = () => {
+    canvasRef.current?.clear();
+    try {
+      localStorage.removeItem(AUTOSAVE_PREFIX + themeId);
+    } catch {
+      // ignore
+    }
+  };
+
+  // ---------------- Share ----------------
+  const handleShare = async () => {
+    const dataUrl = canvasRef.current?.composedDataUrl();
+    if (!dataUrl) return;
+    const animalName = getAnimalName(themeId, locale);
+    const fileName = `${themeId}-${Date.now()}.png`;
+
+    // Convert dataURL → Blob
+    const blob = await (await fetch(dataUrl)).blob();
+    const file = new File([blob], fileName, { type: "image/png" });
+
+    const navWithShare = navigator as Navigator & {
+      canShare?: (data: ShareData) => boolean;
+    };
+
+    if (navWithShare.canShare?.({ files: [file] }) && navigator.share) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: t.shareTitle,
+          text: t.shareMessage(animalName),
+        });
+        return;
+      } catch (err) {
+        // user cancelled or share failed → fall through to download
+        if ((err as DOMException)?.name === "AbortError") return;
+      }
+    }
+
+    // Fallback: trigger download
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast({ description: t.shareDownloaded });
+  };
+
   return (
     <div className={`min-h-screen bg-gradient-to-br ${theme.bg}`}>
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-5">
@@ -176,18 +262,21 @@ export const PaintStudio = ({ themeId, mode: initialMode, onBack, onChangeTheme 
             color={color}
             tool={tool}
             stamp={stamp}
+            initialSnapshot={initialSnapshot}
             onStampPlaced={handleStampPlaced}
             onColorUsed={handleColorUsed}
             onPartFilled={handlePartFilled}
+            onPaintChange={scheduleAutosave}
           />
         </div>
 
         <ToolBar
           tool={tool}
           onToolChange={handleToolChange}
-          onClear={() => canvasRef.current?.clear()}
+          onClear={handleClear}
           onBack={onBack}
           onChangeTheme={onChangeTheme}
+          onShare={handleShare}
         />
 
         <div className="kid-shadow-pop rounded-[1.75rem] border-4 border-white bg-card p-3 sm:p-4">

@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { Brush, Eraser, Trash2, ArrowLeft, Users, PaintBucket } from "lucide-react";
+import { Brush, Eraser, Trash2, ArrowLeft, Users, PaintBucket, Sparkles, SprayCan, Grid3x3, Share2 } from "lucide-react";
 import { playClick } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
 
-export type Tool = "brush" | "eraser" | "stamp" | "fill";
+export type Tool = "brush" | "eraser" | "stamp" | "fill" | "spray" | "glitter" | "pattern";
 
 interface ToolBarProps {
   tool: Tool;
@@ -11,6 +11,7 @@ interface ToolBarProps {
   onClear: () => void;
   onBack: () => void;
   onChangeTheme: () => void;
+  onShare: () => void;
 }
 
 export const ToolBar = ({
@@ -19,6 +20,7 @@ export const ToolBar = ({
   onClear,
   onBack,
   onChangeTheme,
+  onShare,
 }: ToolBarProps) => {
   const { t } = useI18n();
   const btn = (active: boolean) =>
@@ -37,11 +39,23 @@ export const ToolBar = ({
       <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onToolChange("brush"); }} className={btn(tool === "brush")} aria-label={t.brush}>
         <Brush className="h-6 w-6" />
       </motion.button>
+      <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onToolChange("spray"); }} className={btn(tool === "spray")} aria-label={t.spray}>
+        <SprayCan className="h-6 w-6" />
+      </motion.button>
+      <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onToolChange("glitter"); }} className={btn(tool === "glitter")} aria-label={t.glitter}>
+        <Sparkles className="h-6 w-6" />
+      </motion.button>
+      <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onToolChange("pattern"); }} className={btn(tool === "pattern")} aria-label={t.pattern}>
+        <Grid3x3 className="h-6 w-6" />
+      </motion.button>
       <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onToolChange("eraser"); }} className={btn(tool === "eraser")} aria-label={t.eraser}>
         <Eraser className="h-6 w-6" />
       </motion.button>
       <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onClear(); }} className={btn(false)} aria-label={t.clear}>
         <Trash2 className="h-6 w-6" />
+      </motion.button>
+      <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onShare(); }} className={btn(false)} aria-label={t.share}>
+        <Share2 className="h-6 w-6" />
       </motion.button>
       <motion.button whileTap={{ scale: 0.9 }} onClick={() => { playClick(); onChangeTheme(); }} className={btn(false)} aria-label={t.changeAnimal}>
         <Users className="h-6 w-6" />

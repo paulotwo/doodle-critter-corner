@@ -8,6 +8,10 @@ import { Sentry } from "@/lib/sentry";
 export interface PaintCanvasHandle {
   clear: () => void;
   paintedParts: () => string[];
+  /** Returns paint-only layer as a data URL string (for autosave). */
+  snapshot: () => string | null;
+  /** Returns composed (paint + outline + stamps) image data URL for sharing. */
+  composedDataUrl: () => string | null;
 }
 
 interface PaintCanvasProps {
@@ -15,9 +19,13 @@ interface PaintCanvasProps {
   color: string;
   tool: Tool;
   stamp: StampId | null;
+  /** Optional data URL to restore the paint layer with. */
+  initialSnapshot?: string;
   onStampPlaced: (stamp: StampId) => void;
   onColorUsed: (color: string) => void;
   onPartFilled: (partId: string, colorId: string) => void;
+  /** Called whenever the painting changes (used for autosave). */
+  onPaintChange?: () => void;
 }
 
 interface StampMark {
@@ -198,7 +206,7 @@ function floodFill(
 }
 
 export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
-  ({ animal, color, tool, stamp, onStampPlaced, onColorUsed, onPartFilled }, ref) => {
+  ({ animal, color, tool, stamp, initialSnapshot, onStampPlaced, onColorUsed, onPartFilled, onPaintChange }, ref) => {
     const paintRef = useRef<HTMLCanvasElement>(null); // user paint (fills + brush strokes)
     const outlineRef = useRef<HTMLCanvasElement>(null); // animal outline overlay
     const containerRef = useRef<HTMLDivElement>(null);
@@ -211,6 +219,10 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
     const stampIdRef = useRef(0);
     const outlineImg = useRef<HTMLImageElement | null>(null);
 
+    // Track marks (stamps) so we can render them into composed PNG for sharing.
+    const marksRef = useRef<StampMark[]>([]);
+    marksRef.current = marks;
+
     // Load outline image once per animal
     useEffect(() => {
       const img = new Image();
@@ -219,6 +231,8 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
       img.onload = () => {
         outlineImg.current = img;
         drawOutline();
+        // After outline is loaded the canvas is sized — try restoring autosave.
+        restoreSnapshot();
       };
       // Reset paint state
       setMarks([]);
@@ -232,6 +246,25 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
         pctx.restore();
       }
     }, [animal.id]); // eslint-disable-line
+
+    /** Restore paint layer from the initialSnapshot data URL (autosave). */
+    const restoreSnapshot = useCallback(() => {
+      if (!initialSnapshot) return;
+      const pc = paintRef.current;
+      if (!pc) return;
+      const ctx = pc.getContext("2d");
+      if (!ctx) return;
+      const img = new Image();
+      img.onload = () => {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, pc.width, pc.height);
+        // scale snapshot to current canvas size (handles viewport resize)
+        ctx.drawImage(img, 0, 0, pc.width, pc.height);
+        ctx.restore();
+      };
+      img.src = initialSnapshot;
+    }, [initialSnapshot]);
 
     const drawOutline = useCallback(() => {
       const oc = outlineRef.current;
@@ -328,8 +361,50 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
         }
         setMarks([]);
         setPartsFilled(new Set());
+        onPaintChange?.();
       },
       paintedParts: () => Array.from(partsFilledRef.current),
+      snapshot: () => {
+        const pc = paintRef.current;
+        if (!pc || pc.width === 0) return null;
+        try {
+          return pc.toDataURL("image/png");
+        } catch {
+          return null;
+        }
+      },
+      composedDataUrl: () => {
+        const pc = paintRef.current;
+        const oc = outlineRef.current;
+        if (!pc || !oc || pc.width === 0) return null;
+        const out = document.createElement("canvas");
+        out.width = pc.width;
+        out.height = pc.height;
+        const ctx = out.getContext("2d");
+        if (!ctx) return null;
+        // White background so transparent areas don't look weird when shared
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, out.width, out.height);
+        ctx.drawImage(pc, 0, 0);
+        ctx.drawImage(oc, 0, 0);
+        // Draw stamps on top — they live as DOM emojis, so re-render to canvas
+        const dpr = pc.width / (paintRef.current?.getBoundingClientRect().width || pc.width);
+        for (const m of marksRef.current) {
+          ctx.save();
+          ctx.translate(m.x * dpr, m.y * dpr);
+          ctx.rotate((m.rotation * Math.PI) / 180);
+          ctx.font = `${m.size * dpr}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(getStampById(m.stamp).emoji, 0, 0);
+          ctx.restore();
+        }
+        try {
+          return out.toDataURL("image/png");
+        } catch {
+          return null;
+        }
+      },
     }));
 
     const getPos = (e: React.PointerEvent) => {
@@ -344,12 +419,103 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
       };
     };
 
+    /** Glitter color cycle — rainbow sparkles regardless of selected color. */
+    const GLITTER_COLORS = ["#ff5e7a", "#ffb84d", "#ffe54d", "#7dd87d", "#5ec0ff", "#c98bff", "#ff9ed1"];
+
+    const drawSpray = (cx: number, cy: number) => {
+      const ctx = paintRef.current?.getContext("2d");
+      if (!ctx) return;
+      const [r, g, b] = getColorRgb(color);
+      const radius = paintRef.current!.width / 18;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = `rgba(${r},${g},${b},0.55)`;
+      const dots = 18;
+      for (let i = 0; i < dots; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const d = Math.random() * radius;
+        const x = cx + Math.cos(a) * d;
+        const y = cy + Math.sin(a) * d;
+        const sz = 1 + Math.random() * 2.5;
+        ctx.beginPath();
+        ctx.arc(x, y, sz, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    const drawGlitter = (cx: number, cy: number) => {
+      const ctx = paintRef.current?.getContext("2d");
+      if (!ctx) return;
+      const radius = paintRef.current!.width / 22;
+      ctx.globalCompositeOperation = "source-over";
+      const sparkles = 6;
+      for (let i = 0; i < sparkles; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const d = Math.random() * radius;
+        const x = cx + Math.cos(a) * d;
+        const y = cy + Math.sin(a) * d;
+        const sz = 2 + Math.random() * 4;
+        ctx.fillStyle = GLITTER_COLORS[Math.floor(Math.random() * GLITTER_COLORS.length)];
+        // 4-pointed sparkle: a small filled diamond
+        ctx.beginPath();
+        ctx.moveTo(x, y - sz);
+        ctx.lineTo(x + sz * 0.4, y);
+        ctx.lineTo(x, y + sz);
+        ctx.lineTo(x - sz * 0.4, y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(x - sz, y);
+        ctx.lineTo(x, y + sz * 0.4);
+        ctx.lineTo(x + sz, y);
+        ctx.lineTo(x, y - sz * 0.4);
+        ctx.closePath();
+        ctx.fill();
+      }
+    };
+
+    const drawPattern = (cx: number, cy: number) => {
+      const ctx = paintRef.current?.getContext("2d");
+      if (!ctx) return;
+      const [r, g, b] = getColorRgb(color);
+      const size = paintRef.current!.width / 35;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = `rgb(${r},${g},${b})`;
+      // Heart-ish dot pattern stamp
+      ctx.beginPath();
+      ctx.arc(cx - size * 0.4, cy - size * 0.2, size * 0.6, 0, Math.PI * 2);
+      ctx.arc(cx + size * 0.4, cy - size * 0.2, size * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx - size, cy);
+      ctx.quadraticCurveTo(cx, cy + size * 1.4, cx + size, cy);
+      ctx.quadraticCurveTo(cx, cy + size * 0.4, cx - size, cy);
+      ctx.fill();
+    };
+
     const drawLine = (
       from: { x: number; y: number },
       to: { x: number; y: number }
     ) => {
       const ctx = paintRef.current?.getContext("2d");
       if (!ctx) return;
+
+      // Special tools that paint dabs along the path instead of strokes
+      if (tool === "spray" || tool === "glitter" || tool === "pattern") {
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const dist = Math.hypot(dx, dy);
+        const step = tool === "pattern" ? paintRef.current!.width / 22 : 6;
+        const steps = Math.max(1, Math.ceil(dist / step));
+        for (let i = 0; i <= steps; i++) {
+          const px = from.x + (dx * i) / steps;
+          const py = from.y + (dy * i) / steps;
+          if (tool === "spray") drawSpray(px, py);
+          else if (tool === "glitter") drawGlitter(px, py);
+          else drawPattern(px, py);
+        }
+        return;
+      }
+
       const [r, g, b] = getColorRgb(color);
       ctx.globalCompositeOperation = tool === "eraser" ? "destination-out" : "source-over";
       ctx.strokeStyle = tool === "eraser" ? "rgba(0,0,0,1)" : `rgb(${r},${g},${b})`;
@@ -448,15 +614,16 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
 
       if (tool === "fill") {
         performFill(pos.x, pos.y);
+        onPaintChange?.();
         return;
       }
 
-      if (tool === "brush" || tool === "eraser") {
+      if (tool === "brush" || tool === "eraser" || tool === "spray" || tool === "glitter" || tool === "pattern") {
         e.currentTarget.setPointerCapture(e.pointerId);
         drawing.current = true;
         lastPoint.current = { x: pos.x, y: pos.y };
         drawLine({ x: pos.x, y: pos.y }, { x: pos.x, y: pos.y });
-        if (tool === "brush") onColorUsed(color);
+        if (tool === "brush" || tool === "spray" || tool === "pattern") onColorUsed(color);
       }
     };
 
@@ -479,6 +646,7 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
     };
 
     const handlePointerUp = () => {
+      const wasDrawing = drawing.current;
       drawing.current = false;
       lastPoint.current = null;
       if (moveRaf.current) {
@@ -486,10 +654,15 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
         moveRaf.current = 0;
       }
       pendingMove.current = null;
+      if (wasDrawing) onPaintChange?.();
     };
 
     const cursor =
-      tool === "eraser" ? "cell" : tool === "stamp" ? "copy" : tool === "fill" ? "pointer" : "crosshair";
+      tool === "eraser" ? "cell"
+      : tool === "stamp" ? "copy"
+      : tool === "fill" ? "pointer"
+      : tool === "spray" || tool === "glitter" || tool === "pattern" ? "crosshair"
+      : "crosshair";
 
     return (
       <div

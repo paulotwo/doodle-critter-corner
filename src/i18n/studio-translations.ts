@@ -39,6 +39,22 @@ const animalNames: Record<ThemeId, Record<Locale, string>> = {
   velocirraptorzinho: { pt: "Velocirraptorzinho", en: "Little Velociraptor", es: "Velocirraptorcito", fr: "Petit Vélociraptor", it: "Velociraptorino", de: "Velociraptorchen" },
   parassaurolofinho: { pt: "Parassaurolofinho", en: "Little Parasaurolophus", es: "Parasaurolofito", fr: "Petit Parasaurolophus", it: "Parasaurolofino", de: "Parasaurolophchen" },
   dimetrodonzinho: { pt: "Dimetrodonzinho", en: "Little Dimetrodon", es: "Dimetrodonito", fr: "Petit Dimétrodon", it: "Dimetrodontino", de: "Dimetrodonchen" },
+  hamster: { pt: "Hamster", en: "Hamster", es: "Hámster", fr: "Hamster", it: "Criceto", de: "Hamster" },
+  vaquinha: { pt: "Vaquinha", en: "Little Cow", es: "Vaquita", fr: "Petite vache", it: "Mucchina", de: "Kühchen" },
+  ovelhinha: { pt: "Ovelhinha", en: "Little Sheep", es: "Ovejita", fr: "Petit mouton", it: "Pecorella", de: "Schäfchen" },
+  galinha: { pt: "Galinha", en: "Hen", es: "Gallina", fr: "Poule", it: "Gallina", de: "Henne" },
+  cavalinho: { pt: "Cavalinho", en: "Little Horse", es: "Caballito", fr: "Petit cheval", it: "Cavallino", de: "Pferdchen" },
+  cabrita: { pt: "Cabrita", en: "Little Goat", es: "Cabrita", fr: "Petite chèvre", it: "Caprettina", de: "Zicklein" },
+  papagainho: { pt: "Papagainho", en: "Little Parrot", es: "Loro", fr: "Petit perroquet", it: "Pappagallino", de: "Papageichen" },
+  pinguinzinho: { pt: "Pinguinzinho", en: "Little Penguin", es: "Pingüinito", fr: "Petit pingouin", it: "Pinguino", de: "Pinguinchen" },
+  tucaninho: { pt: "Tucaninho", en: "Little Toucan", es: "Tucancito", fr: "Petit toucan", it: "Tucanino", de: "Tukanchen" },
+  flamingozinho: { pt: "Flamingozinho", en: "Little Flamingo", es: "Flamenquito", fr: "Petit flamant", it: "Fenicotterino", de: "Flamingochen" },
+  borboletinha: { pt: "Borboletinha", en: "Little Butterfly", es: "Mariposita", fr: "Petit papillon", it: "Farfallina", de: "Schmetterlingchen" },
+  joaninha: { pt: "Joaninha", en: "Ladybug", es: "Mariquita", fr: "Coccinelle", it: "Coccinella", de: "Marienkäfer" },
+  abelhinha: { pt: "Abelhinha", en: "Little Bee", es: "Abejita", fr: "Petite abeille", it: "Apetta", de: "Bienchen" },
+  formiguinha: { pt: "Formiguinha", en: "Little Ant", es: "Hormiguita", fr: "Petite fourmi", it: "Formichina", de: "Ämeischen" },
+  aranhinha: { pt: "Aranhinha", en: "Little Spider", es: "Arañita", fr: "Petite araignée", it: "Ragnetto", de: "Spinnchen" },
+  libelulinha: { pt: "Libelulinha", en: "Little Dragonfly", es: "Libelulita", fr: "Petite libellule", it: "Libellula", de: "Libellchen" },
 };
 
 // ===== Scene Names =====
@@ -56,6 +72,9 @@ const sceneTranslations: Record<string, Record<Locale, string>> = {
   oceano: { pt: "Oceano", en: "Ocean", es: "Océano", fr: "Océan", it: "Oceano", de: "Ozean" },
   "pré-história": { pt: "Pré-história", en: "Prehistory", es: "Prehistoria", fr: "Préhistoire", it: "Preistoria", de: "Urzeit" },
   "céu pré-histórico": { pt: "Céu pré-histórico", en: "Prehistoric sky", es: "Cielo prehistórico", fr: "Ciel préhistorique", it: "Cielo preistorico", de: "Urzeitlicher Himmel" },
+  fazenda: { pt: "Fazenda", en: "Farm", es: "Granja", fr: "Ferme", it: "Fattoria", de: "Bauernhof" },
+  lago: { pt: "Laguinho", en: "Pond", es: "Laguito", fr: "Étang", it: "Stagno", de: "Teich" },
+  polo: { pt: "Polo Sul", en: "South Pole", es: "Polo Sur", fr: "Pôle Sud", it: "Polo Sud", de: "Südpol" },
 };
 
 // ===== Greetings =====
@@ -96,6 +115,22 @@ const greetingTranslations: Record<ThemeId, Record<Locale, string>> = {
   velocirraptorzinho: { pt: "O Velocirraptorzinho corre rapidinho!", en: "Little Velociraptor runs fast!", es: "¡Velocirraptorcito corre rapidito!", fr: "Petit Vélociraptor court très vite !", it: "Velociraptorino corre veloce!", de: "Velociraptorchen läuft ganz schnell!" },
   parassaurolofinho: { pt: "O Parassaurolofinho tem uma cristinha grande!", en: "Little Parasaurolophus has a big crest!", es: "¡Parasaurolofito tiene una cresta grande!", fr: "Petit Parasaurolophus a une grande crête !", it: "Parasaurolofino ha una grande cresta!", de: "Parasaurolophchen hat einen großen Kamm!" },
   dimetrodonzinho: { pt: "O Dimetrodonzinho tem uma vela nas costas!", en: "Little Dimetrodon has a sail on its back!", es: "¡Dimetrodonito tiene una vela en la espalda!", fr: "Petit Dimétrodon a une voile sur le dos !", it: "Dimetrodontino ha una vela sulla schiena!", de: "Dimetrodonchen hat ein Segel auf dem Rücken!" },
+  hamster: { pt: "O hamster está girando na rodinha!", en: "The hamster is spinning on the wheel!", es: "¡El hámster gira en la rueda!", fr: "Le hamster tourne dans la roue !", it: "Il criceto gira sulla ruota!", de: "Der Hamster dreht sich im Rad!" },
+  vaquinha: { pt: "A vaquinha está na fazenda!", en: "The little cow is on the farm!", es: "¡La vaquita está en la granja!", fr: "La petite vache est à la ferme !", it: "La mucchina è in fattoria!", de: "Das Kühchen ist auf dem Bauernhof!" },
+  ovelhinha: { pt: "A ovelhinha está pastando!", en: "The little sheep is grazing!", es: "¡La ovejita está pastando!", fr: "Le petit mouton broute !", it: "La pecorella sta pascolando!", de: "Das Schäfchen weidet!" },
+  galinha: { pt: "A galinha está no galinheiro!", en: "The hen is in the coop!", es: "¡La gallina está en el gallinero!", fr: "La poule est dans le poulailler !", it: "La gallina è nel pollaio!", de: "Die Henne ist im Stall!" },
+  cavalinho: { pt: "O cavalinho está no campo!", en: "The little horse is in the field!", es: "¡El caballito está en el campo!", fr: "Le petit cheval est dans le champ !", it: "Il cavallino è nel campo!", de: "Das Pferdchen ist auf dem Feld!" },
+  cabrita: { pt: "A cabrita está pulando!", en: "The little goat is jumping!", es: "¡La cabrita está saltando!", fr: "La petite chèvre saute !", it: "La caprettina sta saltando!", de: "Das Zicklein hüpft!" },
+  papagainho: { pt: "O papagainho fala muito!", en: "The little parrot talks a lot!", es: "¡El loro habla mucho!", fr: "Le petit perroquet parle beaucoup !", it: "Il pappagallino parla tanto!", de: "Das Papageichen redet viel!" },
+  pinguinzinho: { pt: "O pinguinzinho desliza no gelo!", en: "The little penguin slides on the ice!", es: "¡El pingüinito se desliza en el hielo!", fr: "Le petit pingouin glisse sur la glace !", it: "Il pinguino scivola sul ghiaccio!", de: "Das Pinguinchen rutscht auf dem Eis!" },
+  tucaninho: { pt: "O tucaninho tem um bico colorido!", en: "The little toucan has a colorful beak!", es: "¡El tucancito tiene un pico colorido!", fr: "Le petit toucan a un bec coloré !", it: "Il tucanino ha un becco colorato!", de: "Das Tukanchen hat einen bunten Schnabel!" },
+  flamingozinho: { pt: "O flamingozinho fica numa perna só!", en: "The little flamingo stands on one leg!", es: "¡El flamenquito se para en una pata!", fr: "Le petit flamant tient sur une patte !", it: "Il fenicotterino sta su una zampa!", de: "Das Flamingochen steht auf einem Bein!" },
+  borboletinha: { pt: "A borboletinha voa entre as flores!", en: "The little butterfly flies among flowers!", es: "¡La mariposita vuela entre las flores!", fr: "Le petit papillon vole entre les fleurs !", it: "La farfallina vola tra i fiori!", de: "Das Schmetterlingchen fliegt zwischen Blumen!" },
+  joaninha: { pt: "A joaninha tem pintinhas pretas!", en: "The ladybug has black dots!", es: "¡La mariquita tiene puntitos negros!", fr: "La coccinelle a des points noirs !", it: "La coccinella ha pallini neri!", de: "Der Marienkäfer hat schwarze Punkte!" },
+  abelhinha: { pt: "A abelhinha faz mel gostoso!", en: "The little bee makes yummy honey!", es: "¡La abejita hace miel rica!", fr: "La petite abeille fait du bon miel !", it: "L'apetta fa miele buonissimo!", de: "Das Bienchen macht leckeren Honig!" },
+  formiguinha: { pt: "A formiguinha trabalha bastante!", en: "The little ant works very hard!", es: "¡La hormiguita trabaja mucho!", fr: "La petite fourmi travaille beaucoup !", it: "La formichina lavora tantissimo!", de: "Das Ämeischen arbeitet ganz fleißig!" },
+  aranhinha: { pt: "A aranhinha tece a teia!", en: "The little spider weaves its web!", es: "¡La arañita teje su tela!", fr: "La petite araignée tisse sa toile !", it: "Il ragnetto tesse la sua tela!", de: "Das Spinnchen webt sein Netz!" },
+  libelulinha: { pt: "A libelulinha brilha no sol!", en: "The little dragonfly shines in the sun!", es: "¡La libelulita brilla al sol!", fr: "La petite libellule brille au soleil !", it: "La libellula brilla al sole!", de: "Das Libellchen glitzert in der Sonne!" },
 };
 
 // ===== Part Labels (with article for template insertion) =====

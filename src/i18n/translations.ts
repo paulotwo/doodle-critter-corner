@@ -23,8 +23,15 @@ export interface Translations {
   bucket: string;
   brush: string;
   eraser: string;
+  spray: string;
+  glitter: string;
+  pattern: string;
   clear: string;
   changeAnimal: string;
+  share: string;
+  shareTitle: string;
+  shareMessage: (animal: string) => string;
+  shareDownloaded: string;
 
   // Panel
   colorsTab: string;
@@ -52,6 +59,15 @@ export interface Translations {
 
   // Language selector
   language: string;
+
+  // Categories
+  categoryDomesticos: string;
+  categoryFazenda: string;
+  categoryPassaros: string;
+  categorySelvagens: string;
+  categoryAquaticos: string;
+  categoryInsetos: string;
+  categoryDinossauros: string;
 }
 
 const baseT: Record<Locale, Translations> = {
@@ -75,8 +91,15 @@ const baseT: Record<Locale, Translations> = {
     bucket: "Baldinho",
     brush: "Pincel",
     eraser: "Borracha",
+    spray: "Spray",
+    glitter: "Glitter",
+    pattern: "Estampa",
     clear: "Limpar",
     changeAnimal: "Trocar bichinho",
+    share: "Compartilhar",
+    shareTitle: "Meu desenho 🎨",
+    shareMessage: (animal) => `Olha o meu ${animal} pintado!`,
+    shareDownloaded: "Desenho salvo na galeria!",
 
     colorsTab: "Cores",
     stampsTab: "Carimbos",
@@ -97,6 +120,14 @@ const baseT: Record<Locale, Translations> = {
     reload: "Recarregar",
 
     language: "Idioma",
+
+    categoryDomesticos: "Animais Domésticos",
+    categoryFazenda: "Animais da Fazenda",
+    categoryPassaros: "Pássaros",
+    categorySelvagens: "Animais Selvagens",
+    categoryAquaticos: "Animais Aquáticos",
+    categoryInsetos: "Insetos",
+    categoryDinossauros: "Dinossauros",
   },
   en: {
     appTitle: "Painting Studio",
@@ -118,8 +149,15 @@ const baseT: Record<Locale, Translations> = {
     bucket: "Bucket",
     brush: "Brush",
     eraser: "Eraser",
+    spray: "Spray",
+    glitter: "Glitter",
+    pattern: "Pattern",
     clear: "Clear",
     changeAnimal: "Change animal",
+    share: "Share",
+    shareTitle: "My drawing 🎨",
+    shareMessage: (animal) => `Look at my ${animal} I painted!`,
+    shareDownloaded: "Drawing saved to your device!",
 
     colorsTab: "Colors",
     stampsTab: "Stamps",
@@ -140,6 +178,14 @@ const baseT: Record<Locale, Translations> = {
     reload: "Reload",
 
     language: "Language",
+
+    categoryDomesticos: "Pets",
+    categoryFazenda: "Farm Animals",
+    categoryPassaros: "Birds",
+    categorySelvagens: "Wild Animals",
+    categoryAquaticos: "Aquatic Animals",
+    categoryInsetos: "Bugs & Insects",
+    categoryDinossauros: "Dinosaurs",
   },
   es: {
     appTitle: "Estudio de Pintura",
@@ -161,8 +207,15 @@ const baseT: Record<Locale, Translations> = {
     bucket: "Cubeta",
     brush: "Pincel",
     eraser: "Borrador",
+    spray: "Spray",
+    glitter: "Brillo",
+    pattern: "Estampa",
     clear: "Limpiar",
     changeAnimal: "Cambiar animalito",
+    share: "Compartir",
+    shareTitle: "Mi dibujo 🎨",
+    shareMessage: (animal) => `¡Mira mi ${animal} pintado!`,
+    shareDownloaded: "¡Dibujo guardado!",
 
     colorsTab: "Colores",
     stampsTab: "Sellos",
@@ -183,6 +236,14 @@ const baseT: Record<Locale, Translations> = {
     reload: "Recargar",
 
     language: "Idioma",
+
+    categoryDomesticos: "Mascotas",
+    categoryFazenda: "Animales de Granja",
+    categoryPassaros: "Pájaros",
+    categorySelvagens: "Animales Salvajes",
+    categoryAquaticos: "Animales Acuáticos",
+    categoryInsetos: "Insectos",
+    categoryDinossauros: "Dinosaurios",
   },
   fr: {
     appTitle: "Studio de Peinture",
@@ -204,8 +265,15 @@ const baseT: Record<Locale, Translations> = {
     bucket: "Seau",
     brush: "Pinceau",
     eraser: "Gomme",
+    spray: "Spray",
+    glitter: "Paillettes",
+    pattern: "Motif",
     clear: "Effacer",
     changeAnimal: "Changer d'animal",
+    share: "Partager",
+    shareTitle: "Mon dessin 🎨",
+    shareMessage: (animal) => `Regarde mon ${animal} que j'ai peint !`,
+    shareDownloaded: "Dessin enregistré !",
 
     colorsTab: "Couleurs",
     stampsTab: "Tampons",
@@ -226,6 +294,14 @@ const baseT: Record<Locale, Translations> = {
     reload: "Recharger",
 
     language: "Langue",
+
+    categoryDomesticos: "Animaux de compagnie",
+    categoryFazenda: "Animaux de la ferme",
+    categoryPassaros: "Oiseaux",
+    categorySelvagens: "Animaux sauvages",
+    categoryAquaticos: "Animaux aquatiques",
+    categoryInsetos: "Insectes",
+    categoryDinossauros: "Dinosaures",
   },
   it: {
     appTitle: "Studio di Pittura",
@@ -247,8 +323,15 @@ const baseT: Record<Locale, Translations> = {
     bucket: "Secchiello",
     brush: "Pennello",
     eraser: "Gomma",
+    spray: "Spray",
+    glitter: "Glitter",
+    pattern: "Fantasia",
     clear: "Pulisci",
     changeAnimal: "Cambia animaletto",
+    share: "Condividi",
+    shareTitle: "Il mio disegno 🎨",
+    shareMessage: (animal) => `Guarda il mio ${animal} dipinto!`,
+    shareDownloaded: "Disegno salvato!",
 
     colorsTab: "Colori",
     stampsTab: "Timbri",
@@ -269,6 +352,14 @@ const baseT: Record<Locale, Translations> = {
     reload: "Ricarica",
 
     language: "Lingua",
+
+    categoryDomesticos: "Animali domestici",
+    categoryFazenda: "Animali della fattoria",
+    categoryPassaros: "Uccelli",
+    categorySelvagens: "Animali selvatici",
+    categoryAquaticos: "Animali acquatici",
+    categoryInsetos: "Insetti",
+    categoryDinossauros: "Dinosauri",
   },
   de: {
     appTitle: "Mal-Studio",
@@ -290,8 +381,15 @@ const baseT: Record<Locale, Translations> = {
     bucket: "Eimer",
     brush: "Pinsel",
     eraser: "Radierer",
+    spray: "Spray",
+    glitter: "Glitzer",
+    pattern: "Muster",
     clear: "Löschen",
     changeAnimal: "Tier wechseln",
+    share: "Teilen",
+    shareTitle: "Mein Bild 🎨",
+    shareMessage: (animal) => `Schau, mein gemaltes ${animal}!`,
+    shareDownloaded: "Bild gespeichert!",
 
     colorsTab: "Farben",
     stampsTab: "Stempel",
@@ -312,6 +410,14 @@ const baseT: Record<Locale, Translations> = {
     reload: "Neu laden",
 
     language: "Sprache",
+
+    categoryDomesticos: "Haustiere",
+    categoryFazenda: "Bauernhoftiere",
+    categoryPassaros: "Vögel",
+    categorySelvagens: "Wildtiere",
+    categoryAquaticos: "Wassertiere",
+    categoryInsetos: "Insekten",
+    categoryDinossauros: "Dinosaurier",
   },
 };
 
