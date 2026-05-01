@@ -55,58 +55,6 @@ import aranhinhaImg from "@/assets/animals/aranhinha.png";
 import libelulinhaImg from "@/assets/animals/libelulinha.png";
 
 // ---- 512px imports ----
-import cachorrinhoImg512 from "@/assets/animals-512/cachorrinho.png";
-import gatinhoImg512 from "@/assets/animals-512/gatinho.png";
-import coelhinhoImg512 from "@/assets/animals-512/coelhinho.png";
-import passarinhoImg512 from "@/assets/animals-512/passarinho.png";
-import patinhoImg512 from "@/assets/animals-512/patinho.png";
-import porquinhoImg512 from "@/assets/animals-512/porquinho.png";
-import ursinhoImg512 from "@/assets/animals-512/ursinho.png";
-import raposinhaImg512 from "@/assets/animals-512/raposinha.png";
-import corujinhaImg512 from "@/assets/animals-512/corujinha.png";
-import macaquinhoImg512 from "@/assets/animals-512/macaquinho.png";
-import leaozinhoImg512 from "@/assets/animals-512/leaozinho.png";
-import elefantinhoImg512 from "@/assets/animals-512/elefantinho.png";
-import girafinhaImg512 from "@/assets/animals-512/girafinha.png";
-import zebrinhaImg512 from "@/assets/animals-512/zebrinha.png";
-import tigrinhoImg512 from "@/assets/animals-512/tigrinho.png";
-import pandinhaImg512 from "@/assets/animals-512/pandinha.png";
-import esquilinhoImg512 from "@/assets/animals-512/esquilinho.png";
-import cangurzinhoImg512 from "@/assets/animals-512/cangurzinho.png";
-import peixinhoImg512 from "@/assets/animals-512/peixinho.png";
-import tartaruguinhaImg512 from "@/assets/animals-512/tartaruguinha.png";
-import baleinhaImg512 from "@/assets/animals-512/baleinha.png";
-import golfinhoImg512 from "@/assets/animals-512/golfinho.png";
-import polvinhoImg512 from "@/assets/animals-512/polvinho.png";
-import cavalinhoMarinhoImg512 from "@/assets/animals-512/cavalinho_marinho.png";
-import tubaraozinhoImg512 from "@/assets/animals-512/tubaraozinho.png";
-import caranguejinhoImg512 from "@/assets/animals-512/caranguejinho.png";
-import foquinhaImg512 from "@/assets/animals-512/foquinha.png";
-import rexinhoImg512 from "@/assets/animals-512/dinossaurinho.png";
-import tricerinhoImg512 from "@/assets/animals-512/tricerinho.png";
-import brontinhoImg512 from "@/assets/animals-512/brontinho.png";
-import pterossaurinhoImg512 from "@/assets/animals-512/pterossaurinho.png";
-import estegossaurinhoImg512 from "@/assets/animals-512/estegossaurinho.png";
-import anquilossaurinhoImg512 from "@/assets/animals-512/anquilossaurinho.png";
-import velocirraptorzinhoImg512 from "@/assets/animals-512/velocirraptorzinho.png";
-import parassaurolofinhoImg512 from "@/assets/animals-512/parassaurolofinho.png";
-import dimetrodonzinhoImg512 from "@/assets/animals-512/dimetrodonzinho.png";
-import hamsterImg512 from "@/assets/animals-512/hamster.png";
-import vaquinhaImg512 from "@/assets/animals-512/vaquinha.png";
-import ovelhinhaImg512 from "@/assets/animals-512/ovelhinha.png";
-import galinhaImg512 from "@/assets/animals-512/galinha.png";
-import cavalinhoImg512 from "@/assets/animals-512/cavalinho.png";
-import cabritaImg512 from "@/assets/animals-512/cabrita.png";
-import papagainhoImg512 from "@/assets/animals-512/papagainho.png";
-import pinguinzinhoImg512 from "@/assets/animals-512/pinguinzinho.png";
-import tucaninhoImg512 from "@/assets/animals-512/tucaninho.png";
-import flamingozinhoImg512 from "@/assets/animals-512/flamingozinho.png";
-import borboletinhaImg512 from "@/assets/animals-512/borboletinha.png";
-import joaninhaImg512 from "@/assets/animals-512/joaninha.png";
-import abelhinhaImg512 from "@/assets/animals-512/abelhinha.png";
-import formiguinhaImg512 from "@/assets/animals-512/formiguinha.png";
-import aranhinhaImg512 from "@/assets/animals-512/aranhinha.png";
-import libelulinhaImg512 from "@/assets/animals-512/libelulinha.png";
 
 /**
  * Each animal is now an outline PNG (coloring-book style).
