@@ -1,11 +1,46 @@
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { THEMES, ThemeId, CATEGORIES, CategoryId, THEME_CATEGORY } from "@/lib/studio-data";
 import { getAnimal } from "@/lib/animals";
 import { playClick } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
 import { getAnimalName, getSceneName } from "@/i18n/studio-translations";
 import LanguageSelector from "@/components/LanguageSelector";
+
+const AUTOSAVE_PREFIX = "paint-autosave:";
+
+/** Thumbnail that overlays the user's in-progress painting (if any) under the outline. */
+const ThemeThumbnail = ({ themeId, src, alt }: { themeId: ThemeId; src: string; alt: string }) => {
+  const [paint, setPaint] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      setPaint(localStorage.getItem(AUTOSAVE_PREFIX + themeId));
+    } catch {
+      setPaint(null);
+    }
+  }, [themeId]);
+  return (
+    <div className="relative h-full w-full">
+      {paint && (
+        <img
+          src={paint}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-contain"
+        />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        width={256}
+        height={256}
+        loading="lazy"
+        className="relative h-full w-full object-contain drop-shadow-md"
+      />
+    </div>
+  );
+};
 
 interface ThemeSelectorProps {
   onPick: (id: ThemeId) => void;
@@ -88,16 +123,13 @@ export const ThemeSelector = ({ onPick, onBack }: ThemeSelectorProps) => {
                         <div className="self-end rounded-full bg-white/70 px-3 py-1 text-xs font-bold text-foreground/70">
                           {t.challengesCount(theme.challenges.length)}
                         </div>
-                        <motion.img
-                          src={animal.srcSmall}
-                          alt={theme.name}
-                          width={256}
-                          height={256}
-                          loading="lazy"
+                        <motion.div
                           animate={{ y: [0, -6, 0] }}
                           transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
-                          className="h-28 w-28 object-contain drop-shadow-md sm:h-36 sm:w-36"
-                        />
+                          className="relative h-28 w-28 sm:h-36 sm:w-36"
+                        >
+                          <ThemeThumbnail themeId={theme.id} src={animal.srcSmall} alt={theme.name} />
+                        </motion.div>
                         <div className="w-full text-center">
                           <h3 className="text-xl font-extrabold sm:text-2xl">{getAnimalName(theme.id, locale)}</h3>
                           <p className="text-[10px] font-semibold uppercase tracking-wide text-foreground/50 sm:text-xs">

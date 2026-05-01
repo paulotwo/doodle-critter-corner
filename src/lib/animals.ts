@@ -54,60 +54,6 @@ import formiguinhaImg from "@/assets/animals/formiguinha.png";
 import aranhinhaImg from "@/assets/animals/aranhinha.png";
 import libelulinhaImg from "@/assets/animals/libelulinha.png";
 
-// ---- 512px imports ----
-import cachorrinhoImg512 from "@/assets/animals-512/cachorrinho.png";
-import gatinhoImg512 from "@/assets/animals-512/gatinho.png";
-import coelhinhoImg512 from "@/assets/animals-512/coelhinho.png";
-import passarinhoImg512 from "@/assets/animals-512/passarinho.png";
-import patinhoImg512 from "@/assets/animals-512/patinho.png";
-import porquinhoImg512 from "@/assets/animals-512/porquinho.png";
-import ursinhoImg512 from "@/assets/animals-512/ursinho.png";
-import raposinhaImg512 from "@/assets/animals-512/raposinha.png";
-import corujinhaImg512 from "@/assets/animals-512/corujinha.png";
-import macaquinhoImg512 from "@/assets/animals-512/macaquinho.png";
-import leaozinhoImg512 from "@/assets/animals-512/leaozinho.png";
-import elefantinhoImg512 from "@/assets/animals-512/elefantinho.png";
-import girafinhaImg512 from "@/assets/animals-512/girafinha.png";
-import zebrinhaImg512 from "@/assets/animals-512/zebrinha.png";
-import tigrinhoImg512 from "@/assets/animals-512/tigrinho.png";
-import pandinhaImg512 from "@/assets/animals-512/pandinha.png";
-import esquilinhoImg512 from "@/assets/animals-512/esquilinho.png";
-import cangurzinhoImg512 from "@/assets/animals-512/cangurzinho.png";
-import peixinhoImg512 from "@/assets/animals-512/peixinho.png";
-import tartaruguinhaImg512 from "@/assets/animals-512/tartaruguinha.png";
-import baleinhaImg512 from "@/assets/animals-512/baleinha.png";
-import golfinhoImg512 from "@/assets/animals-512/golfinho.png";
-import polvinhoImg512 from "@/assets/animals-512/polvinho.png";
-import cavalinhoMarinhoImg512 from "@/assets/animals-512/cavalinho_marinho.png";
-import tubaraozinhoImg512 from "@/assets/animals-512/tubaraozinho.png";
-import caranguejinhoImg512 from "@/assets/animals-512/caranguejinho.png";
-import foquinhaImg512 from "@/assets/animals-512/foquinha.png";
-import rexinhoImg512 from "@/assets/animals-512/dinossaurinho.png";
-import tricerinhoImg512 from "@/assets/animals-512/tricerinho.png";
-import brontinhoImg512 from "@/assets/animals-512/brontinho.png";
-import pterossaurinhoImg512 from "@/assets/animals-512/pterossaurinho.png";
-import estegossaurinhoImg512 from "@/assets/animals-512/estegossaurinho.png";
-import anquilossaurinhoImg512 from "@/assets/animals-512/anquilossaurinho.png";
-import velocirraptorzinhoImg512 from "@/assets/animals-512/velocirraptorzinho.png";
-import parassaurolofinhoImg512 from "@/assets/animals-512/parassaurolofinho.png";
-import dimetrodonzinhoImg512 from "@/assets/animals-512/dimetrodonzinho.png";
-import hamsterImg512 from "@/assets/animals-512/hamster.png";
-import vaquinhaImg512 from "@/assets/animals-512/vaquinha.png";
-import ovelhinhaImg512 from "@/assets/animals-512/ovelhinha.png";
-import galinhaImg512 from "@/assets/animals-512/galinha.png";
-import cavalinhoImg512 from "@/assets/animals-512/cavalinho.png";
-import cabritaImg512 from "@/assets/animals-512/cabrita.png";
-import papagainhoImg512 from "@/assets/animals-512/papagainho.png";
-import pinguinzinhoImg512 from "@/assets/animals-512/pinguinzinho.png";
-import tucaninhoImg512 from "@/assets/animals-512/tucaninho.png";
-import flamingozinhoImg512 from "@/assets/animals-512/flamingozinho.png";
-import borboletinhaImg512 from "@/assets/animals-512/borboletinha.png";
-import joaninhaImg512 from "@/assets/animals-512/joaninha.png";
-import abelhinhaImg512 from "@/assets/animals-512/abelhinha.png";
-import formiguinhaImg512 from "@/assets/animals-512/formiguinha.png";
-import aranhinhaImg512 from "@/assets/animals-512/aranhinha.png";
-import libelulinhaImg512 from "@/assets/animals-512/libelulinha.png";
-
 /**
  * Each animal is now an outline PNG (coloring-book style).
  * Painting is done via flood-fill on a canvas.
@@ -139,18 +85,17 @@ const p = (x: number, y: number) => ({ x, y });
 const mkAnimal = (
   id: ThemeId,
   full: string,
-  small: string,
   parts: AnimalPart[]
 ): AnimalDef => ({
   id,
-  srcSmall: small,
+  srcSmall: full,
   srcFull: full,
   size: 1024,
   parts,
 });
 
 
-const cachorrinho = mkAnimal("cachorrinho", cachorrinhoImg, cachorrinhoImg512, [
+const cachorrinho = mkAnimal("cachorrinho", cachorrinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.70)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.25, 0.32)] },
   { id: "head", label: "cabeça", points: [p(0.48, 0.35)] },
@@ -161,7 +106,7 @@ const cachorrinho = mkAnimal("cachorrinho", cachorrinhoImg, cachorrinhoImg512, [
   { id: "belly", label: "barriguinha", points: [p(0.50, 0.49)] },
 ]);
 
-const gatinho = mkAnimal("gatinho", gatinhoImg, gatinhoImg512, [
+const gatinho = mkAnimal("gatinho", gatinhoImg, [
   { id: "head", label: "cabeça", points: [p(0.50, 0.39)] },
   { id: "tail", label: "rabinho", points: [p(0.67, 0.76)] },
   { id: "belly", label: "barriguinha", points: [p(0.50, 0.71)] },
@@ -172,7 +117,7 @@ const gatinho = mkAnimal("gatinho", gatinhoImg, gatinhoImg512, [
   { id: "wing_right", label: "asinha direita", points: [p(0.70, 0.21)] },
 ]);
 
-const coelhinho = mkAnimal("coelhinho", coelhinhoImg, coelhinhoImg512, [
+const coelhinho = mkAnimal("coelhinho", coelhinhoImg, [
   { id: "ear_left", label: "orelha esquerda", points: [p(0.33, 0.22)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.38)] },
   { id: "belly", label: "barriguinha", points: [p(0.49, 0.74)] },
@@ -183,7 +128,7 @@ const coelhinho = mkAnimal("coelhinho", coelhinhoImg, coelhinhoImg512, [
   { id: "foot_left", label: "patinha esquerda", points: [p(0.32, 0.74)] },
 ]);
 
-const passarinho = mkAnimal("passarinho", passarinhoImg, passarinhoImg512, [
+const passarinho = mkAnimal("passarinho", passarinhoImg, [
   { id: "beak", label: "biquinho", points: [p(0.50, 0.37)] },
   { id: "body", label: "corpinho", points: [p(0.50, 0.61)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.31)] },
@@ -194,7 +139,7 @@ const passarinho = mkAnimal("passarinho", passarinhoImg, passarinhoImg512, [
   { id: "ear_right", label: "orelha direita", points: [p(0.61, 0.31)] },
 ]);
 
-const patinho = mkAnimal("patinho", patinhoImg, patinhoImg512, [
+const patinho = mkAnimal("patinho", patinhoImg, [
   { id: "beak", label: "biquinho", points: [p(0.52, 0.42)] },
   { id: "body", label: "corpinho", points: [p(0.50, 0.61)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.33)] },
@@ -202,7 +147,7 @@ const patinho = mkAnimal("patinho", patinhoImg, patinhoImg512, [
   { id: "leg_back", label: "perninha de trás", points: [p(0.59, 0.78)] },
 ]);
 
-const porquinho = mkAnimal("porquinho", porquinhoImg, porquinhoImg512, [
+const porquinho = mkAnimal("porquinho", porquinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.67)] },
   { id: "snout", label: "focinho", points: [p(0.46, 0.46)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.35)] },
@@ -212,7 +157,7 @@ const porquinho = mkAnimal("porquinho", porquinhoImg, porquinhoImg512, [
   { id: "foot_left", label: "patinha esquerda", points: [p(0.33, 0.77)] },
 ]);
 
-const ursinho = mkAnimal("ursinho", ursinhoImg, ursinhoImg512, [
+const ursinho = mkAnimal("ursinho", ursinhoImg, [
   { id: "head", label: "cabeça", points: [p(0.50, 0.33)] },
   { id: "heart", label: "coração", points: [p(0.50, 0.67)] },
   { id: "body", label: "corpinho", points: [p(0.50, 0.68)] },
@@ -223,7 +168,7 @@ const ursinho = mkAnimal("ursinho", ursinhoImg, ursinhoImg512, [
   { id: "tail", label: "rabinho", points: [p(0.71, 0.62)] },
 ]);
 
-const raposinha = mkAnimal("raposinha", raposinhaImg, raposinhaImg512, [
+const raposinha = mkAnimal("raposinha", raposinhaImg, [
   { id: "belly", label: "barriguinha", points: [p(0.49, 0.73)] },
   { id: "body", label: "corpinho", points: [p(0.49, 0.80)] },
   { id: "head", label: "cabeça", points: [p(0.47, 0.35)] },
@@ -234,7 +179,7 @@ const raposinha = mkAnimal("raposinha", raposinhaImg, raposinhaImg512, [
   { id: "foot_right", label: "patinha direita", points: [p(0.66, 0.86)] },
 ]);
 
-const corujinha = mkAnimal("corujinha", corujinhaImg, corujinhaImg512, [
+const corujinha = mkAnimal("corujinha", corujinhaImg, [
   { id: "belly", label: "barriguinha", points: [p(0.60, 0.80)] },
   { id: "body", label: "corpinho", points: [p(0.50, 0.62)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.41)] },
@@ -245,7 +190,7 @@ const corujinha = mkAnimal("corujinha", corujinhaImg, corujinhaImg512, [
   { id: "leg_front", label: "perninha da frente", points: [p(0.37, 0.33)] },
 ]);
 
-const macaquinho = mkAnimal("macaquinho", macaquinhoImg, macaquinhoImg512, [
+const macaquinho = mkAnimal("macaquinho", macaquinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.63)] },
   { id: "face", label: "rostinho", points: [p(0.50, 0.39)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.25)] },
@@ -256,7 +201,7 @@ const macaquinho = mkAnimal("macaquinho", macaquinhoImg, macaquinhoImg512, [
   { id: "tail", label: "rabinho", points: [p(0.79, 0.67)] },
 ]);
 
-const leaozinho = mkAnimal("leaozinho", leaozinhoImg, leaozinhoImg512, [
+const leaozinho = mkAnimal("leaozinho", leaozinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.75)] },
   { id: "mane", label: "juba", points: [p(0.48, 0.22)] },
   { id: "head", label: "cabeça", points: [p(0.48, 0.41)] },
@@ -267,7 +212,7 @@ const leaozinho = mkAnimal("leaozinho", leaozinhoImg, leaozinhoImg512, [
   { id: "tail", label: "rabinho", points: [p(0.73, 0.36)] },
 ]);
 
-const elefantinho = mkAnimal("elefantinho", elefantinhoImg, elefantinhoImg512, [
+const elefantinho = mkAnimal("elefantinho", elefantinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.70)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.22, 0.24)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.33)] },
@@ -278,7 +223,7 @@ const elefantinho = mkAnimal("elefantinho", elefantinhoImg, elefantinhoImg512, [
   { id: "leg_front", label: "perninha da frente", points: [p(0.29, 0.73)] },
 ]);
 
-const girafinha = mkAnimal("girafinha", girafinhaImg, girafinhaImg512, [
+const girafinha = mkAnimal("girafinha", girafinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.51, 0.66)] },
   { id: "neck", label: "pescoço", points: [p(0.52, 0.45)] },
   { id: "head", label: "cabeça", points: [p(0.41, 0.30)] },
@@ -289,7 +234,7 @@ const girafinha = mkAnimal("girafinha", girafinhaImg, girafinhaImg512, [
   { id: "leg_back", label: "perninha de trás", points: [p(0.52, 0.57)] },
 ]);
 
-const zebrinha = mkAnimal("zebrinha", zebrinhaImg, zebrinhaImg512, [
+const zebrinha = mkAnimal("zebrinha", zebrinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.48, 0.66)] },
   { id: "head", label: "cabeça", points: [p(0.51, 0.31)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.35, 0.37)] },
@@ -300,7 +245,7 @@ const zebrinha = mkAnimal("zebrinha", zebrinhaImg, zebrinhaImg512, [
   { id: "leg_back", label: "perninha de trás", points: [p(0.58, 0.75)] },
 ]);
 
-const tigrinho = mkAnimal("tigrinho", tigrinhoImg, tigrinhoImg512, [
+const tigrinho = mkAnimal("tigrinho", tigrinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.49, 0.77)] },
   { id: "head", label: "cabeça", points: [p(0.49, 0.42)] },
   { id: "ear_right", label: "orelha direita", points: [p(0.74, 0.19)] },
@@ -311,7 +256,7 @@ const tigrinho = mkAnimal("tigrinho", tigrinhoImg, tigrinhoImg512, [
   { id: "belly", label: "barriguinha", points: [p(0.50, 0.48)] },
 ]);
 
-const pandinha = mkAnimal("pandinha", pandinhaImg, pandinhaImg512, [
+const pandinha = mkAnimal("pandinha", pandinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.69)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.28, 0.24)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.40)] },
@@ -322,7 +267,7 @@ const pandinha = mkAnimal("pandinha", pandinhaImg, pandinhaImg512, [
   { id: "wing_left", label: "asinha esquerda", points: [p(0.36, 0.39)] },
 ]);
 
-const esquilinho = mkAnimal("esquilinho", esquilinhoImg, esquilinhoImg512, [
+const esquilinho = mkAnimal("esquilinho", esquilinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.71)] },
   { id: "tail", label: "rabinho", points: [p(0.65, 0.73)] },
   { id: "belly", label: "barriguinha", points: [p(0.43, 0.55)] },
@@ -333,7 +278,7 @@ const esquilinho = mkAnimal("esquilinho", esquilinhoImg, esquilinhoImg512, [
   { id: "foot_right", label: "patinha direita", points: [p(0.53, 0.59)] },
 ]);
 
-const cangurzinho = mkAnimal("cangurzinho", cangurzinhoImg, cangurzinhoImg512, [
+const cangurzinho = mkAnimal("cangurzinho", cangurzinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.48, 0.60)] },
   { id: "pouch", label: "pouch", points: [p(0.49, 0.50)] },
   { id: "head", label: "cabeça", points: [p(0.48, 0.32)] },
@@ -344,7 +289,7 @@ const cangurzinho = mkAnimal("cangurzinho", cangurzinhoImg, cangurzinhoImg512, [
   { id: "ear_left", label: "orelha esquerda", points: [p(0.42, 0.17)] },
 ]);
 
-const peixinho = mkAnimal("peixinho", peixinhoImg, peixinhoImg512, [
+const peixinho = mkAnimal("peixinho", peixinhoImg, [
   { id: "body_top", label: "lombo", points: [p(0.44, 0.51)] },
   { id: "tail", label: "rabinho", points: [p(0.73, 0.54)] },
   { id: "body", label: "corpinho", points: [p(0.60, 0.53)] },
@@ -355,7 +300,7 @@ const peixinho = mkAnimal("peixinho", peixinhoImg, peixinhoImg512, [
   { id: "belly", label: "barriguinha", points: [p(0.58, 0.76)] },
 ]);
 
-const tartaruguinha = mkAnimal("tartaruguinha", tartaruguinhaImg, tartaruguinhaImg512, [
+const tartaruguinha = mkAnimal("tartaruguinha", tartaruguinhaImg, [
   { id: "head", label: "cabeça", points: [p(0.48, 0.32)] },
   { id: "shell", label: "casquinho", points: [p(0.56, 0.40)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.26, 0.33)] },
@@ -366,17 +311,17 @@ const tartaruguinha = mkAnimal("tartaruguinha", tartaruguinhaImg, tartaruguinhaI
   { id: "ear_right", label: "orelha direita", points: [p(0.57, 0.40)] },
 ]);
 
-const baleinha = mkAnimal("baleinha", baleinhaImg, baleinhaImg512, [
+const baleinha = mkAnimal("baleinha", baleinhaImg, [
   { id: "belly", label: "barriguinha", points: [p(0.49, 0.55)] },
   { id: "body", label: "corpinho", points: [p(0.30, 0.60)] },
 ]);
 
-const golfinho = mkAnimal("golfinho", golfinhoImg, golfinhoImg512, [
+const golfinho = mkAnimal("golfinho", golfinhoImg, [
   { id: "belly", label: "barriguinha", points: [p(0.38, 0.61)] },
   { id: "body", label: "corpinho", points: [p(0.48, 0.45)] },
 ]);
 
-const polvinho = mkAnimal("polvinho", polvinhoImg, polvinhoImg512, [
+const polvinho = mkAnimal("polvinho", polvinhoImg, [
   { id: "head", label: "cabeça", points: [p(0.56, 0.38)] },
   { id: "tentacle_1", label: "tentáculo", points: [p(0.18, 0.62)] },
   { id: "body", label: "corpinho", points: [p(0.49, 0.52)] },
@@ -387,7 +332,7 @@ const polvinho = mkAnimal("polvinho", polvinhoImg, polvinhoImg512, [
   { id: "foot_right", label: "patinha direita", points: [p(0.66, 0.80)] },
 ]);
 
-const cavalinhoMarinho = mkAnimal("cavalinho_marinho", cavalinhoMarinhoImg, cavalinhoMarinhoImg512, [
+const cavalinhoMarinho = mkAnimal("cavalinho_marinho", cavalinhoMarinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.40, 0.58)] },
   { id: "crown", label: "coroinha", points: [p(0.48, 0.21)] },
   { id: "head", label: "cabeça", points: [p(0.48, 0.45)] },
@@ -397,7 +342,7 @@ const cavalinhoMarinho = mkAnimal("cavalinho_marinho", cavalinhoMarinhoImg, cava
   { id: "ear_right", label: "orelha direita", points: [p(0.37, 0.29)] },
 ]);
 
-const tubaraozinho = mkAnimal("tubaraozinho", tubaraozinhoImg, tubaraozinhoImg512, [
+const tubaraozinho = mkAnimal("tubaraozinho", tubaraozinhoImg, [
   { id: "belly", label: "barriguinha", points: [p(0.60, 0.67)] },
   { id: "body", label: "corpinho", points: [p(0.45, 0.52)] },
   { id: "head", label: "cabeça", points: [p(0.46, 0.40)] },
@@ -405,7 +350,7 @@ const tubaraozinho = mkAnimal("tubaraozinho", tubaraozinhoImg, tubaraozinhoImg51
   { id: "ear_right", label: "orelha direita", points: [p(0.51, 0.16)] },
 ]);
 
-const caranguejinho = mkAnimal("caranguejinho", caranguejinhoImg, caranguejinhoImg512, [
+const caranguejinho = mkAnimal("caranguejinho", caranguejinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.52)] },
   { id: "claw_left", label: "garra esquerda", points: [p(0.19, 0.57)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.22, 0.26)] },
@@ -416,7 +361,7 @@ const caranguejinho = mkAnimal("caranguejinho", caranguejinhoImg, caranguejinhoI
   { id: "head", label: "cabeça", points: [p(0.77, 0.41)] },
 ]);
 
-const foquinha = mkAnimal("foquinha", foquinhaImg, foquinhaImg512, [
+const foquinha = mkAnimal("foquinha", foquinhaImg, [
   { id: "belly", label: "barriguinha", points: [p(0.57, 0.68)] },
   { id: "body", label: "corpinho", points: [p(0.32, 0.73)] },
   { id: "head", label: "cabeça", points: [p(0.47, 0.38)] },
@@ -424,7 +369,7 @@ const foquinha = mkAnimal("foquinha", foquinhaImg, foquinhaImg512, [
   { id: "ear_left", label: "orelha esquerda", points: [p(0.35, 0.35)] },
 ]);
 
-const rexinho = mkAnimal("rexinho", rexinhoImg, rexinhoImg512, [
+const rexinho = mkAnimal("rexinho", rexinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.42, 0.65)] },
   { id: "spikes", label: "espinhos", points: [p(0.52, 0.36)] },
   { id: "head", label: "cabeça", points: [p(0.44, 0.46)] },
@@ -435,7 +380,7 @@ const rexinho = mkAnimal("rexinho", rexinhoImg, rexinhoImg512, [
   { id: "belly", label: "barriguinha", points: [p(0.36, 0.59)] },
 ]);
 
-const tricerinho = mkAnimal("tricerinho", tricerinhoImg, tricerinhoImg512, [
+const tricerinho = mkAnimal("tricerinho", tricerinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.57, 0.59)] },
   { id: "frill", label: "coroa", points: [p(0.48, 0.32)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.30, 0.43)] },
@@ -445,7 +390,7 @@ const tricerinho = mkAnimal("tricerinho", tricerinhoImg, tricerinhoImg512, [
   { id: "ear_left", label: "orelha esquerda", points: [p(0.18, 0.32)] },
 ]);
 
-const brontinho = mkAnimal("brontinho", brontinhoImg, brontinhoImg512, [
+const brontinho = mkAnimal("brontinho", brontinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.75)] },
   { id: "neck", label: "pescoço", points: [p(0.51, 0.38)] },
   { id: "head", label: "cabeça", points: [p(0.47, 0.52)] },
@@ -454,7 +399,7 @@ const brontinho = mkAnimal("brontinho", brontinhoImg, brontinhoImg512, [
   { id: "wing_left", label: "asinha esquerda", points: [p(0.43, 0.41)] },
 ]);
 
-const pterossaurinho = mkAnimal("pterossaurinho", pterossaurinhoImg, pterossaurinhoImg512, [
+const pterossaurinho = mkAnimal("pterossaurinho", pterossaurinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.45, 0.67)] },
   { id: "wing_right", label: "asinha direita", points: [p(0.53, 0.42)] },
   { id: "belly", label: "barriguinha", points: [p(0.40, 0.59)] },
@@ -462,7 +407,7 @@ const pterossaurinho = mkAnimal("pterossaurinho", pterossaurinhoImg, pterossauri
   { id: "wing_left", label: "asinha esquerda", points: [p(0.31, 0.54)] },
 ]);
 
-const estegossaurinho = mkAnimal("estegossaurinho", estegossaurinhoImg, estegossaurinhoImg512, [
+const estegossaurinho = mkAnimal("estegossaurinho", estegossaurinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.55, 0.75)] },
   { id: "plates", label: "plates", points: [p(0.48, 0.51)] },
   { id: "head", label: "cabeça", points: [p(0.52, 0.24)] },
@@ -473,7 +418,7 @@ const estegossaurinho = mkAnimal("estegossaurinho", estegossaurinhoImg, estegoss
   { id: "tail", label: "rabinho", points: [p(0.61, 0.37)] },
 ]);
 
-const anquilossaurinho = mkAnimal("anquilossaurinho", anquilossaurinhoImg, anquilossaurinhoImg512, [
+const anquilossaurinho = mkAnimal("anquilossaurinho", anquilossaurinhoImg, [
   { id: "armor", label: "armadura", points: [p(0.58, 0.47)] },
   { id: "body", label: "corpinho", points: [p(0.51, 0.72)] },
   { id: "belly", label: "barriguinha", points: [p(0.50, 0.55)] },
@@ -484,7 +429,7 @@ const anquilossaurinho = mkAnimal("anquilossaurinho", anquilossaurinhoImg, anqui
   { id: "ear_left", label: "orelha esquerda", points: [p(0.45, 0.26)] },
 ]);
 
-const velocirraptorzinho = mkAnimal("velocirraptorzinho", velocirraptorzinhoImg, velocirraptorzinhoImg512, [
+const velocirraptorzinho = mkAnimal("velocirraptorzinho", velocirraptorzinhoImg, [
   { id: "belly", label: "barriguinha", points: [p(0.49, 0.82)] },
   { id: "body", label: "corpinho", points: [p(0.51, 0.59)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.52)] },
@@ -495,14 +440,14 @@ const velocirraptorzinho = mkAnimal("velocirraptorzinho", velocirraptorzinhoImg,
   { id: "wing_left", label: "asinha esquerda", points: [p(0.34, 0.40)] },
 ]);
 
-const parassaurolofinho = mkAnimal("parassaurolofinho", parassaurolofinhoImg, parassaurolofinhoImg512, [
+const parassaurolofinho = mkAnimal("parassaurolofinho", parassaurolofinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.53, 0.73)] },
   { id: "crest", label: "crest", points: [p(0.47, 0.52)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.34)] },
   { id: "leg_front", label: "perninha da frente", points: [p(0.37, 0.71)] },
 ]);
 
-const dimetrodonzinho = mkAnimal("dimetrodonzinho", dimetrodonzinhoImg, dimetrodonzinhoImg512, [
+const dimetrodonzinho = mkAnimal("dimetrodonzinho", dimetrodonzinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.59, 0.62)] },
   { id: "sail", label: "vela", points: [p(0.57, 0.35)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.31, 0.44)] },
@@ -513,7 +458,7 @@ const dimetrodonzinho = mkAnimal("dimetrodonzinho", dimetrodonzinhoImg, dimetrod
   { id: "ear_left", label: "orelha esquerda", points: [p(0.34, 0.38)] },
 ]);
 
-const hamster = mkAnimal("hamster", hamsterImg, hamsterImg512, [
+const hamster = mkAnimal("hamster", hamsterImg, [
   { id: "belly", label: "barriguinha", points: [p(0.53, 0.70)] },
   { id: "body", label: "corpinho", points: [p(0.48, 0.58)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.34)] },
@@ -523,7 +468,7 @@ const hamster = mkAnimal("hamster", hamsterImg, hamsterImg512, [
   { id: "wing_right", label: "asinha direita", points: [p(0.51, 0.43)] },
 ]);
 
-const vaquinha = mkAnimal("vaquinha", vaquinhaImg, vaquinhaImg512, [
+const vaquinha = mkAnimal("vaquinha", vaquinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.71)] },
   { id: "spots", label: "manchinhas", points: [p(0.37, 0.63)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.35)] },
@@ -534,7 +479,7 @@ const vaquinha = mkAnimal("vaquinha", vaquinhaImg, vaquinhaImg512, [
   { id: "ear_right", label: "orelha direita", points: [p(0.67, 0.17)] },
 ]);
 
-const ovelhinha = mkAnimal("ovelhinha", ovelhinhaImg, ovelhinhaImg512, [
+const ovelhinha = mkAnimal("ovelhinha", ovelhinhaImg, [
   { id: "head", label: "cabeça", points: [p(0.51, 0.34)] },
   { id: "wool", label: "lã", points: [p(0.51, 0.66)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.50, 0.14)] },
@@ -545,7 +490,7 @@ const ovelhinha = mkAnimal("ovelhinha", ovelhinhaImg, ovelhinhaImg512, [
   { id: "leg_front", label: "perninha da frente", points: [p(0.41, 0.90)] },
 ]);
 
-const galinha = mkAnimal("galinha", galinhaImg, galinhaImg512, [
+const galinha = mkAnimal("galinha", galinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.51, 0.62)] },
   { id: "comb", label: "cristinha", points: [p(0.50, 0.15)] },
   { id: "head", label: "cabeça", points: [p(0.51, 0.34)] },
@@ -554,7 +499,7 @@ const galinha = mkAnimal("galinha", galinhaImg, galinhaImg512, [
   { id: "ear_right", label: "orelha direita", points: [p(0.51, 0.38)] },
 ]);
 
-const cavalinho = mkAnimal("cavalinho", cavalinhoImg, cavalinhoImg512, [
+const cavalinho = mkAnimal("cavalinho", cavalinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.55, 0.73)] },
   { id: "mane", label: "juba", points: [p(0.38, 0.32)] },
   { id: "head", label: "cabeça", points: [p(0.48, 0.50)] },
@@ -565,7 +510,7 @@ const cavalinho = mkAnimal("cavalinho", cavalinhoImg, cavalinhoImg512, [
   { id: "belly", label: "barriguinha", points: [p(0.60, 0.73)] },
 ]);
 
-const cabrita = mkAnimal("cabrita", cabritaImg, cabritaImg512, [
+const cabrita = mkAnimal("cabrita", cabritaImg, [
   { id: "body", label: "corpinho", points: [p(0.49, 0.69)] },
   { id: "horns", label: "horns", points: [p(0.50, 0.38)] },
   { id: "leg_back", label: "perninha de trás", points: [p(0.68, 0.74)] },
@@ -576,7 +521,7 @@ const cabrita = mkAnimal("cabrita", cabritaImg, cabritaImg512, [
   { id: "ear_left", label: "orelha esquerda", points: [p(0.34, 0.18)] },
 ]);
 
-const papagainho = mkAnimal("papagainho", papagainhoImg, papagainhoImg512, [
+const papagainho = mkAnimal("papagainho", papagainhoImg, [
   { id: "body", label: "corpinho", points: [p(0.49, 0.76)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.32, 0.57)] },
   { id: "head", label: "cabeça", points: [p(0.49, 0.44)] },
@@ -587,7 +532,7 @@ const papagainho = mkAnimal("papagainho", papagainhoImg, papagainhoImg512, [
   { id: "leg_front", label: "perninha da frente", points: [p(0.33, 0.67)] },
 ]);
 
-const pinguinzinho = mkAnimal("pinguinzinho", pinguinzinhoImg, pinguinzinhoImg512, [
+const pinguinzinho = mkAnimal("pinguinzinho", pinguinzinhoImg, [
   { id: "belly", label: "barriguinha", points: [p(0.51, 0.64)] },
   { id: "body", label: "corpinho", points: [p(0.40, 0.83)] },
   { id: "head", label: "cabeça", points: [p(0.51, 0.41)] },
@@ -596,7 +541,7 @@ const pinguinzinho = mkAnimal("pinguinzinho", pinguinzinhoImg, pinguinzinhoImg51
   { id: "ear_left", label: "orelha esquerda", points: [p(0.51, 0.33)] },
 ]);
 
-const tucaninho = mkAnimal("tucaninho", tucaninhoImg, tucaninhoImg512, [
+const tucaninho = mkAnimal("tucaninho", tucaninhoImg, [
   { id: "beak", label: "biquinho", points: [p(0.49, 0.35)] },
   { id: "body", label: "corpinho", points: [p(0.49, 0.66)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.25, 0.42)] },
@@ -607,7 +552,7 @@ const tucaninho = mkAnimal("tucaninho", tucaninhoImg, tucaninhoImg512, [
   { id: "foot_right", label: "patinha direita", points: [p(0.73, 0.81)] },
 ]);
 
-const flamingozinho = mkAnimal("flamingozinho", flamingozinhoImg, flamingozinhoImg512, [
+const flamingozinho = mkAnimal("flamingozinho", flamingozinhoImg, [
   { id: "body", label: "corpinho", points: [p(0.41, 0.72)] },
   { id: "leg_left", label: "perninha esquerda", points: [p(0.50, 0.78)] },
   { id: "head", label: "cabeça", points: [p(0.45, 0.39)] },
@@ -615,7 +560,7 @@ const flamingozinho = mkAnimal("flamingozinho", flamingozinhoImg, flamingozinhoI
   { id: "wing_left", label: "asinha esquerda", points: [p(0.28, 0.21)] },
 ]);
 
-const borboletinha = mkAnimal("borboletinha", borboletinhaImg, borboletinhaImg512, [
+const borboletinha = mkAnimal("borboletinha", borboletinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.63)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.22, 0.52)] },
   { id: "ear_right", label: "orelha direita", points: [p(0.73, 0.32)] },
@@ -626,7 +571,7 @@ const borboletinha = mkAnimal("borboletinha", borboletinhaImg, borboletinhaImg51
   { id: "wing_right", label: "asinha direita", points: [p(0.71, 0.47)] },
 ]);
 
-const joaninha = mkAnimal("joaninha", joaninhaImg, joaninhaImg512, [
+const joaninha = mkAnimal("joaninha", joaninhaImg, [
   { id: "body", label: "corpinho", points: [p(0.63, 0.63)] },
   { id: "head", label: "cabeça", points: [p(0.50, 0.22)] },
   { id: "belly", label: "barriguinha", points: [p(0.50, 0.52)] },
@@ -637,7 +582,7 @@ const joaninha = mkAnimal("joaninha", joaninhaImg, joaninhaImg512, [
   { id: "leg_front", label: "perninha da frente", points: [p(0.36, 0.63)] },
 ]);
 
-const abelhinha = mkAnimal("abelhinha", abelhinhaImg, abelhinhaImg512, [
+const abelhinha = mkAnimal("abelhinha", abelhinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.53, 0.67)] },
   { id: "stripes", label: "listras", points: [p(0.46, 0.55)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.28, 0.41)] },
@@ -648,7 +593,7 @@ const abelhinha = mkAnimal("abelhinha", abelhinhaImg, abelhinhaImg512, [
   { id: "tail", label: "rabinho", points: [p(0.74, 0.59)] },
 ]);
 
-const formiguinha = mkAnimal("formiguinha", formiguinhaImg, formiguinhaImg512, [
+const formiguinha = mkAnimal("formiguinha", formiguinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.61)] },
   { id: "head", label: "cabeça", points: [p(0.52, 0.32)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.25, 0.44)] },
@@ -659,7 +604,7 @@ const formiguinha = mkAnimal("formiguinha", formiguinhaImg, formiguinhaImg512, [
   { id: "tail", label: "rabinho", points: [p(0.67, 0.47)] },
 ]);
 
-const aranhinha = mkAnimal("aranhinha", aranhinhaImg, aranhinhaImg512, [
+const aranhinha = mkAnimal("aranhinha", aranhinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.50, 0.46)] },
   { id: "leg_l1", label: "leg_l1", points: [p(0.38, 0.46)] },
   { id: "wing_right", label: "asinha direita", points: [p(0.83, 0.52)] },
@@ -670,7 +615,7 @@ const aranhinha = mkAnimal("aranhinha", aranhinhaImg, aranhinhaImg512, [
   { id: "leg_front", label: "perninha da frente", points: [p(0.21, 0.73)] },
 ]);
 
-const libelulinha = mkAnimal("libelulinha", libelulinhaImg, libelulinhaImg512, [
+const libelulinha = mkAnimal("libelulinha", libelulinhaImg, [
   { id: "body", label: "corpinho", points: [p(0.51, 0.63)] },
   { id: "wing_left", label: "asinha esquerda", points: [p(0.18, 0.39)] },
   { id: "ear_left", label: "orelha esquerda", points: [p(0.29, 0.30)] },
