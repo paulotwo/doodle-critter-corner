@@ -54,8 +54,6 @@ import formiguinhaImg from "@/assets/animals/formiguinha.png";
 import aranhinhaImg from "@/assets/animals/aranhinha.png";
 import libelulinhaImg from "@/assets/animals/libelulinha.png";
 
-// ---- 512px imports ----
-
 /**
  * Each animal is now an outline PNG (coloring-book style).
  * Painting is done via flood-fill on a canvas.
@@ -87,11 +85,10 @@ const p = (x: number, y: number) => ({ x, y });
 const mkAnimal = (
   id: ThemeId,
   full: string,
-  small: string,
   parts: AnimalPart[]
 ): AnimalDef => ({
   id,
-  srcSmall: small,
+  srcSmall: full,
   srcFull: full,
   size: 1024,
   parts,
