@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://doodle-critter-corner.lovable.app/sitemap.xml
+Sitemap: https://doodle-critter-corner.ksepisteme.com.br/sitemap.xml

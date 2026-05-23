@@ -2,7 +2,7 @@
 
 Jogo educativo de pintura para crianças (3–7 anos). Pinte bichinhos fofos com pincel e baldinho de tinta, complete desafios e aprenda cores, números e nomes de animais — tudo offline, direto no navegador.
 
-**Demo ao vivo:** https://doodle-critter-corner.lovable.app
+**Demo ao vivo:** https://doodle-critter-corner.ksepisteme.com.br
 
 ---
 
@@ -22,17 +22,29 @@ Jogo educativo de pintura para crianças (3–7 anos). Pinte bichinhos fofos com
 - **Framer Motion** para animações
 - **Vitest** + **@testing-library/react** para testes
 - **Sentry** para monitoramento de erros e performance
+- **Cloudflare Workers** (Static Assets) para hospedagem
 
 ## Desenvolvimento
 
 ```bash
-npm install
-npm run dev        # servidor local em http://localhost:8080
-npm run build      # build de produção
-npm run lint       # ESLint
-npm run test       # Vitest (execução única)
-npm run test:watch # Vitest (modo watch)
+bun install
+bun run dev        # servidor local em http://localhost:8080
+bun run build      # build de produção
+bun run preview    # preview do build de produção
+bun run lint       # ESLint
+bun run format     # Prettier
+bun run test       # Vitest (execução única)
+bun run test:watch # Vitest (modo watch)
 ```
+
+## Deploy
+
+```bash
+bunx wrangler login  # autenticar no Cloudflare (primeira vez)
+bun run deploy       # build de produção + wrangler deploy
+```
+
+O deploy publica no Cloudflare Workers como uma SPA estática (Static Assets). O roteamento client-side é tratado automaticamente via `not_found_handling: single-page-application` no `wrangler.jsonc`.
 
 ## Arquitetura
 
