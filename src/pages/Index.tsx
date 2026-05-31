@@ -98,7 +98,7 @@ const Index = () => {
     setMeta("og:description", desc, "property");
     setMeta("og:type", "website", "property");
     setMeta("og:url", BASE_URL, "property");
-    setMeta("og:image", OG_IMAGE, "property");
+    setMeta("og:image", OG_IMAGES[locale], "property");
     setMeta("og:image:width", "1200", "property");
     setMeta("og:image:height", "630", "property");
     setMeta("og:image:alt", title, "property");
@@ -109,7 +109,7 @@ const Index = () => {
     setMeta("twitter:card", "summary_large_image");
     setMeta("twitter:title", title);
     setMeta("twitter:description", desc);
-    setMeta("twitter:image", OG_IMAGE);
+    setMeta("twitter:image", OG_IMAGES[locale]);
     setMeta("twitter:image:alt", title);
 
     // Hreflang alternate links
@@ -157,7 +157,7 @@ const Index = () => {
         "@type": "Language",
         "name": HREFLANG_MAP[loc],
       })),
-      "screenshot": OG_IMAGE,
+      "screenshot": OG_IMAGES[locale],
       "softwareVersion": "1.0",
       "isAccessibleForFree": true,
       "isFamilyFriendly": true,
