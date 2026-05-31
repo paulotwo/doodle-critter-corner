@@ -8,7 +8,14 @@ import { useI18n } from "@/i18n";
 import type { Locale } from "@/i18n";
 
 const BASE_URL = "https://doodle-critter-corner.ksepisteme.com.br";
-const OG_IMAGE = "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1f5471e1-91c8-4866-98f1-2eabdf157231/id-preview-861b83ac--3f212c36-9202-454b-8511-d68240d18827.lovable.app-1776474483065.png";
+const OG_IMAGES: Record<Locale, string> = {
+  pt: BASE_URL + "/og/og-pt.jpg",
+  en: BASE_URL + "/og/og-en.jpg",
+  es: BASE_URL + "/og/og-es.jpg",
+  fr: BASE_URL + "/og/og-fr.jpg",
+  it: BASE_URL + "/og/og-it.jpg",
+  de: BASE_URL + "/og/og-de.jpg",
+};
 
 const ALL_LOCALES: Locale[] = ["pt", "en", "es", "fr", "it", "de"];
 
@@ -91,7 +98,7 @@ const Index = () => {
     setMeta("og:description", desc, "property");
     setMeta("og:type", "website", "property");
     setMeta("og:url", BASE_URL, "property");
-    setMeta("og:image", OG_IMAGE, "property");
+    setMeta("og:image", OG_IMAGES[locale], "property");
     setMeta("og:image:width", "1200", "property");
     setMeta("og:image:height", "630", "property");
     setMeta("og:image:alt", title, "property");
@@ -102,7 +109,7 @@ const Index = () => {
     setMeta("twitter:card", "summary_large_image");
     setMeta("twitter:title", title);
     setMeta("twitter:description", desc);
-    setMeta("twitter:image", OG_IMAGE);
+    setMeta("twitter:image", OG_IMAGES[locale]);
     setMeta("twitter:image:alt", title);
 
     // Hreflang alternate links
@@ -150,7 +157,7 @@ const Index = () => {
         "@type": "Language",
         "name": HREFLANG_MAP[loc],
       })),
-      "screenshot": OG_IMAGE,
+      "screenshot": OG_IMAGES[locale],
       "softwareVersion": "1.0",
       "isAccessibleForFree": true,
       "isFamilyFriendly": true,
