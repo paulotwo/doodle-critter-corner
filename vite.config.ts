@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => ({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff,woff2,mp3,ogg,wav}"],
+        maximumFileSizeToCacheInBytes: 4194304,
         navigateFallback: "index.html",
         navigateFallbackDenylist: [/^\/~oauth/, /^\/~api/, /^\/~flock/],
         runtimeCaching: [
