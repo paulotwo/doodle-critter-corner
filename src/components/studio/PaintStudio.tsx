@@ -218,10 +218,11 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
 
     if (isNative) {
       // Nome fixo: cada pintura compartilhada substitui a anterior no cache do app.
-      await shareImageNative(dataUrl, `${themeId}.png`, {
+      const ok = await shareImageNative(dataUrl, `${themeId}.png`, {
         title: t.shareTitle,
         text: t.shareMessage(animalName),
       });
+      if (!ok) toast({ description: t.shareFailed });
       return;
     }
 

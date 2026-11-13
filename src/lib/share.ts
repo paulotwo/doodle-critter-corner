@@ -7,20 +7,28 @@ export const SITE_URL = "https://doodle-critter-corner.ksepisteme.com.br/";
 
 type ShareText = { title: string; text: string };
 
-export async function shareLinkNative(data: ShareText): Promise<void> {
+/** Fechar a folha sem escolher nada rejeita a promessa, mas não é uma falha. */
+const cancelled = (err: unknown) => /cancel/i.test(String((err as Error)?.message ?? err));
+
+/** Devolve `false` só quando não deu para compartilhar (cancelar conta como `true`). */
+export async function shareLinkNative(data: ShareText): Promise<boolean> {
   try {
     await Share.share({ ...data, url: SITE_URL });
-  } catch {
-    /* cancelado pelo usuário */
+    return true;
+  } catch (err) {
+    return cancelled(err);
   }
 }
 
-/** Grava a pintura no cache do app e a entrega à folha de compartilhar. */
+/**
+ * Grava a pintura no cache do app e a entrega à folha de compartilhar.
+ * Devolve `false` só quando não deu para gravar ou compartilhar.
+ */
 export async function shareImageNative(
   dataUrl: string,
   fileName: string,
   data: ShareText,
-): Promise<void> {
+): Promise<boolean> {
   try {
     const { uri } = await Filesystem.writeFile({
       path: fileName,
@@ -28,7 +36,8 @@ export async function shareImageNative(
       directory: Directory.Cache,
     });
     await Share.share({ ...data, files: [uri] });
-  } catch {
-    /* cancelado pelo usuário ou sem espaço para gravar */
+    return true;
+  } catch (err) {
+    return cancelled(err);
   }
 }

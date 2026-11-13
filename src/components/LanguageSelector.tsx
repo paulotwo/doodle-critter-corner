@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useI18n, SPEECH_LANGS } from "@/i18n";
 import type { Locale } from "@/i18n";
 import { speak } from "@/lib/sounds";
+import { useBackHandler } from "@/hooks/use-native-app";
 
 import flagBr from "@/assets/flags/br.png";
 import flagUs from "@/assets/flags/us.png";
@@ -23,6 +24,7 @@ const LanguageSelector: React.FC = () => {
   const { locale, setLocale, t } = useI18n();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  useBackHandler(open, () => setOpen(false));
 
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {

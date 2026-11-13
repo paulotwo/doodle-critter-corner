@@ -32,6 +32,7 @@ export interface Translations {
   shareTitle: string;
   shareMessage: (animal: string) => string;
   shareDownloaded: string;
+  shareFailed: string;
 
   // Panel
   colorsTab: string;
@@ -100,6 +101,7 @@ const baseT: Record<Locale, Translations> = {
     shareTitle: "Meu desenho 🎨",
     shareMessage: (animal) => `Olha o meu ${animal} pintado!`,
     shareDownloaded: "Desenho salvo na galeria!",
+    shareFailed: "Não deu para compartilhar. Tente de novo!",
 
     colorsTab: "Cores",
     stampsTab: "Carimbos",
@@ -158,6 +160,7 @@ const baseT: Record<Locale, Translations> = {
     shareTitle: "My drawing 🎨",
     shareMessage: (animal) => `Look at my ${animal} I painted!`,
     shareDownloaded: "Drawing saved to your device!",
+    shareFailed: "Couldn't share. Try again!",
 
     colorsTab: "Colors",
     stampsTab: "Stamps",
@@ -216,6 +219,7 @@ const baseT: Record<Locale, Translations> = {
     shareTitle: "Mi dibujo 🎨",
     shareMessage: (animal) => `¡Mira mi ${animal} pintado!`,
     shareDownloaded: "¡Dibujo guardado!",
+    shareFailed: "No se pudo compartir. ¡Inténtalo de nuevo!",
 
     colorsTab: "Colores",
     stampsTab: "Sellos",
@@ -274,6 +278,7 @@ const baseT: Record<Locale, Translations> = {
     shareTitle: "Mon dessin 🎨",
     shareMessage: (animal) => `Regarde mon ${animal} que j'ai peint !`,
     shareDownloaded: "Dessin enregistré !",
+    shareFailed: "Le partage n'a pas marché. Réessaie !",
 
     colorsTab: "Couleurs",
     stampsTab: "Tampons",
@@ -332,6 +337,7 @@ const baseT: Record<Locale, Translations> = {
     shareTitle: "Il mio disegno 🎨",
     shareMessage: (animal) => `Guarda il mio ${animal} dipinto!`,
     shareDownloaded: "Disegno salvato!",
+    shareFailed: "Non è stato possibile condividere. Riprova!",
 
     colorsTab: "Colori",
     stampsTab: "Timbri",
@@ -390,6 +396,7 @@ const baseT: Record<Locale, Translations> = {
     shareTitle: "Mein Bild 🎨",
     shareMessage: (animal) => `Schau, mein gemaltes ${animal}!`,
     shareDownloaded: "Bild gespeichert!",
+    shareFailed: "Teilen hat nicht geklappt. Versuch es noch einmal!",
 
     colorsTab: "Farben",
     stampsTab: "Stempel",

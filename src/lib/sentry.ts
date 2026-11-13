@@ -9,8 +9,8 @@ export function initSentry() {
   // Detect low-power / mobile devices to dial monitoring down further.
   const ua = navigator.userAgent || "";
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
-  const lowMem =
-    typeof (navigator as any).deviceMemory === "number" && (navigator as any).deviceMemory <= 4;
+  const { deviceMemory } = navigator as Navigator & { deviceMemory?: number };
+  const lowMem = typeof deviceMemory === "number" && deviceMemory <= 4;
   const lowCpu =
     typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 4;
   const isConstrained = isMobile || lowMem || lowCpu;

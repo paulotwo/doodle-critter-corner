@@ -37,19 +37,31 @@ describe("compartilhar no app nativo", () => {
     });
   });
 
-  it("cancelar a folha de compartilhar não gera erro", async () => {
-    share.share.mockRejectedValue(new Error("Share canceled"));
-    await expect(shareLinkNative({ title: "T", text: "X" })).resolves.toBeUndefined();
+  it("compartilhar com sucesso devolve true", async () => {
+    await expect(shareLinkNative({ title: "T", text: "X" })).resolves.toBe(true);
     await expect(
       shareImageNative("data:image/png;base64,QUJD", "a.png", { title: "T", text: "X" }),
-    ).resolves.toBeUndefined();
+    ).resolves.toBe(true);
   });
 
-  it("falha ao gravar a imagem não gera erro nem abre a folha", async () => {
+  it("cancelar a folha de compartilhar não é falha", async () => {
+    share.share.mockRejectedValue(new Error("Share canceled"));
+    await expect(shareLinkNative({ title: "T", text: "X" })).resolves.toBe(true);
+    await expect(
+      shareImageNative("data:image/png;base64,QUJD", "a.png", { title: "T", text: "X" }),
+    ).resolves.toBe(true);
+  });
+
+  it("erro da folha de compartilhar devolve false", async () => {
+    share.share.mockRejectedValue(new Error("No app available"));
+    await expect(shareLinkNative({ title: "T", text: "X" })).resolves.toBe(false);
+  });
+
+  it("falha ao gravar a imagem devolve false e não abre a folha", async () => {
     filesystem.writeFile.mockRejectedValue(new Error("disk full"));
     await expect(
       shareImageNative("data:image/png;base64,QUJD", "a.png", { title: "T", text: "X" }),
-    ).resolves.toBeUndefined();
+    ).resolves.toBe(false);
     expect(share.share).not.toHaveBeenCalled();
   });
 });

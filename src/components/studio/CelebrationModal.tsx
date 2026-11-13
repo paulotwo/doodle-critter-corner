@@ -4,6 +4,7 @@ import confetti from "canvas-confetti";
 import { FINAL_MESSAGES } from "@/lib/studio-data";
 import { playSuccess, playClick, speak } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
+import { useBackHandler } from "@/hooks/use-native-app";
 
 const FINAL_BY_LOCALE: Record<string, string[]> = {
   pt: FINAL_MESSAGES,
@@ -26,6 +27,8 @@ export const CelebrationModal = ({
   onContinueFree,
 }: CelebrationModalProps) => {
   const { t, locale } = useI18n();
+  // Botão voltar do Android: fecha a celebração e segue pintando.
+  useBackHandler(open, onContinueFree);
   const message = useMemo(() => {
     const list = FINAL_BY_LOCALE[locale] ?? FINAL_BY_LOCALE.en;
     return list[Math.floor(Math.random() * list.length)];

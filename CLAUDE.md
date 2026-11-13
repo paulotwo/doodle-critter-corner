@@ -16,7 +16,7 @@ bun run test:watch # Vitest (watch mode)
 bun run deploy     # Production build + wrangler deploy to Cloudflare
 bun run build:native  # vite build --mode native + cap sync android
 bun run android:apk   # debug APK → android/app/build/outputs/apk/debug/
-bun run android:aab   # release AAB (needs signing config, not set up yet)
+bun run android:aab   # release AAB → android/app/build/outputs/bundle/release/ (signed if android/keystore.properties exists)
 bun run android:open  # open android/ in Android Studio
 ```
 
@@ -67,6 +67,8 @@ A React + TypeScript + Vite PWA — an educational painting/coloring game for ch
 - The status bar stays visible over the screen background: `SystemBars` in `capacitor.config.ts` + `viewport-fit=cover`; the root of each screen has the `safe-area-y` class (`index.css`). Do not hide the system bars. Portrait comes from `android:screenOrientation`; `requestAppFullscreen()` is a no-op on native. The PWA install banner is hidden.
 - Icons/splash: `node scripts/gen-app-icons.mjs` paints half of the lion outline (sources in `assets/`, plus `public/icon-*.png`, `favicon.ico` and a preview in `test-results/icone-aplicado.png`); then `bunx capacitor-assets generate --android` writes the Android resources. The launcher name is localized in `android/app/src/main/res/values-*/strings.xml`.
 - After changing web code, run `bun run build:native` before building in Gradle.
+- Popups register with `useBackHandler(open, close)` (`src/hooks/use-native-app.ts`) so the Android back button closes them before navigating.
+- Release signing: copy `android/keystore.properties.example` to `android/keystore.properties` and point it at the upload keystore (both git-ignored, as are `*.jks`/`*.keystore`). Without that file `bundleRelease` still builds, unsigned.
 
 ## Key Conventions
 

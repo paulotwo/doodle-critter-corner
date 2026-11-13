@@ -9,7 +9,7 @@ vi.mock("@/lib/platform", () => platform);
 vi.mock("@capacitor/app", () => ({ App: app }));
 vi.mock("@/lib/sounds", () => sounds);
 
-import { useNativeApp } from "@/hooks/use-native-app";
+import { useBackHandler, useNativeApp } from "@/hooks/use-native-app";
 import { requestAppFullscreen } from "@/lib/fullscreen";
 
 type Handler = (event?: unknown) => void;
@@ -62,6 +62,39 @@ describe("useNativeApp", () => {
     platform.isNative = false;
     renderHook(() => useNativeApp(() => {}));
     expect(app.addListener).not.toHaveBeenCalled();
+  });
+});
+
+describe("useBackHandler", () => {
+  it("com um popup aberto, o voltar fecha o popup em vez de navegar", () => {
+    const onBack = vi.fn();
+    const close = vi.fn();
+    renderHook(() => useNativeApp(onBack));
+    const popup = renderHook(({ open }) => useBackHandler(open, close), {
+      initialProps: { open: true },
+    });
+    handlers.backButton();
+    expect(close).toHaveBeenCalledTimes(1);
+    expect(onBack).not.toHaveBeenCalled();
+
+    popup.rerender({ open: false });
+    handlers.backButton();
+    expect(close).toHaveBeenCalledTimes(1);
+    expect(onBack).toHaveBeenCalledTimes(1);
+  });
+
+  it("com dois popups, o voltar fecha o que abriu por último", () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    renderHook(() => useNativeApp(() => {}));
+    renderHook(() => useBackHandler(true, first));
+    const top = renderHook(() => useBackHandler(true, second));
+    handlers.backButton();
+    expect(second).toHaveBeenCalledTimes(1);
+    expect(first).not.toHaveBeenCalled();
+    top.unmount();
+    handlers.backButton();
+    expect(first).toHaveBeenCalledTimes(1);
   });
 });
 

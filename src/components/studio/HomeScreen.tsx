@@ -4,6 +4,7 @@ import { playClick } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
 import { isNative } from "@/lib/platform";
 import { shareLinkNative } from "@/lib/share";
+import { toast } from "@/hooks/use-toast";
 import LanguageSelector from "@/components/LanguageSelector";
 
 interface HomeScreenProps {
@@ -24,7 +25,8 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
       url: window.location.href,
     };
     if (isNative) {
-      await shareLinkNative({ title: shareData.title, text: shareData.text });
+      const ok = await shareLinkNative({ title: shareData.title, text: shareData.text });
+      if (!ok) toast({ description: t.shareFailed });
       return;
     }
     if (navigator.share) {

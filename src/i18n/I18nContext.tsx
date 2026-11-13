@@ -19,7 +19,8 @@ function detectLocale(): Locale {
     /* ignore */
   }
   const browserLang =
-    (typeof navigator !== "undefined" && (navigator.language || (navigator as any).userLanguage)) ||
+    (typeof navigator !== "undefined" &&
+      (navigator.language || (navigator as Navigator & { userLanguage?: string }).userLanguage)) ||
     "en";
   if (browserLang.startsWith("pt")) return "pt";
   if (browserLang.startsWith("es")) return "es";
