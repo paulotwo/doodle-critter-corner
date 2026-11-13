@@ -46,6 +46,8 @@ export const playEncourage = () => {
   setTimeout(() => tone(587, 0.12, "sine", 0.06), 120);
 };
 
+import { TextToSpeech } from "@capacitor-community/text-to-speech";
+import { isNative } from "./platform";
 import { speechFriendly } from "./speech";
 
 // Idioma global (pode ser atualizado pelo I18nProvider).
@@ -58,25 +60,52 @@ export const setSpeechLang = (lang: string) => {
 type QueuedSpeech = { text: string; lang: string };
 const speechQueue: QueuedSpeech[] = [];
 let speaking = false;
+const NATIVE_SPEECH_TIMEOUT_MS = 15000;
+// Muda a cada cancelamento: o fim de uma fala cancelada não puxa a fila.
+let generation = 0;
+
+// No app (Capacitor) o WebView do Android não implementa `speechSynthesis`:
+// a narração sai pelo TTS do sistema.
+const canSpeak = () => isNative || (typeof window !== "undefined" && "speechSynthesis" in window);
+
+const stopEngine = () => {
+  generation++;
+  speaking = false;
+  try {
+    if (isNative) TextToSpeech.stop().catch(() => { /* ignore */ });
+    else window.speechSynthesis.cancel();
+  } catch { /* ignore */ }
+};
 
 const playNext = () => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  if (!canSpeak()) return;
   const next = speechQueue.shift();
   if (!next) {
     speaking = false;
     return;
   }
   speaking = true;
+  const mine = generation;
+  let finished = false;
+  const done = () => {
+    if (finished || mine !== generation) return;
+    finished = true;
+    // pequeno respiro entre falas
+    setTimeout(() => { if (mine === generation) playNext(); }, 120);
+  };
   try {
     const friendly = next.lang.startsWith("pt") ? speechFriendly(next.text) : next.text;
+    if (isNative) {
+      // Sem motor de TTS ou sem voz do idioma a promessa rejeita: segue a fila em silêncio.
+      TextToSpeech.speak({ text: friendly, lang: next.lang, rate: 0.95, pitch: 1.2 }).then(done, done);
+      // Um motor que não responde não pode prender a fila.
+      setTimeout(done, NATIVE_SPEECH_TIMEOUT_MS);
+      return;
+    }
     const u = new SpeechSynthesisUtterance(friendly);
     u.lang = next.lang;
     u.rate = 0.95;
     u.pitch = 1.2;
-    const done = () => {
-      // pequeno respiro entre falas
-      setTimeout(playNext, 120);
-    };
     u.onend = done;
     u.onerror = done;
     window.speechSynthesis.speak(u);
@@ -86,15 +115,15 @@ const playNext = () => {
 };
 
 export const speak = (text: string, options?: { interrupt?: boolean; lang?: string }) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  if (!canSpeak()) return;
   try {
     if (options?.interrupt) {
       speechQueue.length = 0;
-      window.speechSynthesis.cancel();
-      speaking = false;
+      stopEngine();
     }
     speechQueue.push({ text, lang: options?.lang ?? currentLang });
-    if (!speaking && !window.speechSynthesis.speaking) {
+    // Depois de interromper, alguns navegadores ainda reportam `speaking` por um instante.
+    if (!speaking && (isNative || options?.interrupt || !window.speechSynthesis.speaking)) {
       playNext();
     }
   } catch {
@@ -103,8 +132,10 @@ export const speak = (text: string, options?: { interrupt?: boolean; lang?: stri
 };
 
 export const cancelSpeech = () => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  if (!canSpeak()) return;
   speechQueue.length = 0;
-  speaking = false;
-  try { window.speechSynthesis.cancel(); } catch { /* ignore */ }
+  stopEngine();
 };
+
+// Acorda o motor de TTS cedo, para já estar conectado na primeira narração.
+if (isNative) TextToSpeech.getSupportedLanguages().catch(() => { /* ignore */ });

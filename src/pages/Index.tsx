@@ -3,7 +3,10 @@ import { HomeScreen } from "@/components/studio/HomeScreen";
 import { ThemeSelector } from "@/components/studio/ThemeSelector";
 import { PaintStudio } from "@/components/studio/PaintStudio";
 import { ThemeId } from "@/lib/studio-data";
+import { App as CapacitorApp } from "@capacitor/app";
 import { requestAppFullscreen } from "@/lib/fullscreen";
+import { cancelSpeech } from "@/lib/sounds";
+import { useNativeApp } from "@/hooks/use-native-app";
 import { useI18n } from "@/i18n";
 import type { Locale } from "@/i18n";
 
@@ -83,6 +86,14 @@ const Index = () => {
   const [screen, setScreen] = useState<Screen>("home");
   const [theme, setTheme] = useState<ThemeId | null>(null);
   const { t, locale } = useI18n();
+
+  // Botão voltar do Android: estúdio → temas → início → sai do app.
+  useNativeApp(() => {
+    cancelSpeech();
+    if (screen === "studio" && theme) setScreen("themes");
+    else if (screen !== "home") setScreen("home");
+    else CapacitorApp.exitApp();
+  });
 
   useEffect(() => {
     const title = META_TITLES[locale] ?? META_TITLES.en;

@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Sparkles, Wand2, Share2 } from "lucide-react";
 import { playClick } from "@/lib/sounds";
 import { useI18n } from "@/i18n";
+import { isNative } from "@/lib/platform";
+import { shareLinkNative } from "@/lib/share";
 import LanguageSelector from "@/components/LanguageSelector";
 
 interface HomeScreenProps {
@@ -21,6 +23,10 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
       text: t.shareText,
       url: window.location.href,
     };
+    if (isNative) {
+      await shareLinkNative({ title: shareData.title, text: shareData.text });
+      return;
+    }
     if (navigator.share) {
       try { await navigator.share(shareData); } catch { /* user cancelled */ }
     } else {
@@ -41,7 +47,7 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
       </div>
 
       {/* Top right actions */}
-      <div className="absolute right-3 top-3 z-20 flex items-center gap-2 sm:right-4 sm:top-4">
+      <div className="absolute right-3 top-[calc(0.75rem+env(safe-area-inset-top,0px))] z-20 flex items-center gap-2 sm:right-4 sm:top-[calc(1rem+env(safe-area-inset-top,0px))]">
         <LanguageSelector />
         <button
           onClick={handleShare}
@@ -53,7 +59,7 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
         </button>
       </div>
 
-      <main className="relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-4 py-6 text-center sm:px-6 sm:py-12">
+      <main className="safe-area-y relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-4 py-6 text-center sm:px-6 sm:py-12">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}

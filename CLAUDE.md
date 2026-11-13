@@ -14,6 +14,10 @@ bun run format     # Prettier
 bun run test       # Vitest (single run)
 bun run test:watch # Vitest (watch mode)
 bun run deploy     # Production build + wrangler deploy to Cloudflare
+bun run build:native  # vite build --mode native + cap sync android
+bun run android:apk   # debug APK → android/app/build/outputs/apk/debug/
+bun run android:aab   # release AAB (needs signing config, not set up yet)
+bun run android:open  # open android/ in Android Studio
 ```
 
 To run a single test file: `bunx vitest run src/test/challenges.test.ts`
@@ -45,6 +49,21 @@ A React + TypeScript + Vite PWA — an educational painting/coloring game for ch
 **State management:** React local state + I18n Context. React Query is present but not used for server data. Language preference is the only thing persisted to localStorage.
 
 **Testing:** Vitest + jsdom. Tests live in `src/test/`. Existing coverage: challenge data validity, speech synthesis, basics.
+
+## Native app (Capacitor, Android)
+
+`capacitor.config.ts` (appId `com.pjdev.doodlecrittercorner`) wraps `dist/` with no `server.url`: the bundle ships inside the app and runs at `https://localhost`, so it works offline from install. `android/` is committed; `android/local.properties` (SDK path) is not.
+
+- `vite build --mode native` drops `VitePWA` (no service worker), strips the `analytics:start`/`analytics:end` block from `index.html`, removes `dist/og`, and aliases `@/lib/sentry` to the no-op `src/lib/sentry.native.tsx` (no analytics or telemetry in the app: Play Families Policy). Always import Sentry as `@/lib/sentry`, never by relative path, or the SDK leaks into the app. The web build keeps all of it.
+- `NATIVE_BUILD_CHECK=1 bunx vitest run src/test/native-build.test.ts` checks `dist/` right after `bun run build:native` (skipped otherwise).
+- Fonts are bundled (`@fontsource/fredoka`, `@fontsource/baloo-2`, imported in `main.tsx`); do not load fonts from the network.
+- `src/lib/platform.ts` exports `isNative`. Use it for anything that differs in the app.
+- Android WebView has no `speechSynthesis`: on native, `speak`/`cancelSpeech` in `sounds.ts` use `@capacitor-community/text-to-speech`. It needs the `TTS_SERVICE` `<queries>` entry in `AndroidManifest.xml`.
+- Sharing uses `src/lib/share.ts` on native: the home link shares `SITE_URL` (not `window.location`), and the painting is written to the app cache and handed to the native share sheet.
+- `useNativeApp` (in `pages/Index.tsx`) handles the Android back button (studio → themes → home → exit app) and stops narration when the app goes to background.
+- The status bar stays visible over the screen background: `SystemBars` in `capacitor.config.ts` + `viewport-fit=cover`; the root of each screen has the `safe-area-y` class (`index.css`). Do not hide the system bars. Portrait comes from `android:screenOrientation`; `requestAppFullscreen()` is a no-op on native. The PWA install banner is hidden.
+- Icons/splash: `node scripts/gen-app-icons.mjs` paints half of the lion outline (sources in `assets/`, plus `public/icon-*.png`, `favicon.ico` and a preview in `test-results/icone-aplicado.png`); then `bunx capacitor-assets generate --android` writes the Android resources. The launcher name is localized in `android/app/src/main/res/values-*/strings.xml`.
+- After changing web code, run `bun run build:native` before building in Gradle.
 
 ## Key Conventions
 

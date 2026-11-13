@@ -1,11 +1,12 @@
 import { usePwaInstall } from "@/hooks/use-pwa-install";
 import { useI18n } from "@/i18n";
+import { isNative } from "@/lib/platform";
 
 const PwaInstallBanner = () => {
   const { canInstall, install, dismiss, showIosBanner } = usePwaInstall();
   const { t } = useI18n();
 
-  if (!canInstall && !showIosBanner) return null;
+  if (isNative || (!canInstall && !showIosBanner)) return null;
 
   const message = showIosBanner ? t.pwaIos : t.pwaInstall;
 

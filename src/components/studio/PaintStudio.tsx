@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { isNative } from "@/lib/platform";
+import { shareImageNative } from "@/lib/share";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brush, Stamp } from "lucide-react";
 import { Challenge, StampId, ThemeId, getThemeById } from "@/lib/studio-data";
@@ -218,6 +220,12 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
     const animalName = getAnimalName(themeId, locale);
     const fileName = `${themeId}-${Date.now()}.png`;
 
+    if (isNative) {
+      // Nome fixo: cada pintura compartilhada substitui a anterior no cache do app.
+      await shareImageNative(dataUrl, `${themeId}.png`, { title: t.shareTitle, text: t.shareMessage(animalName) });
+      return;
+    }
+
     // Convert dataURL → Blob
     const blob = await (await fetch(dataUrl)).blob();
     const file = new File([blob], fileName, { type: "image/png" });
@@ -251,7 +259,7 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${theme.bg}`}>
+    <div className={`safe-area-y min-h-screen bg-gradient-to-br ${theme.bg}`}>
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-5">
         <ChallengeBox theme={theme} challenge={challenge} progress={progress} hint={hint} />
 

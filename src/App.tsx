@@ -9,7 +9,7 @@ import { setSpeechLang } from "@/lib/sounds";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import PwaInstallBanner from "./components/PwaInstallBanner";
-import { Sentry } from "./lib/sentry";
+import { Sentry } from "@/lib/sentry";
 
 const queryClient = new QueryClient();
 

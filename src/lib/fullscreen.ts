@@ -2,6 +2,8 @@
  * Fullscreen helpers. Skips when running as installed PWA (standalone)
  * because the OS already provides a fullscreen-like experience.
  */
+import { isNative } from "./platform";
+
 export const isStandalonePwa = (): boolean => {
   if (typeof window === "undefined") return false;
   const mql = window.matchMedia?.("(display-mode: standalone)");
@@ -23,6 +25,8 @@ export const lockPortraitOrientation = async (): Promise<void> => {
 };
 
 export const requestAppFullscreen = async (): Promise<void> => {
+  // No app Android a casca já cuida de tela e orientação (retrato no manifesto).
+  if (isNative) return;
   if (isStandalonePwa()) {
     // Already fullscreen via PWA — still try to lock orientation
     await lockPortraitOrientation();

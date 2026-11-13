@@ -67,7 +67,7 @@ export const ThemeSelector = ({ onPick, onBack }: ThemeSelectorProps) => {
   })).filter((g) => g.themes.length > 0);
 
   return (
-    <div className="min-h-screen bg-gradient-sky px-4 py-6 sm:px-8 sm:py-10">
+    <div className="safe-area-y min-h-screen bg-gradient-sky px-4 py-6 sm:px-8 sm:py-10">
       <header className="mx-auto mb-6 flex max-w-5xl items-center justify-between gap-2">
         <button
           onClick={() => { playClick(); onBack(); }}
