@@ -15,9 +15,11 @@ export const isStandalonePwa = (): boolean => {
 
 export const lockPortraitOrientation = async (): Promise<void> => {
   try {
-    const orientation = (screen as Screen & {
-      orientation?: { lock?: (o: string) => Promise<void> };
-    }).orientation;
+    const orientation = (
+      screen as Screen & {
+        orientation?: { lock?: (o: string) => Promise<void> };
+      }
+    ).orientation;
     await orientation?.lock?.("portrait");
   } catch {
     /* unsupported (iOS Safari, desktop) or not in fullscreen */

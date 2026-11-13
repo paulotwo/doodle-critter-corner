@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,13 +16,13 @@
     --popover-foreground: 250 30% 22%;
 
     /* Brand: doce e quente */
-    --primary: 350 85% 65%;            /* coral rosado */
+    --primary: 350 85% 65%; /* coral rosado */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 90% 70%;          /* azul céu */
+    --secondary: 200 90% 70%; /* azul céu */
     --secondary-foreground: 220 40% 18%;
 
-    --accent: 45 100% 65%;             /* amarelo sol */
+    --accent: 45 100% 65%; /* amarelo sol */
     --accent-foreground: 30 50% 18%;
 
     --muted: 45 50% 92%;
@@ -44,14 +43,31 @@
     --paint-blue: 210 90% 58%;
     --paint-purple: 275 70% 62%;
     --paint-pink: 330 85% 70%;
-   --paint-brown: 22 50% 38%;
-   --paint-black: 240 15% 18%;
-   --paint-white: 0 0% 100%;
+    --paint-brown: 22 50% 38%;
+    --paint-black: 240 15% 18%;
+    --paint-white: 0 0% 100%;
 
     /* Atmosfera */
-    --gradient-sky: linear-gradient(180deg, hsl(45 90% 94%) 0%, hsl(20 90% 92%) 50%, hsl(330 80% 94%) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(45 100% 75%) 0%, hsl(20 100% 75%) 50%, hsl(340 90% 78%) 100%);
-    --gradient-rainbow: linear-gradient(90deg, hsl(0 85% 65%), hsl(40 95% 60%), hsl(140 65% 55%), hsl(200 90% 60%), hsl(275 70% 65%));
+    --gradient-sky: linear-gradient(
+      180deg,
+      hsl(45 90% 94%) 0%,
+      hsl(20 90% 92%) 50%,
+      hsl(330 80% 94%) 100%
+    );
+    --gradient-warm: linear-gradient(
+      135deg,
+      hsl(45 100% 75%) 0%,
+      hsl(20 100% 75%) 50%,
+      hsl(340 90% 78%) 100%
+    );
+    --gradient-rainbow: linear-gradient(
+      90deg,
+      hsl(0 85% 65%),
+      hsl(40 95% 60%),
+      hsl(140 65% 55%),
+      hsl(200 90% 60%),
+      hsl(275 70% 65%)
+    );
     --gradient-card: linear-gradient(160deg, hsl(0 0% 100%) 0%, hsl(45 80% 97%) 100%);
 
     --shadow-soft: 0 8px 24px -8px hsl(350 60% 50% / 0.18);
@@ -96,7 +112,9 @@
   * {
     @apply border-border;
   }
-  html, body, #root {
+  html,
+  body,
+  #root {
     height: 100%;
   }
   * {
@@ -108,12 +126,15 @@
   body {
     @apply text-foreground;
     background: var(--gradient-sky);
-    font-family: 'Fredoka', system-ui, sans-serif;
+    font-family: "Fredoka", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     overscroll-behavior: none;
   }
-  h1, h2, h3, h4 {
-    font-family: 'Baloo 2', 'Fredoka', system-ui, sans-serif;
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Baloo 2", "Fredoka", system-ui, sans-serif;
     font-weight: 800;
     letter-spacing: -0.01em;
   }

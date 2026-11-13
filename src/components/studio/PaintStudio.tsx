@@ -13,11 +13,7 @@ import { ToolBar, Tool } from "./ToolBar";
 import { PaintCanvas, PaintCanvasHandle } from "./PaintCanvas";
 import { CelebrationModal } from "./CelebrationModal";
 import { useI18n } from "@/i18n";
-import {
-  localizeTheme,
-  localizedEncouragements,
-  getAnimalName,
-} from "@/i18n/studio-translations";
+import { localizeTheme, localizedEncouragements, getAnimalName } from "@/i18n/studio-translations";
 import { toast } from "@/hooks/use-toast";
 
 interface PaintStudioProps {
@@ -222,7 +218,10 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
 
     if (isNative) {
       // Nome fixo: cada pintura compartilhada substitui a anterior no cache do app.
-      await shareImageNative(dataUrl, `${themeId}.png`, { title: t.shareTitle, text: t.shareMessage(animalName) });
+      await shareImageNative(dataUrl, `${themeId}.png`, {
+        title: t.shareTitle,
+        text: t.shareMessage(animalName),
+      });
       return;
     }
 
@@ -292,7 +291,9 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
             <button
               onClick={() => setPanel("colors")}
               className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all ${
-                panel === "colors" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
+                panel === "colors"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-foreground"
               }`}
             >
               <Brush className="h-4 w-4" /> {t.colorsTab}
@@ -300,7 +301,9 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
             <button
               onClick={() => setPanel("stamps")}
               className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all ${
-                panel === "stamps" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
+                panel === "stamps"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-foreground"
               }`}
             >
               <Stamp className="h-4 w-4" /> {t.stampsTab}
@@ -308,7 +311,12 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
           </div>
           <AnimatePresence mode="wait">
             {panel === "colors" ? (
-              <motion.div key="colors" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}>
+              <motion.div
+                key="colors"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+              >
                 <ColorPalette
                   selected={color}
                   onSelect={(c) => {
@@ -318,12 +326,15 @@ export const PaintStudio = ({ themeId, onBack, onChangeTheme }: PaintStudioProps
                 />
               </motion.div>
             ) : (
-              <motion.div key="stamps" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}>
+              <motion.div
+                key="stamps"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+              >
                 <StampPicker stamps={theme.stamps} selected={stamp} onSelect={handleStampSelect} />
                 {stamp && (
-                  <p className="mt-2 text-center text-xs text-muted-foreground">
-                    {t.stampHint}
-                  </p>
+                  <p className="mt-2 text-center text-xs text-muted-foreground">{t.stampHint}</p>
                 )}
               </motion.div>
             )}

@@ -70,7 +70,10 @@ export const ThemeSelector = ({ onPick, onBack }: ThemeSelectorProps) => {
     <div className="safe-area-y min-h-screen bg-gradient-sky px-4 py-6 sm:px-8 sm:py-10">
       <header className="mx-auto mb-6 flex max-w-5xl items-center justify-between gap-2">
         <button
-          onClick={() => { playClick(); onBack(); }}
+          onClick={() => {
+            playClick();
+            onBack();
+          }}
           className="kid-shadow-pop flex items-center gap-2 rounded-full bg-white px-5 py-3 text-base font-bold text-foreground"
         >
           <ArrowLeft className="h-5 w-5" /> {t.back}
@@ -113,10 +116,17 @@ export const ThemeSelector = ({ onPick, onBack }: ThemeSelectorProps) => {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: Math.min(i * 0.05, 0.4) + sectionIdx * 0.04, type: "spring", stiffness: 120 }}
+                      transition={{
+                        delay: Math.min(i * 0.05, 0.4) + sectionIdx * 0.04,
+                        type: "spring",
+                        stiffness: 120,
+                      }}
                       whileHover={{ scale: 1.04, rotate: -1 }}
                       whileTap={{ scale: 0.96 }}
-                      onClick={() => { playClick(); onPick(theme.id); }}
+                      onClick={() => {
+                        playClick();
+                        onPick(theme.id);
+                      }}
                       className={`kid-shadow-pop relative aspect-[4/5] overflow-hidden rounded-[2rem] border-4 border-white bg-gradient-to-br ${theme.bg} p-3 text-left`}
                     >
                       <div className="flex h-full flex-col items-center justify-between">
@@ -128,10 +138,16 @@ export const ThemeSelector = ({ onPick, onBack }: ThemeSelectorProps) => {
                           transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
                           className="relative h-28 w-28 sm:h-36 sm:w-36"
                         >
-                          <ThemeThumbnail themeId={theme.id} src={animal.srcSmall} alt={theme.name} />
+                          <ThemeThumbnail
+                            themeId={theme.id}
+                            src={animal.srcSmall}
+                            alt={theme.name}
+                          />
                         </motion.div>
                         <div className="w-full text-center">
-                          <h3 className="text-xl font-extrabold sm:text-2xl">{getAnimalName(theme.id, locale)}</h3>
+                          <h3 className="text-xl font-extrabold sm:text-2xl">
+                            {getAnimalName(theme.id, locale)}
+                          </h3>
                           <p className="text-[10px] font-semibold uppercase tracking-wide text-foreground/50 sm:text-xs">
                             {getSceneName(theme.scene, locale)}
                           </p>

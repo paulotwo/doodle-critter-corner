@@ -31,17 +31,20 @@ A React + TypeScript + Vite PWA — an educational painting/coloring game for ch
 **Screen flow:** `main.tsx` → `App.tsx` (QueryClient + I18nProvider + Router) → `pages/Index.tsx` manages three screens: home → theme selector → paint studio.
 
 **Core game components** live in `src/components/studio/`:
+
 - `PaintStudio.tsx` — game state (selected color, tool, stamp, challenge progress) and challenge-completion logic
 - `PaintCanvas.tsx` — HTML Canvas rendering with a custom flood-fill algorithm (pixel-level color replacement with HSL→RGB conversion and an RGB cache for performance). The paint canvas and outline canvas are separate layers; at fill time the outline is composited temporarily as a barrier, then removed with `destination-out`.
 - `ThemeSelector.tsx`, `HomeScreen.tsx`, `ChallengeBox.tsx`, `ColorPalette.tsx`, `ToolBar.tsx`, `StampPicker.tsx`, `CelebrationModal.tsx`
 
 **Data layer** (`src/lib/`):
+
 - `studio-data.ts` — single source of truth for all game content: animal themes (`ThemeDef`) across 7 categories (domésticos, fazenda, pássaros, selvagens, aquáticos, insetos, dinossauros), 6 challenges per animal (typed `kind` field), color palette, stamp definitions. **Edit here** when adding animals, challenges, or colors.
 - `animals.ts` — animal outline PNGs + paintable region definitions with seed coordinates for flood-fill
 - `sounds.ts` — encouragement SFX (Web Audio API) + speech synthesis for challenge narration
 - `sentry.ts`, `fullscreen.ts` — utility wrappers
 
 **i18n** (`src/i18n/`):
+
 - `I18nContext.tsx` — provider with auto-detection from `navigator.language`, persisted to localStorage, exposes `useI18n()` hook
 - `translations.ts` — UI strings for 6 languages
 - `studio-translations.ts` — challenge texts and encouragement messages (very large file)

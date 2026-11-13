@@ -6,9 +6,21 @@ const STORAGE_KEY = "paint-studio-locale";
 function detectLocale(): Locale {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "pt" || saved === "en" || saved === "es" || saved === "fr" || saved === "it" || saved === "de") return saved;
-  } catch { /* ignore */ }
-  const browserLang = (typeof navigator !== "undefined" && (navigator.language || (navigator as any).userLanguage)) || "en";
+    if (
+      saved === "pt" ||
+      saved === "en" ||
+      saved === "es" ||
+      saved === "fr" ||
+      saved === "it" ||
+      saved === "de"
+    )
+      return saved;
+  } catch {
+    /* ignore */
+  }
+  const browserLang =
+    (typeof navigator !== "undefined" && (navigator.language || (navigator as any).userLanguage)) ||
+    "en";
   if (browserLang.startsWith("pt")) return "pt";
   if (browserLang.startsWith("es")) return "es";
   if (browserLang.startsWith("fr")) return "fr";
@@ -46,18 +58,25 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const setLocale = useCallback((l: Locale) => {
     setLocaleState(l);
-    try { localStorage.setItem(STORAGE_KEY, l); } catch { /* ignore */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, l);
+    } catch {
+      /* ignore */
+    }
     if (typeof document !== "undefined") {
       document.documentElement.lang = SPEECH_LANGS[l];
     }
   }, []);
 
-  const value = useMemo(() => ({
-    locale,
-    t: translations[locale],
-    setLocale,
-    speechLang: SPEECH_LANGS[locale],
-  }), [locale, setLocale]);
+  const value = useMemo(
+    () => ({
+      locale,
+      t: translations[locale],
+      setLocale,
+      speechLang: SPEECH_LANGS[locale],
+    }),
+    [locale, setLocale],
+  );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };

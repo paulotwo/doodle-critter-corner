@@ -33,7 +33,10 @@ const HREFLANG_MAP: Record<Locale, string> = {
 
 function setMeta(nameOrProp: string, content: string, attr: "name" | "property" = "name") {
   let el = document.querySelector(`meta[${attr}="${nameOrProp}"]`);
-  if (el) { el.setAttribute("content", content); return; }
+  if (el) {
+    el.setAttribute("content", content);
+    return;
+  }
   el = document.createElement("meta");
   el.setAttribute(attr, nameOrProp);
   el.setAttribute("content", content);
@@ -42,10 +45,15 @@ function setMeta(nameOrProp: string, content: string, attr: "name" | "property" 
 
 function setLink(rel: string, href: string, attrs?: Record<string, string>) {
   const selector = attrs
-    ? `link[rel="${rel}"]${Object.entries(attrs).map(([k, v]) => `[${k}="${v}"]`).join("")}`
+    ? `link[rel="${rel}"]${Object.entries(attrs)
+        .map(([k, v]) => `[${k}="${v}"]`)
+        .join("")}`
     : `link[rel="${rel}"]`;
   let el = document.querySelector(selector);
-  if (el) { el.setAttribute("href", href); return; }
+  if (el) {
+    el.setAttribute("href", href);
+    return;
+  }
   el = document.createElement("link");
   el.setAttribute("rel", rel);
   el.setAttribute("href", href);
@@ -143,35 +151,35 @@ const Index = () => {
     jsonLd.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": title,
-      "description": desc,
-      "url": BASE_URL,
-      "applicationCategory": "EducationalApplication",
-      "operatingSystem": "Web",
-      "browserRequirements": "Requires a modern browser with HTML5 Canvas support",
-      "offers": {
+      name: title,
+      description: desc,
+      url: BASE_URL,
+      applicationCategory: "EducationalApplication",
+      operatingSystem: "Web",
+      browserRequirements: "Requires a modern browser with HTML5 Canvas support",
+      offers: {
         "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
+        price: "0",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
       },
-      "audience": {
+      audience: {
         "@type": "EducationalAudience",
-        "educationalRole": "student",
-        "suggestedMinAge": 3,
-        "suggestedMaxAge": 7,
+        educationalRole: "student",
+        suggestedMinAge: 3,
+        suggestedMaxAge: 7,
       },
-      "learningResourceType": ["interactive game", "painting activity", "coloring game"],
-      "teaches": ["colors", "numbers", "animal names", "fine motor skills", "hand-eye coordination"],
-      "inLanguage": ALL_LOCALES.map((loc) => HREFLANG_MAP[loc]),
-      "availableLanguage": ALL_LOCALES.map((loc) => ({
+      learningResourceType: ["interactive game", "painting activity", "coloring game"],
+      teaches: ["colors", "numbers", "animal names", "fine motor skills", "hand-eye coordination"],
+      inLanguage: ALL_LOCALES.map((loc) => HREFLANG_MAP[loc]),
+      availableLanguage: ALL_LOCALES.map((loc) => ({
         "@type": "Language",
-        "name": HREFLANG_MAP[loc],
+        name: HREFLANG_MAP[loc],
       })),
-      "screenshot": OG_IMAGES[locale],
-      "softwareVersion": "1.0",
-      "isAccessibleForFree": true,
-      "isFamilyFriendly": true,
+      screenshot: OG_IMAGES[locale],
+      softwareVersion: "1.0",
+      isAccessibleForFree: true,
+      isFamilyFriendly: true,
     });
   }, [t, locale]);
 

@@ -42,9 +42,13 @@ export const ChallengeBox = ({ theme, challenge, progress, hint }: ChallengeBoxP
             >
               <div className="flex items-center gap-2">
                 <span className="text-2xl">{challenge.icon}</span>
-                <p className="truncate text-base font-extrabold leading-tight sm:text-xl">{challenge.text}</p>
+                <p className="truncate text-base font-extrabold leading-tight sm:text-xl">
+                  {challenge.text}
+                </p>
               </div>
-              <p className="truncate text-xs text-muted-foreground sm:text-sm">{hint ?? challenge.hint}</p>
+              <p className="truncate text-xs text-muted-foreground sm:text-sm">
+                {hint ?? challenge.hint}
+              </p>
               <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted">
                 <motion.div
                   className="h-full bg-gradient-rainbow"

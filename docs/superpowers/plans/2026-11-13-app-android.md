@@ -34,10 +34,12 @@
 ### Task 1: Casca Capacitor e build nativo
 
 **Files:**
+
 - Create: `capacitor.config.ts`, `android/` (via `cap add android`), `src/lib/platform.ts`, `src/test/native-build.test.ts`
 - Modify: `package.json`, `vite.config.ts`, `index.html`, `src/main.tsx`, `.gitignore`
 
 **Interfaces:**
+
 - Produces: `export const isNative: boolean` em `src/lib/platform.ts` (igual ao do shadow: `Capacitor.isNativePlatform()`); scripts `build:native`, `android:apk`, `android:aab`, `android:open`.
 
 - [ ] **Step 1:** Instalar dependências com `bun add`: `@capacitor/core @capacitor/android @capacitor/app @capacitor/share @capacitor/filesystem @capacitor-community/text-to-speech`; dev: `@capacitor/cli @capacitor/assets sharp`. Renomear o pacote para `doodle-critter-corner`.
@@ -54,10 +56,12 @@
 ### Task 2: Narração pelo TTS do sistema
 
 **Files:**
+
 - Modify: `src/lib/sounds.ts`, `android/app/src/main/AndroidManifest.xml`
 - Test: `src/test/speech.test.ts` (acrescentar bloco "nativo")
 
 **Interfaces:**
+
 - Consumes: `isNative`.
 - Produces: `speak`, `cancelSpeech` com as mesmas assinaturas de hoje; no app usam `TextToSpeech.speak({ text, lang, rate: 0.95, pitch: 1.2 })` e `TextToSpeech.stop()`.
 
@@ -76,10 +80,12 @@
 ### Task 3: Compartilhar pela folha nativa
 
 **Files:**
+
 - Create: `src/lib/share.ts`, `src/test/share.test.ts`
 - Modify: `src/components/studio/HomeScreen.tsx`, `src/components/studio/PaintStudio.tsx`
 
 **Interfaces:**
+
 - Produces em `src/lib/share.ts`:
   - `export const SITE_URL = "https://doodle-critter-corner.ksepisteme.com.br/"`
   - `shareLinkNative(data: { title: string; text: string }): Promise<void>` → `Share.share({ ...data, url: SITE_URL })`
@@ -94,11 +100,13 @@
 ### Task 4: Comportamento de app
 
 **Files:**
+
 - Create: `src/hooks/use-native-app.ts`
 - Modify: `src/pages/Index.tsx`, `src/lib/fullscreen.ts`, `src/components/PwaInstallBanner.tsx`, telas em `src/components/studio/` (áreas seguras), `android/app/src/main/AndroidManifest.xml`, `android/app/src/main/res/values*/strings.xml`
 - Test: `src/test/native-app.test.tsx`
 
 **Interfaces:**
+
 - Produces: `useNativeApp(onBack: () => void): void` — no app, registra `App.addListener("backButton", onBack)` e `appStateChange` (inativo → `cancelSpeech()`); remove os ouvintes ao desmontar; fora do app não faz nada.
 
 - [ ] **Step 1:** Testes: com `isNative` true, o hook registra os dois ouvintes; `appStateChange({ isActive: false })` chama `cancelSpeech`; desmontar chama `remove()`; com `isNative` false, `App.addListener` não é chamado. `requestAppFullscreen()` no app não chama `requestFullscreen`.
@@ -111,6 +119,7 @@
 ### Task 5: Ícone novo
 
 **Files:**
+
 - Create: `scripts/gen-app-icons.mjs`, `assets/icon-only.png`, `assets/icon-foreground.png`, `assets/icon-background.png`, `assets/splash.png`, `assets/splash-dark.png`
 - Modify: `public/icon-192.png`, `public/icon-512.png`, `public/favicon.ico`, recursos em `android/app/src/main/res/`
 
@@ -128,6 +137,7 @@
 ### Task 6: Documentação e APK
 
 **Files:**
+
 - Modify: `CLAUDE.md`
 
 - [ ] **Step 1:** `CLAUDE.md`: comandos novos e seção "Native app (Capacitor, Android)" no molde da do shadow, com as particularidades daqui (Sentry fora do app, compartilhar imagem, script do ícone).

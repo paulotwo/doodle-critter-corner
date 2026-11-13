@@ -94,7 +94,7 @@ function floodFill(
   startY: number,
   fillR: number,
   fillG: number,
-  fillB: number
+  fillB: number,
 ) {
   Sentry.startSpan({ name: "floodFill", op: "canvas.fill" }, (span) => {
     const t0 = performance.now();
@@ -206,7 +206,20 @@ function floodFill(
 }
 
 export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
-  ({ animal, color, tool, stamp, initialSnapshot, onStampPlaced, onColorUsed, onPartFilled, onPaintChange }, ref) => {
+  (
+    {
+      animal,
+      color,
+      tool,
+      stamp,
+      initialSnapshot,
+      onStampPlaced,
+      onColorUsed,
+      onPartFilled,
+      onPaintChange,
+    },
+    ref,
+  ) => {
     const paintRef = useRef<HTMLCanvasElement>(null); // user paint (fills + brush strokes)
     const outlineRef = useRef<HTMLCanvasElement>(null); // animal outline overlay
     const containerRef = useRef<HTMLDivElement>(null);
@@ -420,7 +433,15 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
     };
 
     /** Glitter color cycle — rainbow sparkles regardless of selected color. */
-    const GLITTER_COLORS = ["#ff5e7a", "#ffb84d", "#ffe54d", "#7dd87d", "#5ec0ff", "#c98bff", "#ff9ed1"];
+    const GLITTER_COLORS = [
+      "#ff5e7a",
+      "#ffb84d",
+      "#ffe54d",
+      "#7dd87d",
+      "#5ec0ff",
+      "#c98bff",
+      "#ff9ed1",
+    ];
 
     const drawSpray = (cx: number, cy: number) => {
       const ctx = paintRef.current?.getContext("2d");
@@ -492,10 +513,7 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
       ctx.fill();
     };
 
-    const drawLine = (
-      from: { x: number; y: number },
-      to: { x: number; y: number }
-    ) => {
+    const drawLine = (from: { x: number; y: number }, to: { x: number; y: number }) => {
       const ctx = paintRef.current?.getContext("2d");
       if (!ctx) return;
 
@@ -618,7 +636,13 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
         return;
       }
 
-      if (tool === "brush" || tool === "eraser" || tool === "spray" || tool === "glitter" || tool === "pattern") {
+      if (
+        tool === "brush" ||
+        tool === "eraser" ||
+        tool === "spray" ||
+        tool === "glitter" ||
+        tool === "pattern"
+      ) {
         e.currentTarget.setPointerCapture(e.pointerId);
         drawing.current = true;
         lastPoint.current = { x: pos.x, y: pos.y };
@@ -658,11 +682,15 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
     };
 
     const cursor =
-      tool === "eraser" ? "cell"
-      : tool === "stamp" ? "copy"
-      : tool === "fill" ? "pointer"
-      : tool === "spray" || tool === "glitter" || tool === "pattern" ? "crosshair"
-      : "crosshair";
+      tool === "eraser"
+        ? "cell"
+        : tool === "stamp"
+          ? "copy"
+          : tool === "fill"
+            ? "pointer"
+            : tool === "spray" || tool === "glitter" || tool === "pattern"
+              ? "crosshair"
+              : "crosshair";
 
     return (
       <div
@@ -686,10 +714,7 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
         />
 
         {/* Outline layer - top, non-interactive */}
-        <canvas
-          ref={outlineRef}
-          className="pointer-events-none absolute inset-0 h-full w-full"
-        />
+        <canvas ref={outlineRef} className="pointer-events-none absolute inset-0 h-full w-full" />
 
         {/* Stamps overlay */}
         <div className="pointer-events-none absolute inset-0">
@@ -712,7 +737,7 @@ export const PaintCanvas = forwardRef<PaintCanvasHandle, PaintCanvasProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 PaintCanvas.displayName = "PaintCanvas";

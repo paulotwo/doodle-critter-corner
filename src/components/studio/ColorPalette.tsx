@@ -17,7 +17,10 @@ export const ColorPalette = ({ selected, onSelect }: ColorPaletteProps) => {
             key={c.id}
             whileTap={{ scale: 0.85 }}
             whileHover={{ scale: 1.1 }}
-            onClick={() => { playClick(); onSelect(c.id); }}
+            onClick={() => {
+              playClick();
+              onSelect(c.id);
+            }}
             aria-label={c.name}
             className={`relative h-11 w-11 rounded-full border-4 transition-all sm:h-14 sm:w-14 ${
               active ? "border-foreground scale-110 shadow-lg" : "border-white shadow-md"

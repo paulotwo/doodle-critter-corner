@@ -20,7 +20,11 @@ interface CelebrationModalProps {
   onContinueFree: () => void;
 }
 
-export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: CelebrationModalProps) => {
+export const CelebrationModal = ({
+  open,
+  onPickAnotherAnimal,
+  onContinueFree,
+}: CelebrationModalProps) => {
   const { t, locale } = useI18n();
   const message = useMemo(() => {
     const list = FINAL_BY_LOCALE[locale] ?? FINAL_BY_LOCALE.en;
@@ -76,7 +80,10 @@ export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: 
               <motion.button
                 whileTap={{ scale: 0.96 }}
                 whileHover={{ scale: 1.02 }}
-                onClick={() => { playClick(); onContinueFree(); }}
+                onClick={() => {
+                  playClick();
+                  onContinueFree();
+                }}
                 className="kid-shadow-pop w-full rounded-2xl bg-primary py-4 text-xl font-extrabold text-primary-foreground"
               >
                 {t.continuePainting}
@@ -84,7 +91,10 @@ export const CelebrationModal = ({ open, onPickAnotherAnimal, onContinueFree }: 
               <motion.button
                 whileTap={{ scale: 0.96 }}
                 whileHover={{ scale: 1.02 }}
-                onClick={() => { playClick(); onPickAnotherAnimal(); }}
+                onClick={() => {
+                  playClick();
+                  onPickAnotherAnimal();
+                }}
                 className="w-full rounded-2xl bg-secondary py-4 text-lg font-bold text-secondary-foreground shadow-md"
               >
                 {t.pickAnotherAnimal}

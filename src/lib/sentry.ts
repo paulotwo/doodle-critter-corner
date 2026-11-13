@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/react";
 
-const DSN = "https://a39bf44516bb07f24b324f1338c54439@o4511247384707072.ingest.us.sentry.io/4511247386214400";
+const DSN =
+  "https://a39bf44516bb07f24b324f1338c54439@o4511247384707072.ingest.us.sentry.io/4511247386214400";
 
 export function initSentry() {
   if (typeof window === "undefined") return;

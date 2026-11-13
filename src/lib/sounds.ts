@@ -18,7 +18,9 @@ const tone = (freq: number, dur = 0.12, type: OscillatorType = "sine", gain = 0.
   // Mobile/iOS keeps the context "suspended" until resumed under a gesture.
   // Without this, oscillators pile up and the audio thread hangs the UI.
   if (c.state === "suspended") {
-    c.resume().catch(() => { /* ignore */ });
+    c.resume().catch(() => {
+      /* ignore */
+    });
   }
   const osc = c.createOscillator();
   const g = c.createGain();
@@ -72,9 +74,14 @@ const stopEngine = () => {
   generation++;
   speaking = false;
   try {
-    if (isNative) TextToSpeech.stop().catch(() => { /* ignore */ });
+    if (isNative)
+      TextToSpeech.stop().catch(() => {
+        /* ignore */
+      });
     else window.speechSynthesis.cancel();
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 };
 
 const playNext = () => {
@@ -91,13 +98,18 @@ const playNext = () => {
     if (finished || mine !== generation) return;
     finished = true;
     // pequeno respiro entre falas
-    setTimeout(() => { if (mine === generation) playNext(); }, 120);
+    setTimeout(() => {
+      if (mine === generation) playNext();
+    }, 120);
   };
   try {
     const friendly = next.lang.startsWith("pt") ? speechFriendly(next.text) : next.text;
     if (isNative) {
       // Sem motor de TTS ou sem voz do idioma a promessa rejeita: segue a fila em silêncio.
-      TextToSpeech.speak({ text: friendly, lang: next.lang, rate: 0.95, pitch: 1.2 }).then(done, done);
+      TextToSpeech.speak({ text: friendly, lang: next.lang, rate: 0.95, pitch: 1.2 }).then(
+        done,
+        done,
+      );
       // Um motor que não responde não pode prender a fila.
       setTimeout(done, NATIVE_SPEECH_TIMEOUT_MS);
       return;
@@ -138,4 +150,7 @@ export const cancelSpeech = () => {
 };
 
 // Acorda o motor de TTS cedo, para já estar conectado na primeira narração.
-if (isNative) TextToSpeech.getSupportedLanguages().catch(() => { /* ignore */ });
+if (isNative)
+  TextToSpeech.getSupportedLanguages().catch(() => {
+    /* ignore */
+  });

@@ -28,11 +28,17 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
       return;
     }
     if (navigator.share) {
-      try { await navigator.share(shareData); } catch { /* user cancelled */ }
+      try {
+        await navigator.share(shareData);
+      } catch {
+        /* user cancelled */
+      }
     } else {
       try {
         await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
     }
   };
 
@@ -40,10 +46,27 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
     <div className="relative min-h-[100svh] overflow-hidden bg-gradient-sky">
       {/* nuvens decorativas */}
       <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute top-6 left-4 text-4xl animate-float-soft sm:top-10 sm:left-6 sm:text-6xl">☁️</div>
-        <div className="absolute top-16 right-6 text-3xl animate-float-soft sm:top-24 sm:right-10 sm:text-5xl" style={{ animationDelay: "1s" }}>☁️</div>
-        <div className="absolute bottom-16 left-1/4 text-3xl animate-float-soft sm:bottom-20 sm:text-4xl" style={{ animationDelay: "2s" }}>🌈</div>
-        <div className="absolute top-1/3 right-1/4 text-2xl animate-float-soft sm:text-3xl" style={{ animationDelay: "0.5s" }}>✨</div>
+        <div className="absolute top-6 left-4 text-4xl animate-float-soft sm:top-10 sm:left-6 sm:text-6xl">
+          ☁️
+        </div>
+        <div
+          className="absolute top-16 right-6 text-3xl animate-float-soft sm:top-24 sm:right-10 sm:text-5xl"
+          style={{ animationDelay: "1s" }}
+        >
+          ☁️
+        </div>
+        <div
+          className="absolute bottom-16 left-1/4 text-3xl animate-float-soft sm:bottom-20 sm:text-4xl"
+          style={{ animationDelay: "2s" }}
+        >
+          🌈
+        </div>
+        <div
+          className="absolute top-1/3 right-1/4 text-2xl animate-float-soft sm:text-3xl"
+          style={{ animationDelay: "0.5s" }}
+        >
+          ✨
+        </div>
       </div>
 
       {/* Top right actions */}
@@ -121,7 +144,10 @@ export const HomeScreen = ({ onStart }: HomeScreenProps) => {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => { playClick(); onStart(); }}
+          onClick={() => {
+            playClick();
+            onStart();
+          }}
           className="kid-shadow-pop group flex w-full max-w-md items-center justify-center gap-3 rounded-[2rem] bg-primary px-6 py-5 text-xl font-extrabold text-primary-foreground transition-colors hover:bg-primary/90 sm:px-8 sm:py-6 sm:text-2xl"
         >
           <Wand2 className="h-6 w-6 transition-transform group-hover:rotate-12 sm:h-7 sm:w-7" />

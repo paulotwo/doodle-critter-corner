@@ -35,7 +35,9 @@ const Fallback = () => {
 
 const SpeechLangSync = () => {
   const { speechLang } = useI18n();
-  useEffect(() => { setSpeechLang(speechLang); }, [speechLang]);
+  useEffect(() => {
+    setSpeechLang(speechLang);
+  }, [speechLang]);
   return null;
 };
 
